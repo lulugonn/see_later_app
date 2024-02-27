@@ -9,7 +9,9 @@ class APIService {
   Future<LoginResponseModel> login(LoginRequestModel requestModel) async {
     String url = "https://see-later-api-deploy.onrender.com/auth/sign-in";
 
-    final response = await http.post(Uri.parse(url), body: requestModel.toJson());
+    final response = await http.post(Uri.parse(url), headers: {
+    'Access-Control-Allow-Origin': '*',
+  }, body: requestModel.toJson());
     if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(
         json.decode(response.body),

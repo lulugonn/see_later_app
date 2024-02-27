@@ -20205,7 +20205,7 @@ _.b=a
 _.c=null},
 ac4:function ac4(a,b){this.a=a
 this.b=b},
-anY(a,b){return A.ae2(new A.aeQ(a,null,b,null),t.Wd)},
+anY(a,b,c){return A.ae2(new A.aeQ(a,c,b,null),t.Wd)},
 ae2(a,b){return A.aya(a,b,b)},
 aya(a,b,c){var s=0,r=A.ab(c),q,p=2,o,n=[],m,l
 var $async$ae2=A.ac(function(d,e){if(d===1){o=e
@@ -67353,16 +67353,17 @@ A.Cl.prototype={
 rp(a,b,c,d,e){return this.a_J(a,b,c,d,e)},
 a_J(a,b,c,d,e){var s=0,r=A.ab(t.Wd),q,p=this,o,n,m,l
 var $async$rp=A.ac(function(f,g){if(f===1)return A.a8(g,r)
-while(true)switch(s){case 0:n=A.aul(a,b)
-m=t.N
-m=d.i1(d,m,m)
-o=n.giJ()
-if(o==null)n.siJ(A.Fr("application","x-www-form-urlencoded",null))
-else if(o.a+"/"+o.b!=="application/x-www-form-urlencoded")A.R(A.Z('Cannot set the body fields of a Request with content-type "'+o.ga70(o)+'".'))
-n.sa26(0,A.azx(m,n.gtC(n)))
+while(true)switch(s){case 0:m=A.aul(a,b)
+if(c!=null)m.r.R(0,c)
+o=t.N
+o=d.i1(d,o,o)
+n=m.giJ()
+if(n==null)m.siJ(A.Fr("application","x-www-form-urlencoded",null))
+else if(n.a+"/"+n.b!=="application/x-www-form-urlencoded")A.R(A.Z('Cannot set the body fields of a Request with content-type "'+n.ga70(n)+'".'))
+m.sa26(0,A.azx(o,m.gtC(m)))
 l=A
 s=3
-return A.ap(p.f5(0,n),$async$rp)
+return A.ap(p.f5(0,m),$async$rp)
 case 3:q=l.a1_(g)
 s=1
 break
@@ -68321,10 +68322,13 @@ i(a){var s=this.be(0),r=this.c
 return s+"["+this.b+".."+A.f(r===9007199254740991?"*":r)+"]"}}
 A.BV.prototype={
 u5(a){return this.a6S(a)},
-a6S(a){var s=0,r=A.ab(t.TS),q,p
+a6S(a){var s=0,r=A.ab(t.TS),q,p,o,n
 var $async$u5=A.ac(function(b,c){if(b===1)return A.a8(c,r)
-while(true)switch(s){case 0:s=3
-return A.ap(A.anY(A.ri("https://see-later-api-deploy.onrender.com/auth/sign-in"),a.el()),$async$u5)
+while(true)switch(s){case 0:o=A.ri("https://see-later-api-deploy.onrender.com/auth/sign-in")
+n=t.N
+n=A.aF(["Access-Control-Allow-Origin","*"],n,n)
+s=3
+return A.ap(A.anY(o,a.el(),n),$async$u5)
 case 3:p=c
 if(p.b===200){q=A.ajN(B.bo.cQ(0,A.ank(A.amn(p.e).c.a.h(0,"charset")).cQ(0,p.w)))
 s=1
@@ -68336,7 +68340,7 @@ uF(a,b){return this.a8A(0,b)},
 a8A(a,b){var s=0,r=A.ab(t.TS),q,p
 var $async$uF=A.ac(function(c,d){if(c===1)return A.a8(d,r)
 while(true)switch(s){case 0:s=3
-return A.ap(A.anY(A.ri("https://see-later-api-deploy.onrender.com/auth/sign-up"),b.el()),$async$uF)
+return A.ap(A.anY(A.ri("https://see-later-api-deploy.onrender.com/auth/sign-up"),b.el(),null),$async$uF)
 case 3:p=d
 if(p.b===200){q=A.ajN(B.bo.cQ(0,A.ank(A.amn(p.e).c.a.h(0,"charset")).cQ(0,p.w)))
 s=1
