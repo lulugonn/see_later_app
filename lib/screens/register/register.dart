@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/register_model.dart';
-import 'package:see_later_app/screens/ProgressHUD.dart';
+import 'package:see_later_app/screens/progress_hud.dart';
 import 'package:see_later_app/screens/login/login.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
