@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/global.dart';
+import 'package:see_later_app/screens/home/widgets/content_form.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
+import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -136,14 +139,13 @@ class _HomeState extends State<Home> {
     _token();
   }
 
-  Future<void> _token() async{
+  Future<void> _token() async {
     token = await AuthController.getToken();
     print(token);
   }
 
   @override
   Widget build(BuildContext context) {
-      
     final size = MediaQuery.of(context).size;
     final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
@@ -151,7 +153,6 @@ class _HomeState extends State<Home> {
     double mHeight = MediaQuery.of(context).size.height;
     List listItem = ['Texto', 'Link', 'Batata'];
     String valueChoose = 'Texto';
-   
 
     return Scaffold(
       backgroundColor: Global.white,
@@ -162,80 +163,8 @@ class _HomeState extends State<Home> {
           showModalBottomSheet(
             context: context,
             builder: (builder) {
-              return Container(
-                padding: EdgeInsets.all(40),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Criar nota nota',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: TextFieldWidget(
-                        hintText: 'Título da nota',
-                        obscureText: false,
-                        prefixIconData: Icons.title,
-                        onChanged: (value) {},
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border:  Border.all(color: Colors.grey, width:1),
-                          borderRadius: BorderRadius.circular(15)
-                        ),
-                        child: DropdownButton(
-                          hint: Text('Selecione o tipo de nota'),
-                          dropdownColor:  Global.backgroundColor,
-                          focusColor: Global.backgroundColor,
-                          icon: Icon(Icons.arrow_drop_down),
-                          
-                          iconSize: 36,
-                          isExpanded: true,
-                          value: valueChoose,
-                          underline: SizedBox(),
-                          items: listItem.map((valueItem) {
-                            return DropdownMenuItem<String>(
-                              value: valueItem,
-                              child: Text(valueItem),
-                            );
-                          }).toList(),
-                          onChanged: (newValue) {
-                            setState(() {
-                              valueChoose = newValue.toString();
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: TextFieldWidget(
-                        hintText: 'Descrição',
-                        obscureText: false,
-                        prefixIconData: Icons.description,
-                        onChanged: (value) {},
-                      ),
-                    ),
-                    ButtonWidget(
-                    title: 'Salvar',
-                    hasBorder: false,
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return Home();
-                      }));
-                    }),
-                  ],
-                ),
-              );
-            },
+            return  ContentForm();
+                },
             isScrollControlled: true,
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
@@ -358,6 +287,6 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+ 
 }
-
-
