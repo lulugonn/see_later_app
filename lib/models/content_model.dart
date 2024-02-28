@@ -1,9 +1,11 @@
-class ContentRequestModel {
+class ContentModel {
+  int? id;
   String? title;
   String? url;
   String? notes;
 
-  ContentRequestModel({
+  ContentModel({
+    this.id,
      this.title,
      this.url,
      this.notes,
@@ -11,6 +13,7 @@ class ContentRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
+      'id': title!.trim(),
       'title': title!.trim(),
       'url': url!.trim(),
       'notes': notes!.trim(),

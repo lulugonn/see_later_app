@@ -15,12 +15,12 @@ class ContentForm extends StatefulWidget {
 
 class _ContentFormState extends State<ContentForm> {
 
-  late ContentRequestModel order;
+  late ContentModel order;
 
    @override
   void initState() {
     super.initState();
-    order = ContentRequestModel();
+    order = ContentModel();
   }
 
 

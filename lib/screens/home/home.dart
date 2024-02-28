@@ -1,159 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:see_later_app/api/api_service.dart';
-import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/global.dart';
+import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
-import 'package:see_later_app/screens/widgets/button_widget.dart';
-import 'package:see_later_app/screens/widgets/textfield_widget.dart';
-import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key});
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static final List<Widget> _widgetOptions = <Widget>[
-    Padding(
-      padding: const EdgeInsets.only(left: 20),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Colors.transparent,
-                ),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              elevation: 4,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
-                  SizedBox(
-                    width: 450,
-                    height: 100,
-                    child: ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                      leading: Icon(
-                        Icons.subject,
-                        size: 30,
-                      ),
-                      title: Text('Reunião dos pais'),
-                      subtitle: Text(
-                          'Endereço: Rua Tavares, 430, Méier. Dia: 17 de janeiro. Horário: 13h.'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Colors.transparent,
-                ),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              elevation: 4,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
-                  SizedBox(
-                    width: 450,
-                    height: 100,
-                    child: ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                      leading: Icon(
-                        Icons.link,
-                        size: 30,
-                      ),
-                      title: Text('Viagem - Moscou'),
-                      subtitle: Text(
-                          'https://www.cvc.com.br/dicas-de-viagem/mundo/moscou/'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Colors.transparent,
-                ),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              elevation: 4,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
-                  SizedBox(
-                    width: 450,
-                    height: 100,
-                    child: ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                      leading: Icon(
-                        Icons.play_arrow,
-                        size: 30,
-                      ),
-                      title: Text('Nutrição - Iorgute'),
-                      subtitle:
-                          Text('https://www.youtube.com/watch?v=o6i6SQBatD8'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-    const Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-  ];
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
   late String? token;
 
   @override
-  void initState() {
-    super.initState();
-    _token();
-  }
-
-  Future<void> _token() async {
-    token = await AuthController.getToken();
-    print(token);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
-
-    double mWidth = MediaQuery.of(context).size.width;
-    double mHeight = MediaQuery.of(context).size.height;
-    List listItem = ['Texto', 'Link', 'Batata'];
-    String valueChoose = 'Texto';
-
     return Scaffold(
       backgroundColor: Global.white,
       floatingActionButton: FloatingActionButton(
@@ -163,14 +27,13 @@ class _HomeState extends State<Home> {
           showModalBottomSheet(
             context: context,
             builder: (builder) {
-            return  ContentForm();
-                },
+              return const ContentForm();
+            },
             isScrollControlled: true,
             backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
-            )),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
           );
         },
         child: const Icon(Icons.add, color: Colors.white, size: 28),
@@ -179,95 +42,30 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Container(
-                //Header
-                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-                child: Column(
-                  children: [
-                    Row(children: const [
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+              child: Column(
+                children: [
+                  Row(
+                    children: const [
                       Padding(
                         padding: EdgeInsets.only(),
-                        child: Text('Olá, Marcela!',
-                            style: TextStyle(fontSize: 28)),
+                        child: Text('Olá, Marcela!', style: TextStyle(fontSize: 28)),
                       ),
-                    ]),
-                    Container(
-                      height: 20,
-                      margin: EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ListView(
-                                // This next line does the trick.
-                                scrollDirection: Axis.horizontal,
-                                children: <Widget>[
-                                  Container(
-                                    width: 60,
-                                    margin: EdgeInsets.only(right: 5),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    decoration: const BoxDecoration(
-                                      color: Global.mediumBlue,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(40.0),
-                                          bottomRight: Radius.circular(40.0),
-                                          topLeft: Radius.circular(40.0),
-                                          bottomLeft: Radius.circular(40.0)),
-                                    ),
-                                    child: const Text(
-                                      "hello",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    margin: EdgeInsets.only(right: 5),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    decoration: const BoxDecoration(
-                                      color: Global.mediumBlue,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(40.0),
-                                          bottomRight: Radius.circular(40.0),
-                                          topLeft: Radius.circular(40.0),
-                                          bottomLeft: Radius.circular(40.0)),
-                                    ),
-                                    child: const Text(
-                                      "hello",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    margin: EdgeInsets.only(right: 5),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    decoration: const BoxDecoration(
-                                      color: Global.mediumBlue,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(40.0),
-                                          bottomRight: Radius.circular(40.0),
-                                          topLeft: Radius.circular(40.0),
-                                          bottomLeft: Radius.circular(40.0)),
-                                    ),
-                                    child: const Text(
-                                      "hello",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  )
-                                ]),
-                          ),
-                        ],
-                      ),
+                    ],
+                  ),
+                  ],
+              ),
+            ),
+            
+                Column(
+                  children: [
+                    Center(
+                      child: ContentCard(title: 'Luana', notes: 'google.com',),
                     ),
                   ],
-                )),
-            Row(
-              children: [
-                Center(
-                  child: Home._widgetOptions.elementAt(_selectedIndex),
                 ),
-              ],
-            ),
+            
+            
           ],
         ),
       ),
@@ -282,11 +80,8 @@ class _HomeState extends State<Home> {
             label: 'Configurações',
           ),
         ],
-        currentIndex: _selectedIndex,
         selectedItemColor: Global.mediumBlue,
       ),
     );
   }
-
- 
 }

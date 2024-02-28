@@ -44,74 +44,76 @@ class OnBoarding extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(
                 top: 400.0, left: 50.0, right: 50.0, bottom: 50.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Salve agora, veja depois:',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      'Organize\nConteúdos',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                ButtonWidget(
-                    title: 'Login',
-                    hasBorder: false,
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return const Login();
-                      }));
-                    }),
-                // InkWell(onTap: () {
-                //   Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => const Login()));
-                // }),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Não tem conta? ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xff909090),
-                      ),
-                    ),
-                    InkWell(
-                      child: const Text(
-                        'Cadastre-se',
-                        textAlign: TextAlign.center,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Salve agora, veja depois:',
                         style: TextStyle(
-                          color: Color(0xff7098DA),
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
+                          fontSize: 20,
                         ),
                       ),
+                      Text(
+                        'Organize\nConteúdos',
+                        style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ButtonWidget(
+                      title: 'Login',
+                      hasBorder: false,
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return const Register();
+                          return const Login();
                         }));
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-              ],
+                      }),
+                  // InkWell(onTap: () {
+                  //   Navigator.push(context,
+                  //       MaterialPageRoute(builder: (context) => const Login()));
+                  // }),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Não tem conta? ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xff909090),
+                        ),
+                      ),
+                      InkWell(
+                        child: const Text(
+                          'Cadastre-se',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xff7098DA),
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return const Register();
+                          }));
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
