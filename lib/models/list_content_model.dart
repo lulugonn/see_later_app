@@ -1,11 +1,22 @@
 import 'package:see_later_app/models/content_model.dart';
 
 class ListContentModel {
-  List<ContentModel> items;
+  late List<ContentModel>? items;
 
-  ListContentModel({required this.items});
+  ListContentModel({ this.items});
+
+  factory ListContentModel.fromJson(List<dynamic> json) {
+    List<ContentModel> contentList = json.map((item) {
+      return ContentModel.fromJson(item as Map<String, dynamic>);
+    }).toList();
+
+    return ListContentModel(items: contentList);
+  }
+
+  num get length => items!.length;
 
   // Método necessário para a desserialização do JSON
   List<Map<String, dynamic>> toJson() =>
-      items.map((item) => item.toJson()).toList();
+      items!.map((item) => item.toJson()).toList();
+
 }

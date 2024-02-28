@@ -11,6 +11,15 @@ class ContentModel {
      this.notes,
   });
 
+  factory ContentModel.fromJson(Map<String, dynamic> json) {
+    return ContentModel(
+      id: json['id'] as int?,
+      title: json['title'] as String?,
+      url: json['url'] as String?,
+      notes: json['notes'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       'id': title!.trim(),

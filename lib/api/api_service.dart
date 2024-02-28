@@ -90,10 +90,12 @@ class APIService {
       String? token = await AuthController.getToken();
       dio.options.headers["Authorization"] = "Bearer $token";
       final response = await dio.get('$url/content');
-      if(response.statusCode == 200){
+      if(response.statusCode == 204){
          return null;
+      }else{
+        final data = response.data as List<dynamic>;
+        return ListContentModel.fromJson(data);
       }
-      return null;
     }on DioException catch (e) {
       if(e.response != null){
         var errorMessage =  e.response!.data['message'];

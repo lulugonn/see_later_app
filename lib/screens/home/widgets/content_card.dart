@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ContentCard extends StatefulWidget {
-  const ContentCard({super.key, required this.title, required this.notes});
+  const ContentCard({super.key, required this.title, required this.notes, required this.url});
   final String title;
   final String notes;
+  final String url;
+
 
   @override
   State<ContentCard> createState() => _ContentCardState();
@@ -24,7 +26,7 @@ class _ContentCardState extends State<ContentCard> {
           ),
           title: Text(widget.title),
           subtitle: Text(
-            widget.notes,
+            "${widget.url} \n ${widget.notes}" ,
             style: TextStyle(
               fontSize: 14,
             ),
