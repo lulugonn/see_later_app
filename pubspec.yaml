@@ -39,6 +39,7 @@ dependencies:
   http: any
   flutter_svg: ^1.1.6
   dio: ^5.4.1
+  flutter_secure_storage: ^8.1.0
 
 dev_dependencies:
   flutter_test:

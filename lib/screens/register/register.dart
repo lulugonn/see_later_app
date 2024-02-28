@@ -115,11 +115,10 @@ class _RegisterState extends State<Register> {
                       title: 'Criar conta',
                       hasBorder: false,
                       onTap: () async {
-                        late Object? response;
                         if (validateAndSave()) {
                          try{
                             AlertDialogService().showLoader(context);
-                            response = await APIService().register(requestModel);
+                            await APIService().register(requestModel);
                             AlertDialogService().closeLoader(context);
                             Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {

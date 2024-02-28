@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -127,9 +128,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  late String? token;
+
+  @override
+  void initState() {
+    super.initState();
+    _token();
+  }
+
+  Future<void> _token() async{
+    token = await AuthController.getToken();
+    print(token);
+  }
 
   @override
   Widget build(BuildContext context) {
+      
     final size = MediaQuery.of(context).size;
     final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
@@ -137,6 +151,7 @@ class _HomeState extends State<Home> {
     double mHeight = MediaQuery.of(context).size.height;
     List listItem = ['Texto', 'Link', 'Batata'];
     String valueChoose = 'Texto';
+   
 
     return Scaffold(
       backgroundColor: Global.white,
@@ -344,3 +359,5 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+

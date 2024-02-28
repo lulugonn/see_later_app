@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/models/login_model.dart';
 import 'dart:convert';
 import 'package:see_later_app/models/register_model.dart';
@@ -9,13 +10,12 @@ class APIService {
   String url = "https://see-later-api-deploy.onrender.com";
   final dio = Dio();
 
-  Future<LoginResponseModel?> login(LoginRequestModel requestModel) async {
+  Future<void> login(LoginRequestModel requestModel) async {
     try {
-      final response = await dio.post('$url/auth/sign-in', data: requestModel);
+      final response = await dio.post('$url/auth/sign-in', data: requestModel.toJson());
       if (response.statusCode == 200) {
-        return response.data!;
+        await AuthController.setToken(response.data['token']);
       }
-      return null;
     }on DioException catch (e) {
       if(e.response != null){
         var errorMessage =  e.response!.data['message'];
@@ -30,13 +30,12 @@ class APIService {
     }
   }
 
-  Future<RegisterRequestModel?> register(RegisterRequestModel requestModel) async {
+  Future<void> register(RegisterRequestModel requestModel) async {
     try {
-      final response = await dio.post('$url/auth/sign-up', data: requestModel);
+      final response = await dio.post('$url/auth/sign-up', data: requestModel.toJson());
       if (response.statusCode == 200) {
-        return response.data!;
+          await AuthController.setToken(response.data['token']);
       }
-      return null;
     }on DioException catch (e) {
       if(e.response != null){
         var errorMessage =  e.response!.data['message'];

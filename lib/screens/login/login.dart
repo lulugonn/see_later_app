@@ -98,11 +98,10 @@ class _LoginState extends State<Login> {
                         title: 'Entrar',
                         hasBorder: false,
                         onTap: () async {
-                          late Object? response;
                           if (validateAndSave()) {
                            try{
                             AlertDialogService().showLoader(context);
-                            response = await APIService().login(requestModel);
+                            await APIService().login(requestModel);
                             AlertDialogService().closeLoader(context);
                             Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
@@ -111,7 +110,6 @@ class _LoginState extends State<Login> {
 
                            }catch(e){
                             AlertDialogService().closeLoader(context);
-                            print(e.toString());
                             AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
                            }
                             
