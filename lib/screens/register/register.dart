@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/register_model.dart';
-import 'package:see_later_app/screens/progress_hud.dart';
+import 'package:see_later_app/screens/loading.dart';
 import 'package:see_later_app/screens/login/login.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
@@ -32,7 +32,7 @@ class _RegisterState extends State<Register> {
     final size = MediaQuery.of(context).size;
     final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     
-  Widget uiSetup(BuildContext context) {
+ 
     return Scaffold(
       backgroundColor: Global.white,
       body: Stack(
@@ -159,13 +159,7 @@ class _RegisterState extends State<Register> {
         ],
       ),
     );
-  }
   
-  return ProgressHUD(
-      inAsyncCall: isApiCallProcess,
-      opacity: 0.3,
-      child: uiSetup(context),
-    );
 }
 bool validateAndSave() {
     final form = globalFormKey.currentState;

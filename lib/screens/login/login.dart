@@ -3,12 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/login_model.dart';
-import 'package:see_later_app/screens/progress_hud.dart';
+import 'package:see_later_app/screens/loading.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/register/register.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/screens/widgets/wave_widget.dart';
+import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -20,7 +21,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late LoginRequestModel requestModel;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  bool isApiCallProcess = false;
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
-    Widget uiSetup(BuildContext context) {
+
       return Scaffold(
         backgroundColor: Global.white,
         body: Stack(
@@ -98,39 +98,24 @@ class _LoginState extends State<Login> {
                     ButtonWidget(
                         title: 'Entrar',
                         hasBorder: false,
-                        onTap: () {
+                        onTap: () async {
+                          late Object? response;
                           if (validateAndSave()) {
-                            print(requestModel.toJson());
-                            setState(() {
-                              isApiCallProcess = true;
-                            });
-                            APIService apiService = APIService();
-                            apiService.login(requestModel).then((value) {
-                              print('Registro feito com sucesso');
-
-                              if (value != null) {
-                                setState(() {
-                                  isApiCallProcess = false;
-                                });
-
-                                // if (value.token.isNotEmpty) {
-                                //   final snackBar = SnackBar(
-                                //       content: Text("Login Successful"));
-                                //                                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: snackBar));
-
-                                // } else {
-                                //   final snackBar =
-                                //       SnackBar(content: Text(value.error));
-                                //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: snackBar));
-                                // }
-                                Navigator.of(context)
+                           try{
+                            AlertDialogService().showLoader(context);
+                            response = await APIService().login(requestModel);
+                            AlertDialogService().closeLoader(context);
+                            Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
                                   return Home();
                                 }));
-                              }
-                            }).catchError((onError) {
-                              print(onError);
-                            });
+
+                           }catch(e){
+                            AlertDialogService().closeLoader(context);
+                            print(e.toString());
+                            AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
+                           }
+                            
                           }
                         }),
                     const SizedBox(
@@ -182,13 +167,9 @@ class _LoginState extends State<Login> {
           ],
         ),
       );
-    }
+    
 
-    return ProgressHUD(
-      inAsyncCall: isApiCallProcess,
-      opacity: 0.3,
-      child: uiSetup(context),
-    );
+    
   }
 
   bool validateAndSave() {
