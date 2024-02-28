@@ -3,11 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/register_model.dart';
-import 'package:see_later_app/screens/loading.dart';
-import 'package:see_later_app/screens/login/login.dart';
+import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/screens/widgets/wave_widget.dart';
+import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -114,27 +114,22 @@ class _RegisterState extends State<Register> {
                   ButtonWidget(
                       title: 'Criar conta',
                       hasBorder: false,
-                      onTap: () {
+                      onTap: () async {
+                        late Object? response;
                         if (validateAndSave()) {
-                         print(requestModel.toJson());
-                            setState(() {
-                              isApiCallProcess = true;
-                            });
-                            APIService apiService = APIService();
-                            apiService.register(requestModel).then((value) {
-                              if (value != null) {
-                                setState(() {
-                                  isApiCallProcess = false;
-                                });
-
-                                Navigator.of(context)
+                         try{
+                            AlertDialogService().showLoader(context);
+                            response = await APIService().register(requestModel);
+                            AlertDialogService().closeLoader(context);
+                            Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
-                                  return Login();
+                                  return Home();
                                 }));
-                              }
-                            }).catchError((onError) {
-                              print(onError);
-                            });
+
+                           }catch(e){
+                            AlertDialogService().closeLoader(context);
+                            AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
+                           }
                       }}),
                   const SizedBox(
                     height: 40.0,
