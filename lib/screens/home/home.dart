@@ -6,7 +6,7 @@ import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key});
+  const Home({super.key});
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _getContent();
-    print(_listContent);
   }
 
   @override
@@ -81,27 +80,28 @@ class _HomeState extends State<Home> {
                               children: const [
                                 Text('Olá, Marcela!',
                                     style: TextStyle(fontSize: 28)),
-
                               ],
                             ),
                             Row(
-        children: const [
-          Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: Text(
-              'Conteúdos',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ],
-      ),
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 16),
+                                  child: Text(
+                                    'Conteúdos',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                      (items?.length != 0) ? _widgetContent(items,snapshot) : _widgetEmpty()
+                      (items?.length != 0)
+                          ? _widgetContent(items!)
+                          : _widgetEmpty()
                     ],
                   ),
                 );
@@ -113,28 +113,26 @@ class _HomeState extends State<Home> {
 
   Widget _widgetEmpty() {
     return Container(
-      padding: EdgeInsets.all(40),
+      padding: const EdgeInsets.all(40),
       child: Column(
-        children: [
-          Icon(Icons.archive_outlined, size: 80,),
-          Text('Ainda não há conteúdo\ndisponível',textAlign: TextAlign.center)
+        children: const [
+          Icon(
+            Icons.archive_outlined,
+            size: 80,
+          ),
+          Text('Ainda não há conteúdo\ndisponível', textAlign: TextAlign.center)
         ],
       ),
     );
   }
 
-  Widget _widgetContent(dynamic items, dynamic snapshot) {
-    print("Launa");
+  Widget _widgetContent(ListContentModel items) {
     return Column(children: [
-      
-        for (var i = 0; i < items.length; i++)
-          Center(
-            child: ContentCard(
-              title: snapshot.data!.items[i].title ?? '',
-              notes: snapshot.data!.items![i].notes ?? '',
-              url: snapshot.data!.items![i].url ?? '',
-            ),
+      for (var i = 0; i < items.length; i++)
+        Center(
+          child: ContentCard(content: items[i],
           ),
+        ),
     ]);
   }
 }

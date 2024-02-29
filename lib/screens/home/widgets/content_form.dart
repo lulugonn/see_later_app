@@ -94,7 +94,7 @@ class _ContentFormState extends State<ContentForm> {
       AlertDialogService().showLoader(context);
       await APIService().registerContent(order);
       AlertDialogService().closeLoader(context);
-       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         return const Home();
       }));
       AlertDialogService().showAlertDefault(context, 'Parabéns!','Conteúdo criado com sucesso!');

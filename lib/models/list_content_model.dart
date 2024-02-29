@@ -15,6 +15,10 @@ class ListContentModel {
 
   num get length => items!.length;
 
+  ContentModel operator [](int index) {
+    return items![index];
+  }
+
   // Método necessário para a desserialização do JSON
   List<Map<String, dynamic>> toJson() =>
       items!.map((item) => item.toJson()).toList();

@@ -87,6 +87,33 @@ class APIService {
     }
   }
 
+  Future<String?> deleteContent(id) async {
+    try {
+      String? token = await AuthController.getToken();
+      dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await dio.delete('$url/content/$id');
+      if(response.statusCode == 204){
+         return 'Deletado  com sucesso!';
+      }
+      return null;
+    }on DioException catch (e) {
+      if(e.response != null){
+        var errorMessage =  e.response!.data['message'];
+        var message = '';
+        if(errorMessage is List){
+          for (var item in errorMessage) {
+            message += ('- $item\n');
+          }
+        }else{
+          message = errorMessage;
+        }
+        throw message;
+      }else{
+        throw 'Ocorreu um erro inesperado';
+      }
+    }
+  }
+
   Future<ListContentModel?> getContent() async {
     try {
       String? token = await AuthController.getToken();
