@@ -31,7 +31,7 @@ class _ContentCardState extends State<ContentCard> {
               fontSize: 14,
             ),
           ),
-          trailing: Icon(Icons.close),
+          trailing: Icon(Icons.delete),
           isThreeLine: true,
         ),
       ),

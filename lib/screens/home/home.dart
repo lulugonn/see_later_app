@@ -28,7 +28,6 @@ class _HomeState extends State<Home> {
     _getContent();
     print(_listContent);
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -82,38 +81,27 @@ class _HomeState extends State<Home> {
                               children: const [
                                 Text('Olá, Marcela!',
                                     style: TextStyle(fontSize: 28)),
+
                               ],
                             ),
-                            
+                            Row(
+        children: const [
+          Padding(
+            padding: EdgeInsets.only(top: 16),
+            child: Text(
+              'Conteúdos',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+        ],
+      ),
                           ],
                         ),
                       ),
-                      Column(
-                        children: [
-                          Row(
-                              children: const [
-                                Padding(
-                                      padding: EdgeInsets.only(top:16),
-                                      child: Text('Conteúdos',
-                                          style: TextStyle(fontSize: 20,),textAlign: TextAlign.left,),
-                                    ),
-                              ],
-                            ),
-                          
-
-                          if(items!=null)
-                          for (var i=0; i < items.length; i++)
-                          Center(
-                            child: ContentCard(
-                              title: snapshot.data!.items![i].title?? '',
-                              notes: snapshot.data!.items![i].notes?? '',
-                              url: snapshot.data!.items![i].url?? '',
-                            ),
-                          ),
-                          
-
-                        ],
-                      ),
+                      (items?.length != 0) ? _widgetContent(items,snapshot) : _widgetEmpty()
                     ],
                   ),
                 );
@@ -121,5 +109,32 @@ class _HomeState extends State<Home> {
                 return Container();
               }
             }));
+  }
+
+  Widget _widgetEmpty() {
+    return Container(
+      padding: EdgeInsets.all(40),
+      child: Column(
+        children: [
+          Icon(Icons.archive_outlined, size: 80,),
+          Text('Ainda não há conteúdo\ndisponível',textAlign: TextAlign.center)
+        ],
+      ),
+    );
+  }
+
+  Widget _widgetContent(dynamic items, dynamic snapshot) {
+    print("Launa");
+    return Column(children: [
+      
+        for (var i = 0; i < items.length; i++)
+          Center(
+            child: ContentCard(
+              title: snapshot.data!.items[i].title ?? '',
+              notes: snapshot.data!.items![i].notes ?? '',
+              url: snapshot.data!.items![i].url ?? '',
+            ),
+          ),
+    ]);
   }
 }
