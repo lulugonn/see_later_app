@@ -33,7 +33,7 @@ class OnBoarding extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 150.0),
+            padding: const EdgeInsets.only(top: 100.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -43,7 +43,7 @@ class OnBoarding extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(
-                top: 400.0, left: 50.0, right: 50.0, bottom: 50.0),
+                top: 350.0, left: 50.0, right: 50.0, bottom: 50.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

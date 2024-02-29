@@ -12,6 +12,7 @@ class APIService {
 
   Future<void> login(LoginRequestModel requestModel) async {
     try {
+      dio.options.headers["Access-Control-Allow-Origin"] = "*";
       final response = await dio.post('$url/auth/sign-in', data: requestModel.toJson());
       if (response.statusCode == 200) {
         await AuthController.setToken(response.data['token']);
@@ -36,6 +37,7 @@ class APIService {
 
   Future<void> register(RegisterRequestModel requestModel) async {
     try {
+      dio.options.headers["Access-Control-Allow-Origin"] = "*";
       final response = await dio.post('$url/auth/sign-up', data: requestModel.toJson());
       if (response.statusCode == 200) {
           await AuthController.setToken(response.data['token']);

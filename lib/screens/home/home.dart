@@ -80,18 +80,27 @@ class _HomeState extends State<Home> {
                           children: [
                             Row(
                               children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(),
-                                  child: Text('Olá, Marcela!',
-                                      style: TextStyle(fontSize: 28)),
-                                ),
+                                Text('Olá, Marcela!',
+                                    style: TextStyle(fontSize: 28)),
                               ],
                             ),
+                            
                           ],
                         ),
                       ),
                       Column(
                         children: [
+                          Row(
+                              children: const [
+                                Padding(
+                                      padding: EdgeInsets.only(top:16),
+                                      child: Text('Conteúdos',
+                                          style: TextStyle(fontSize: 20,),textAlign: TextAlign.left,),
+                                    ),
+                              ],
+                            ),
+                          
+
                           if(items!=null)
                           for (var i=0; i < items.length; i++)
                           Center(
@@ -101,6 +110,8 @@ class _HomeState extends State<Home> {
                               url: snapshot.data!.items![i].url?? '',
                             ),
                           ),
+                          
+
                         ],
                       ),
                     ],
