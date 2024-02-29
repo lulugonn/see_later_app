@@ -65,88 +65,89 @@ class _RegisterState extends State<Register> {
                 top: 250.0, left: 30.0, right: 30.0, bottom: 30.0),
             child: Form(
               key: globalFormKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextFieldWidget(
-                    hintText: 'Nome',
-                    obscureText: false,
-                    prefixIconData: Icons.account_circle_rounded,
-                    suffixIconData: Icons.check,
-                    onChanged: (value) {},
-                    onSaved: (input) => requestModel.name = input,
-                    validator: _validarNome,
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFieldWidget(
-                    hintText: 'E-mail',
-                    obscureText: false,
-                    prefixIconData: Icons.mail_outline,
-                    suffixIconData: Icons.check,
-                    onChanged: (value) {},
-                    onSaved: (input) => requestModel.email = input
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
+              child: Center(
+                child: ListView(
+                  children: <Widget>[
+                    TextFieldWidget(
+                      hintText: 'Nome',
+                      obscureText: false,
+                      prefixIconData: Icons.account_circle_rounded,
+                      suffixIconData: Icons.check,
+                      onChanged: (value) {},
+                      onSaved: (input) => requestModel.name = input,
+                      validator: _validarNome,
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    TextFieldWidget(
+                      hintText: 'E-mail',
+                      obscureText: false,
+                      prefixIconData: Icons.mail_outline,
+                      suffixIconData: Icons.check,
+                      onChanged: (value) {},
+                      onSaved: (input) => requestModel.email = input
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                     TextFieldWidget(
+                      hintText: 'Confirme seu e-mail',
+                      obscureText: false,
+                      prefixIconData: Icons.mail_outline,
+                      suffixIconData: Icons.check,
+                      onChanged: (value) {},
+                      onSaved: (input) => requestModel.confirm_email = input),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
                    TextFieldWidget(
-                    hintText: 'Confirme seu e-mail',
-                    obscureText: false,
-                    prefixIconData: Icons.mail_outline,
-                    suffixIconData: Icons.check,
-                    onChanged: (value) {},
-                    onSaved: (input) => requestModel.confirm_email = input),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                 TextFieldWidget(
-                      hintText: 'Senha',
-                      obscureText: true,
-                      prefixIconData: Icons.lock_outline,
-                      suffixIconData: Icons.visibility,
-                      onSaved:(input) => requestModel.password = input
-                    ),
-                  const SizedBox(
-                    height: 50.0,
-                  ),
-                  ButtonWidget(
-                      title: 'Criar conta',
-                      hasBorder: false,
-                      onTap: () async {
-                        if (validateAndSave()) {
-                         try{
-                            AlertDialogService().showLoader(context);
-                            await APIService().register(requestModel);
-                            AlertDialogService().closeLoader(context);
-                            Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return Home();
-                                }));
-
-                           }catch(e){
-                            AlertDialogService().closeLoader(context);
-                            AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
-                           }
-                      }}),
-                  const SizedBox(
-                    height: 40.0,
-                  ),
-                  InkWell(
-                    child: const Text(
-                      'Voltar',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xff7098DA),
-                        decoration: TextDecoration.underline,
+                        hintText: 'Senha',
+                        obscureText: true,
+                        prefixIconData: Icons.lock_outline,
+                        suffixIconData: Icons.visibility,
+                        onSaved:(input) => requestModel.password = input
                       ),
+                    const SizedBox(
+                      height: 50.0,
                     ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
+                    ButtonWidget(
+                        title: 'Criar conta',
+                        hasBorder: false,
+                        onTap: () async {
+                          if (validateAndSave()) {
+                           try{
+                              AlertDialogService().showLoader(context);
+                              await APIService().register(requestModel);
+                              AlertDialogService().closeLoader(context);
+                              Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) {
+                                    return Home();
+                                  }));
+
+                             }catch(e){
+                              AlertDialogService().closeLoader(context);
+                              AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
+                             }
+                        }}),
+                    const SizedBox(
+                      height: 40.0,
+                    ),
+                    InkWell(
+                      child: const Text(
+                        'Voltar',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xff7098DA),
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

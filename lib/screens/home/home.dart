@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Global.white,
         floatingActionButton: FloatingActionButton(
           backgroundColor: Global.mediumBlue,
-          tooltip: 'Criar nova nota',
+          tooltip: 'Criar novo conteúdo',
           onPressed: () {
             showModalBottomSheet(
               context: context,

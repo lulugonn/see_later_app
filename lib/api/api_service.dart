@@ -64,7 +64,7 @@ class APIService {
       dio.options.headers["Authorization"] = "Bearer $token";
       final response = await dio.post('$url/content', data: requestModel.toJson());
       if(response.statusCode == 201){
-         return 'Nota criada com sucesso!';
+         return 'Conteúdo criado com sucesso!';
       }
       return null;
     }on DioException catch (e) {

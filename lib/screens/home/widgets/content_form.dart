@@ -34,14 +34,14 @@ class _ContentFormState extends State<ContentForm> {
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        'Criar nota nota',
+                        'Criar conteúdo',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                       child: TextFieldWidget(
-                        hintText: 'Título da nota',
+                        hintText: 'Título da conteúdo',
                         obscureText: false,
                         prefixIconData: Icons.title,
                         onChanged: (value) {
@@ -81,7 +81,7 @@ class _ContentFormState extends State<ContentForm> {
                         title: 'Salvar',
                         hasBorder: false,
                         onTap: () {
-                          _salvarNota();
+                          _salvarConteudo();
                         }),
                   ],
                 ),
@@ -89,12 +89,12 @@ class _ContentFormState extends State<ContentForm> {
           
   }
 
-   void _salvarNota() async {
+   void _salvarConteudo() async {
     try {
       AlertDialogService().showLoader(context);
       await APIService().registerContent(order);
       AlertDialogService().closeLoader(context);
-      AlertDialogService().showAlertDefault(context, 'Atenção!','Nota criada com sucesso!');
+      AlertDialogService().showAlertDefault(context, 'Atenção!','Conteúdo criada com sucesso!');
       // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       //   return const Home();
       // }));
