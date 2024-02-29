@@ -41,7 +41,7 @@ class _ContentFormState extends State<ContentForm> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                       child: TextFieldWidget(
-                        hintText: 'Título da conteúdo',
+                        hintText: 'Título do conteúdo',
                         obscureText: false,
                         prefixIconData: Icons.title,
                         onChanged: (value) {
@@ -94,7 +94,7 @@ class _ContentFormState extends State<ContentForm> {
       AlertDialogService().showLoader(context);
       await APIService().registerContent(order);
       AlertDialogService().closeLoader(context);
-      AlertDialogService().showAlertDefault(context, 'Atenção!','Conteúdo criada com sucesso!');
+      AlertDialogService().showAlertDefault(context, 'Atenção!','Conteúdo criado com sucesso!');
       // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       //   return const Home();
       // }));
