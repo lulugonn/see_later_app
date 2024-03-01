@@ -20,7 +20,7 @@ class OnBoarding extends StatelessWidget {
         children: <Widget>[
           Container(
             height: size.height - 200,
-            color: Global.backgroundColor,
+            color: Global.offwhite,
           ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),

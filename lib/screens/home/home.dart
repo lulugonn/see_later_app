@@ -4,6 +4,7 @@ import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
+import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -68,42 +69,27 @@ class _HomeState extends State<Home> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 final items = snapshot.data;
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 40, horizontal: 20),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: const [
-                                Text('Olá, Marcela!',
-                                    style: TextStyle(fontSize: 28)),
-                              ],
+                return Scaffold(
+                  appBar: UserHeader(),
+                  body: Column(children:[
+                    Row(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text(
+                            'Conteúdos',
+                            style: TextStyle(
+                              fontSize: 20,
                             ),
-                            Row(
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(top: 16),
-                                  child: Text(
-                                    'Conteúdos',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                            textAlign: TextAlign.left,
+                          ),
                         ),
-                      ),
-                      (items?.length != 0)
-                          ? _widgetContent(items!)
-                          : _widgetEmpty()
-                    ],
-                  ),
+                      ],
+                    ),
+                     (items?.length != 0)
+                    ? _widgetContent(items!)
+                    : _widgetEmpty()
+                  ],)
                 );
               } else {
                 return Container();

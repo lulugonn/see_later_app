@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/onboarding/onboarding.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Login',
+      title: 'See Later App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFF2661FA),
