@@ -15,32 +15,29 @@ class ContentCard extends StatefulWidget {
 class _ContentCardState extends State<ContentCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 5,
-        child: ListTile(
-          contentPadding: EdgeInsets.all(16),
-          leading: Icon(
-            Icons.link,
-            size: 30,
-          ),
-          title: Text(widget.content.title!),
-          subtitle: Text(
-            "${widget.content.url!} \n ${widget.content.notes!}",
-            style: TextStyle(
-              fontSize: 14,
-            ),
-          ),
-          trailing: TextButton.icon(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              _deleteContent(widget.content.id!);
-            },
-            label: Text(''),
-          ),
-          isThreeLine: true,
+    return Card(
+      elevation: 5,
+      child: ListTile(
+        contentPadding: EdgeInsets.all(16),
+        leading: Icon(
+          Icons.link,
+          size: 30,
         ),
+        title: Text(widget.content.title!),
+        subtitle: Text(
+          "${widget.content.url!} \n ${widget.content.notes!}",
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+        trailing: TextButton.icon(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            _deleteContent(widget.content.id!);
+          },
+          label: Text(''),
+        ),
+        isThreeLine: true,
       ),
     );
   }

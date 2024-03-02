@@ -8,27 +8,30 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return PreferredSize(
       preferredSize: preferredSize,
-      child: AppBar(
-        flexibleSpace: Container(),
-        toolbarHeight: 120,
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        backgroundColor: Global.white,
-        title: const Text('Olá, Marcela!',
-            style: TextStyle(fontSize: 20, color: Global.black)),
-        actions: [
-          Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.account_circle_rounded,
-                  size: 40,
-                  color: Global.grey,
-                ),
-                focusColor: Global.black,
-                onPressed: () {},
-              ))
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: AppBar(
+          flexibleSpace: Container(),
+          toolbarHeight: 120,
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          backgroundColor: Global.white,
+          title: const Text('Olá, Marcela!',
+              style: TextStyle(fontSize: 20, color: Global.black)),
+          actions: [
+            Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.account_circle_rounded,
+                    size: 40,
+                    color: Global.grey,
+                  ),
+                  focusColor: Global.black,
+                  onPressed: () {},
+                ))
+          ],
+        ),
       ),
     );
     //               ),(

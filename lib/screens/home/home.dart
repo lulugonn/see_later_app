@@ -4,6 +4,7 @@ import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
+import 'package:see_later_app/screens/home/widgets/progress_card.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class Home extends StatefulWidget {
@@ -71,25 +72,32 @@ class _HomeState extends State<Home> {
                 final items = snapshot.data;
                 return Scaffold(
                   appBar: UserHeader(),
-                  body: Column(children:[
-                    Row(
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.only(top: 16),
-                          child: Text(
-                            'Conteúdos',
-                            style: TextStyle(
-                              fontSize: 20,
+                  body: SingleChildScrollView(
+                   child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:25.0),
+                    child: Column(children:[
+                     
+                       Column(
+                          children:  [
+                            ProgressCard(),
+                            Padding(
+                              padding: EdgeInsets.only(top: 16),
+                              child: Text(
+                                'Últimos Conteúdos Salvos',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
                             ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
-                     (items?.length != 0)
-                    ? _widgetContent(items!)
-                    : _widgetEmpty()
-                  ],)
+                          ],
+                        
+                      ),
+                       (items?.length != 0)
+                      ? _widgetContent(items!)
+                      : _widgetEmpty()
+                    ],),)
+                  )
                 );
               } else {
                 return Container();
