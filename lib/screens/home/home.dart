@@ -76,23 +76,21 @@ class _HomeState extends State<Home> {
                    child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal:25.0),
                     child: Column(children:[
-                     
-                       Column(
-                          children:  [
-                            ProgressCard(),
-                            Padding(
-                              padding: EdgeInsets.only(top: 16),
-                              child: Text(
-                                'Últimos Conteúdos Salvos',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        
-                      ),
+                       ProgressCard(),
+                       Padding(
+                         padding: EdgeInsets.only(top: 40, bottom: 16),
+                         child: Row(
+                           children: const [
+                             Text(
+                               'Últimos Conteúdos Salvos',
+                               style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                 fontSize: 18,
+                               ),
+                             ),
+                           ],
+                         ),
+                       ),
                        (items?.length != 0)
                       ? _widgetContent(items!)
                       : _widgetEmpty()
@@ -123,9 +121,7 @@ class _HomeState extends State<Home> {
   Widget _widgetContent(ListContentModel items) {
     return Column(children: [
       for (var i = 0; i < items.length; i++)
-        Center(
-          child: ContentCard(content: items[i],
-          ),
+        ContentCard(content: items[i], index: i, length: items.length,
         ),
     ]);
   }

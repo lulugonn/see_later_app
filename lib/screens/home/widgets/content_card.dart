@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
+import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class ContentCard extends StatefulWidget {
-  const ContentCard({super.key, required this.content});
+  const ContentCard(
+      {super.key,
+      required this.content,
+      required this.index,
+      required this.length});
   final ContentModel content;
+  final int index;
+  final num length;
 
   @override
   State<ContentCard> createState() => _ContentCardState();
@@ -16,30 +23,52 @@ class _ContentCardState extends State<ContentCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
-      child: ListTile(
-        contentPadding: EdgeInsets.all(16),
-        leading: Icon(
-          Icons.link,
-          size: 30,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
         ),
-        title: Text(widget.content.title!),
-        subtitle: Text(
-          "${widget.content.url!} \n ${widget.content.notes!}",
-          style: TextStyle(
-            fontSize: 14,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: widget.index == widget.length - 1
+                    ? Colors.transparent
+                    : Global.grey, // Cor da borda
+                width: 0.5,
+              ),
+            ),
           ),
-        ),
-        trailing: TextButton.icon(
-          icon: Icon(Icons.delete),
-          onPressed: () {
-            _deleteContent(widget.content.id!);
-          },
-          label: Text(''),
-        ),
-        isThreeLine: true,
-      ),
-    );
+          child: ListTile(
+            contentPadding: EdgeInsets.only(top: 0),
+            leading: Container(
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                  color: Color(0x66404040),
+                  borderRadius: BorderRadius.circular(10)),
+              child: const Icon(
+                Icons.link,
+                color: Global.white,
+                size: 30
+              ),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top:4.0),
+              child: Text(widget.content.title!,
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            subtitle: Text(
+              "Artigo",
+              style: TextStyle(
+                fontSize: 13,
+              ),
+            ),
+            trailing: IconButton(icon:Icon(Icons.delete), onPressed: () { 
+                _deleteContent(widget.content.id!);
+
+                },),
+            isThreeLine: true,
+          ),
+        ));
   }
 
   void showAlertConfirm(BuildContext context, title, content, id) {

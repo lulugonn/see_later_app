@@ -23,7 +23,7 @@ class _ProgressCardState extends State<ProgressCard>
     super.initState();
 
     _controller = AnimationController(
-        duration: const Duration(seconds: 2), vsync: this, upperBound: 0.7);
+        duration: const Duration(seconds: 5), vsync: this, upperBound: 0.5);
     _controller.forward();
   }
 
