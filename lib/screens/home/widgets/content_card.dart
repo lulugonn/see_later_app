@@ -28,6 +28,7 @@ class _ContentCardState extends State<ContentCard> {
           borderRadius: BorderRadius.zero,
         ),
         child: Container(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -39,6 +40,7 @@ class _ContentCardState extends State<ContentCard> {
             ),
           ),
           child: ListTile(
+            contentPadding: EdgeInsets.all(0),
             leading: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
