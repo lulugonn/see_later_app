@@ -9,14 +9,30 @@ import 'package:see_later_app/screens/home/widgets/content_card.dart';
 class ProgressCard extends StatefulWidget {
   ProgressCard({super.key});
 
-  final ContentModel content =
-      ContentModel(title: "Luana", url: "Luana", notes: "asda");
-
   @override
   State<ProgressCard> createState() => _ProgressCardState();
 }
 
-class _ProgressCardState extends State<ProgressCard> {
+class _ProgressCardState extends State<ProgressCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Tween<double> valueTween;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+        duration: const Duration(seconds: 2), vsync: this, upperBound: 0.7);
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // return ContentCard(content: widget.content );
@@ -48,12 +64,22 @@ class _ProgressCardState extends State<ProgressCard> {
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                    SizedBox(
-                      width: 200,
-                      child: LinearProgressIndicator(
-                        value: 70,
-                      ),
-                    )
+                    AnimatedBuilder(
+                        animation: _controller,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10))),
+                        builder: (context, child) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: LinearProgressIndicator(
+                                value: _controller.value,
+                                minHeight: 12,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Global.green),
+                                backgroundColor: Global.grey),
+                          );
+                        }),
                   ],
                 ),
               ),
@@ -62,15 +88,5 @@ class _ProgressCardState extends State<ProgressCard> {
         ],
       ),
     );
-    // return Card(
-
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(25),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.start,
-
-    //     ]),
-    //   ),
-    // );
   }
 }
