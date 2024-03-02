@@ -39,34 +39,36 @@ class _ContentCardState extends State<ContentCard> {
             ),
           ),
           child: ListTile(
-            contentPadding: EdgeInsets.only(top: 0),
             leading: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                   color: Color(0x66404040),
                   borderRadius: BorderRadius.circular(10)),
-              child: const Icon(
-                Icons.link,
-                color: Global.white,
-                size: 30
+              child: const Icon(Icons.link, color: Global.white, size: 30),
+            ),
+            title: Text(widget.content.title!,
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: Text(
+                "Artigo",
+                style: TextStyle(
+                  fontSize: 13,
+                ),
               ),
             ),
-            title: Padding(
-              padding: const EdgeInsets.only(top:4.0),
-              child: Text(widget.content.title!,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("12/01/2024"),
+                IconButton(
+                  icon: Icon(Icons.more_vert),
+                  onPressed: () {
+                    _deleteContent(widget.content.id!);
+                  },
+                ),
+              ],
             ),
-            subtitle: Text(
-              "Artigo",
-              style: TextStyle(
-                fontSize: 13,
-              ),
-            ),
-            trailing: IconButton(icon:Icon(Icons.delete), onPressed: () { 
-                _deleteContent(widget.content.id!);
-
-                },),
-            isThreeLine: true,
           ),
         ));
   }

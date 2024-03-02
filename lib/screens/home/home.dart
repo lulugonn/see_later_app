@@ -53,6 +53,8 @@ class _HomeState extends State<Home> {
           child: const Icon(Icons.add, color: Colors.white, size: 28),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -71,32 +73,33 @@ class _HomeState extends State<Home> {
               if (snapshot.connectionState == ConnectionState.done) {
                 final items = snapshot.data;
                 return Scaffold(
-                  appBar: UserHeader(),
-                  body: SingleChildScrollView(
-                   child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:25.0),
-                    child: Column(children:[
-                       ProgressCard(),
-                       Padding(
-                         padding: EdgeInsets.only(top: 40, bottom: 16),
-                         child: Row(
-                           children: const [
-                             Text(
-                               'Últimos Conteúdos Salvos',
-                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                 fontSize: 18,
-                               ),
-                             ),
-                           ],
-                         ),
-                       ),
-                       (items?.length != 0)
-                      ? _widgetContent(items!)
-                      : _widgetEmpty()
-                    ],),)
-                  )
-                );
+                    appBar: UserHeader(),
+                    body: SingleChildScrollView(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Column(
+                        children: [
+                          ProgressCard(),
+                          Padding(
+                            padding: EdgeInsets.only(top: 40, bottom: 16),
+                            child: Row(
+                              children: const [
+                                Text(
+                                  'Últimos Conteúdos Salvos',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          (items?.length != 0)
+                              ? _widgetContent(items!)
+                              : _widgetEmpty()
+                        ],
+                      ),
+                    )));
               } else {
                 return Container();
               }
@@ -121,7 +124,10 @@ class _HomeState extends State<Home> {
   Widget _widgetContent(ListContentModel items) {
     return Column(children: [
       for (var i = 0; i < items.length; i++)
-        ContentCard(content: items[i], index: i, length: items.length,
+        ContentCard(
+          content: items[i],
+          index: i,
+          length: items.length,
         ),
     ]);
   }
