@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/onboarding/onboarding.dart';
 
 void main() {
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'Montserrat',
       ),
-      home: const Home(),
+      home: const OnBoarding(),
     );
   }
 }
