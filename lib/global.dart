@@ -8,6 +8,8 @@ class Global {
   static const Color green =  Color(0xff9BE3AC);
   static const Color grey =  Color(0xffcccccc);
   static const Color mediumBlue =  Color(0xff3078F0);
+  static const Color darkGrey =  Color(0xff909090);
+
   static const List validEmail = ['test@gmail.com'];
 
 }

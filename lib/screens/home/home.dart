@@ -73,7 +73,7 @@ class _HomeState extends State<Home> {
               if (snapshot.connectionState == ConnectionState.done) {
                 final items = snapshot.data;
                 return Scaffold(
-                    appBar: UserHeader(),
+                    appBar: const UserHeader(comeback: false, appBarTitle: 'Olá, Marcela!',),
                     body: SingleChildScrollView(
                         child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),

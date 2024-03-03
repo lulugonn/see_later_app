@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:see_later_app/global.dart';
 
 class UserHeader extends StatelessWidget implements PreferredSizeWidget {
-  const UserHeader({super.key});
+  const UserHeader(
+      {super.key, required this.appBarTitle, required this.comeback});
+  final String appBarTitle;
+  final bool comeback;
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +14,15 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           flexibleSpace: Container(),
           toolbarHeight: 120,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: comeback,
           elevation: 0,
           backgroundColor: Global.white,
-          title: const Text('Olá, Marcela!',
+          title: Text(appBarTitle,
               style: TextStyle(fontSize: 20, color: Global.black)),
           actions: [
             Padding(

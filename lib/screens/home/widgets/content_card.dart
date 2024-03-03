@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
+import 'package:see_later_app/screens/edit_content/edit_content.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
@@ -64,10 +65,31 @@ class _ContentCardState extends State<ContentCard> {
               children: [
                 Text("12/01/2024"),
                 PopupMenuButton(
+                  tooltip: "Opções",
                   offset: Offset(0.0, 60.0),
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       child: Text("Editar"),
+                      onTap: () {
+                        Future.delayed(
+                            Duration.zero,
+                            () => Navigator.of(context).push(
+                                    // PageTransition(
+                                    //   child: EditContent(
+                                    //     content: widget.content,
+                                    //   ),
+                                    //   type: PageTransitionType
+                                    //       .leftToRight, // Tipo de animação
+                                    //   duration: Duration(
+                                    //       milliseconds:
+                                    //           500), // Duração da animação
+                                    // ),
+                                    MaterialPageRoute(builder: (context) {
+                                  return EditContent(
+                                    content: widget.content,
+                                  );
+                                })));
+                      },
                     ),
                     PopupMenuItem(
                       child: Text("Excluir"),

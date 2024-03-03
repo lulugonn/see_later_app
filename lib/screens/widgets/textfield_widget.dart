@@ -3,6 +3,7 @@ import 'package:see_later_app/global.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String hintText;
+  final String? initialValue;
   final IconData prefixIconData;
   final IconData? suffixIconData;
   final bool obscureText;
@@ -18,11 +19,12 @@ class TextFieldWidget extends StatelessWidget {
       required this.prefixIconData,
       this.suffixIconData,
       required this.obscureText,
-      this.onChanged});
+      this.onChanged, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue?? null,
       onSaved: onSaved,
       validator: validator,
       onChanged: onChanged,
@@ -33,15 +35,12 @@ class TextFieldWidget extends StatelessWidget {
       ),
       cursorColor: Global.mediumBlue,
       decoration: InputDecoration(
-        enabledBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
+        border:OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      borderSide: BorderSide(color: Global.black, width: 0.5), 
+  ),
+        fillColor: Global.white,
         filled: true,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Global.mediumBlue),
-        ),
         labelText: hintText,
         prefixIcon: Icon(prefixIconData, size: 18),
         suffixIcon: GestureDetector(
