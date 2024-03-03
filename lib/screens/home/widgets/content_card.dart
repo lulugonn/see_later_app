@@ -63,12 +63,21 @@ class _ContentCardState extends State<ContentCard> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text("12/01/2024"),
-                IconButton(
-                  icon: Icon(Icons.more_vert),
-                  onPressed: () {
-                    _deleteContent(widget.content.id!);
-                  },
-                ),
+                PopupMenuButton(
+                  offset: Offset(0.0, 60.0),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Text("Editar"),
+                    ),
+                    PopupMenuItem(
+                      child: Text("Excluir"),
+                      onTap: () {
+                        Future.delayed(Duration.zero,
+                            () => _deleteContent(widget.content.id!));
+                      },
+                    )
+                  ],
+                )
               ],
             ),
           ),
