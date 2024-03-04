@@ -32,23 +32,53 @@ class _EditContentState extends State<EditContent> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Global.white,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Global.mediumBlue,
-          tooltip: 'Criar novo conteúdo',
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (builder) {
-                return const ContentForm();
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              heroTag: "Salvar",
+              backgroundColor: Global.mediumBlue,
+              tooltip: 'Salvar conteúdo',
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (builder) {
+                    return const ContentForm();
+                  },
+                  isScrollControlled: true,
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                );
               },
-              isScrollControlled: true,
-              backgroundColor: Colors.white,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              ),
-            );
-          },
-          child: const Icon(Icons.add, color: Colors.white, size: 28),
+              child: const Icon(Icons.save, color: Colors.white, size: 28),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            FloatingActionButton(
+              heroTag: "Excluir",
+              backgroundColor: Colors.red,
+              tooltip: 'Excluir conteúdo',
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (builder) {
+                    return const ContentForm();
+                  },
+                  isScrollControlled: true,
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                );
+              },
+              child: const Icon(Icons.delete, color: Colors.white, size: 28),
+            ),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
@@ -81,7 +111,7 @@ class _EditContentState extends State<EditContent> {
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            padding: EdgeInsets.only(top: 20, bottom: 30),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -92,7 +122,8 @@ class _EditContentState extends State<EditContent> {
                                   hintText: 'Título',
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 20),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
                                   child: TextFieldWidget(
                                     initialValue: 'Artigo',
                                     obscureText: false,
@@ -119,25 +150,73 @@ class _EditContentState extends State<EditContent> {
                             ),
                           ),
                           Container(
-                           child: Column(
-                             children: [
-                               Row(
-                                 children: [
-                                   Text(
-                                        'Tags',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Tags',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
                                       ),
-                                 ],
-
-                               ),
-                               Row(children:[])
-                             ],
-                           ),
-
-                          )
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Row(children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 16.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1, color: Global.black),
+                                      ),
+                                      child: Text("Faculdade",
+                                          style: TextStyle(fontSize: 14)),
+                                    ),
+                                    CircleAvatar(
+                                      radius: 13,
+                                      backgroundColor: Colors.black,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: Global.white,
+                                          size: 11,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                  ]),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 60),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 16.0, horizontal: 63.0),
+                            decoration: BoxDecoration(
+                            color: Global.darkGreen,
+                              borderRadius: BorderRadius.circular(10),
+                              border:
+                                  Border.all(width: 1, color: Global.darkGreen),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Icon(Icons.check, color: Global.white),
+                                ),
+                                Text("Marcar como concluído",
+                                    style: TextStyle(fontSize: 16, color: Global.white)),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     )));
