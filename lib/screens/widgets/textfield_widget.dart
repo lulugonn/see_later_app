@@ -10,6 +10,8 @@ class TextFieldWidget extends StatelessWidget {
   final Function(String)? onChanged;
   final Function(String?)? onSaved;
   final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final int? maxLines;
 
   const TextFieldWidget(
       {super.key,
@@ -19,26 +21,31 @@ class TextFieldWidget extends StatelessWidget {
       required this.prefixIconData,
       this.suffixIconData,
       required this.obscureText,
-      this.onChanged, this.initialValue});
+      this.onChanged,
+      this.initialValue,
+      this.keyboardType,
+      this.maxLines});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      initialValue: initialValue?? null,
+      initialValue: initialValue ?? null,
       onSaved: onSaved,
       validator: validator,
       onChanged: onChanged,
       obscureText: obscureText,
+      maxLines: maxLines?? 1 ,
+      keyboardType: keyboardType,
       style: const TextStyle(
         color: Global.mediumBlue,
         fontSize: 14.0,
       ),
       cursorColor: Global.mediumBlue,
       decoration: InputDecoration(
-        border:OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      borderSide: BorderSide(color: Global.black, width: 0.5), 
-  ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(color: Global.black, width: 0.5),
+        ),
         fillColor: Global.white,
         filled: true,
         labelText: hintText,

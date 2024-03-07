@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
@@ -54,7 +55,7 @@ class _ContentCardState extends State<ContentCard> {
             subtitle: Padding(
               padding: const EdgeInsets.only(bottom: 15.0),
               child: Text(
-                "Artigo",
+                widget.content.type?? '',
                 style: TextStyle(
                   fontSize: 13,
                 ),
@@ -63,7 +64,7 @@ class _ContentCardState extends State<ContentCard> {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("12/01/2024"),
+                Text( DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.content.createdAt!)).toString()),
                 PopupMenuButton(
                   tooltip: "Opções",
                   offset: Offset(0.0, 60.0),
