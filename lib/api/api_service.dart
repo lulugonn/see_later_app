@@ -142,4 +142,32 @@ class APIService {
       }
     }
   }
+
+  Future<String?> updateContent(ContentModel requestModel) async {
+    try {
+      String? token = await AuthController.getToken();
+      dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await dio.patch('$url/content/${requestModel.id}', data: requestModel.toJson());
+      if(response.statusCode == 201){
+         return 'Conteúdo atualizado com sucesso!';
+      }
+      return null;
+    }on DioException catch (e) {
+      if(e.response != null){
+        var errorMessage =  e.response!.data['message'];
+        var message = '';
+        if(errorMessage is List){
+          for (var item in errorMessage) {
+            message += ('- $item\n');
+          }
+        }else{
+          message = errorMessage;
+        }
+        throw message;
+      }else{
+        throw 'Ocorreu um erro inesperado';
+      }
+    }
+  }
+
 }

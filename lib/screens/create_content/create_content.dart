@@ -12,14 +12,12 @@ class CreateContent extends StatefulWidget {
 
   @override
   State<CreateContent> createState() => _CreateContentState();
-
-  
 }
 
 class _CreateContentState extends State<CreateContent> {
   late ContentModel order;
 
- @override
+  @override
   void initState() {
     super.initState();
     order = ContentModel();
@@ -60,11 +58,11 @@ class _CreateContentState extends State<CreateContent> {
                       obscureText: false,
                       prefixIconData: Icons.title,
                       hintText: 'Título',
-                       onChanged: (value) {
-                          setState(() {
-                            order.title = value;
-                          });
-                        },
+                      onChanged: (value) {
+                        setState(() {
+                          order.title = value;
+                        });
+                      },
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -72,7 +70,7 @@ class _CreateContentState extends State<CreateContent> {
                         obscureText: false,
                         prefixIconData: Icons.filter_alt,
                         hintText: 'Tipo',
-                         onChanged: (value) {
+                        onChanged: (value) {
                           setState(() {
                             order.type = value;
                           });
@@ -85,7 +83,7 @@ class _CreateContentState extends State<CreateContent> {
                         obscureText: false,
                         prefixIconData: Icons.link,
                         hintText: 'Link',
-                         onChanged: (value) {
+                        onChanged: (value) {
                           setState(() {
                             order.url = value;
                           });
@@ -98,11 +96,11 @@ class _CreateContentState extends State<CreateContent> {
                       hintText: 'Descricao',
                       maxLines: 5,
                       keyboardType: TextInputType.multiline,
-                       onChanged: (value) {
-                          setState(() {
-                            order.notes = value;
-                          });
-                        },
+                      onChanged: (value) {
+                        setState(() {
+                          order.notes = value;
+                        });
+                      },
                     )
                   ],
                 ),
