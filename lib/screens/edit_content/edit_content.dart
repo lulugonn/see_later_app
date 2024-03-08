@@ -47,18 +47,8 @@ class _EditContentState extends State<EditContent> {
               backgroundColor: Colors.red,
               tooltip: 'Excluir conteúdo',
               onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (builder) {
-                    return const ContentForm();
-                  },
-                  isScrollControlled: true,
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)),
-                  ),
-                );
+                 Future.delayed(Duration.zero,
+                            () => _deleteContent(widget.content.id!));
               },
               child: const Icon(Icons.delete, color: Colors.white, size: 28),
             ),
@@ -228,5 +218,52 @@ class _EditContentState extends State<EditContent> {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
     }
+  }
+
+  void showAlertConfirm(BuildContext context, title, content, id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: Text(title ?? 'Atenção!'),
+          content: Text(content ?? 'Ocorreu um erro insperado.'),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            ElevatedButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Excluir"),
+              onPressed: () async {
+                try {
+                  AlertDialogService().showLoader(context);
+                  await APIService().deleteContent(id);
+                  AlertDialogService().closeLoader(context);
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const Home();
+                  }));
+                  AlertDialogService().showAlertDefault(
+                      context, 'Sucesso!', 'Conteúdo deletado!');
+                } catch (e) {
+                  AlertDialogService().closeLoader(context);
+                  AlertDialogService()
+                      .showAlertDefault(context, 'Atenção!', e.toString());
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteContent(int id) async {
+    showAlertConfirm(
+        context, 'Atenção!', 'Deseja realmente excluir o conteúdo?', id);
   }
 }
