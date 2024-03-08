@@ -223,7 +223,7 @@ class _EditContentState extends State<EditContent> {
         return const Home();
       }));
       AlertDialogService().showAlertDefault(
-          context, 'Parabéns!', 'Conteúdo criado com sucesso!');
+          context, 'Parabéns!', 'Conteúdo atualizado com sucesso!');
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());

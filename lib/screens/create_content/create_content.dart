@@ -38,7 +38,7 @@ class _CreateContentState extends State<CreateContent> {
               backgroundColor: Global.mediumBlue,
               tooltip: 'Salvar conteúdo',
               onPressed: () {
-                _salvarConteudo();
+                _registerContent();
               },
               child: const Icon(Icons.save, color: Colors.white, size: 28),
             ),
@@ -155,7 +155,7 @@ class _CreateContentState extends State<CreateContent> {
         )));
   }
 
-  void _salvarConteudo() async {
+  void _registerContent() async {
     try {
       AlertDialogService().showLoader(context);
       await APIService().registerContent(order);
