@@ -25,6 +25,7 @@ class _EditContentState extends State<EditContent> {
       appBar: const UserHeader(
                       appBarTitle: 'Conteúdo',
                       comeback: true,
+                      showUser: true,
                     ),
         backgroundColor: Global.white,
         floatingActionButton: Column(

@@ -6,6 +6,7 @@ import 'package:see_later_app/screens/create_content/create_content.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
 import 'package:see_later_app/screens/home/widgets/progress_card.dart';
+import 'package:see_later_app/screens/search_content/search_content.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class Home extends StatefulWidget {
@@ -19,92 +20,127 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _selectedTab = 0;
   late Future<ListContentModel?> _listContent;
 
-  Future<ListContentModel?> _getContent() async {
-    return _listContent = APIService().getContent();
+  Future<ListContentModel?> _getLastContents() async {
+    return _listContent = APIService().getLastContents();
   }
 
   @override
   void initState() {
     super.initState();
-    _getContent();
+    _getLastContents();
+  }
+
+  _changeTab(int index) {
+    setState(() {
+      _selectedTab = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Global.white,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Global.mediumBlue,
-          tooltip: 'Criar novo conteúdo',
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (builder) {
-                return  const CreateContent();
-              },
-              isScrollControlled: true,
-              backgroundColor: Colors.white,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              ),
-            );
-          },
-          child: const Icon(Icons.add, color: Colors.white, size: 28),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Página inicial',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Configurações',
-            ),
-          ],
-          selectedItemColor: Global.mediumBlue,
-        ),
-        body: FutureBuilder<ListContentModel?>(
-            future: _listContent,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                final items = snapshot.data;
-                return Scaffold(
-                    appBar: const UserHeader(comeback: false, appBarTitle: 'Olá, Marcela!',),
-                    body: SingleChildScrollView(
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          ProgressCard(),
-                          Padding(
-                            padding: EdgeInsets.only(top: 40, bottom: 16),
-                            child: Row(
-                              children: const [
-                                Text(
-                                  'Últimos Conteúdos Salvos',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+    List _pages = [
+      FutureBuilder<ListContentModel?>(
+          future: _listContent,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              final items = snapshot.data;
+              return Scaffold(
+                  appBar: const UserHeader(
+                    comeback: false,
+                    appBarTitle: 'Olá, Marcela!',
+                    showUser: true,
+                  ),
+                  body: SingleChildScrollView(
+                      child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Column(
+                      children: [
+                        ProgressCard(),
+                        Padding(
+                          padding: EdgeInsets.only(top: 40, bottom: 16),
+                          child: Row(
+                            children: const [
+                              Text(
+                                'Últimos Conteúdos Salvos',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          (items?.length != 0)
-                              ? _widgetContent(items!)
-                              : _widgetEmpty()
-                        ],
-                      ),
-                    )));
-              } else {
-                return Container();
-              }
-            }));
+                        ),
+                        (items?.length != 0)
+                            ? _widgetLastContents(items!)
+                            : _widgetEmpty()
+                      ],
+                    ),
+                  )));
+            } else {
+              return Container();
+            }
+          }),
+      Center(
+        child: Text("About"),
+      ),
+      Center(
+        child: SearchContent(),
+      ),
+      Center(
+        child: Text("Contact"),
+      ),
+      Center(
+        child: Text("Settings"),
+      ),
+    ];
+
+    return Scaffold(
+      backgroundColor: Global.white,
+      // floatingActionButtonLocation:  FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Global.mediumBlue,
+      //   tooltip: 'Criar novo conteúdo',
+      //   onPressed: () {
+      //     showModalBottomSheet(
+      //       context: context,
+      //       builder: (builder) {
+      //         return  const CreateContent();
+      //       },
+      //       isScrollControlled: true,
+      //       backgroundColor: Colors.white,
+      //       shape: const RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
+      //       ),
+      //     );
+      //   },
+      //   child: const Icon(Icons.add, color: Colors.white, size: 28),
+      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        currentIndex: _selectedTab,
+        onTap: (index) => _changeTab(index),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Página inicial',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle),
+            label: 'Criar novo conteúdo',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.format_list_bulleted),
+            label: 'Menu',
+          ),
+        ],
+        selectedItemColor: Global.mediumBlue,
+      ),
+      body: _pages[_selectedTab],
+    );
   }
 
   Widget _widgetEmpty() {
@@ -122,7 +158,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _widgetContent(ListContentModel items) {
+  Widget _widgetLastContents(ListContentModel items) {
     return Column(children: [
       for (var i = 0; i < items.length; i++)
         ContentCard(

@@ -64,100 +64,95 @@ class _LoginState extends State<Login> {
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 250.0, left: 30.0, right: 30.0, bottom: 30.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextFieldWidget(
-                        hintText: 'E-mail',
-                        obscureText: false,
-                        prefixIconData: Icons.mail_outline,
-                        suffixIconData: Icons.check,
-                        onChanged: (value) {},
-                        onSaved: (input) => requestModel.email = input),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        TextFieldWidget(
-                            hintText: 'Senha',
-                            obscureText: true,
-                            prefixIconData: Icons.lock_outline,
-                            suffixIconData: Icons.visibility,
-                            onSaved: (input) => requestModel.password = input),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    ButtonWidget(
-                        title: 'Entrar',
-                        hasBorder: false,
-                        onTap: () async {
-                          if (validateAndSave()) {
-                           try{
-                            AlertDialogService().showLoader(context);
-                            await APIService().login(requestModel);
-                            AlertDialogService().closeLoader(context);
-                            Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return Home();
-                                }));
-
-                           }catch(e){
-                            AlertDialogService().closeLoader(context);
-                            AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
-                           }
-                            
-                          }
-                        }),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    const Text(
-                      'Esqueceu sua senha?',
-                      style: TextStyle(
-                        color: Color(0xff7098DA),
-                        decoration: TextDecoration.underline,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TextFieldWidget(
+                          hintText: 'E-mail',
+                          obscureText: false,
+                          prefixIconData: Icons.mail_outline,
+                          onChanged: (value) {},
+                          onSaved: (input) => requestModel.email = input),
+                      const SizedBox(
+                        height: 10.0,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Não tem conta? ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff909090),
-                          ),
+                      TextFieldWidget(
+                          hintText: 'Senha',
+                          obscureText: true,
+                          prefixIconData: Icons.lock_outline,
+                          onSaved: (input) => requestModel.password = input),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      ButtonWidget(
+                          title: 'Entrar',
+                          hasBorder: false,
+                          onTap: () async {
+                            if (validateAndSave()) {
+                             try{
+                              AlertDialogService().showLoader(context);
+                              await APIService().login(requestModel);
+                              AlertDialogService().closeLoader(context);
+                              Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) {
+                                    return Home();
+                                  }));
+                
+                             }catch(e){
+                              AlertDialogService().closeLoader(context);
+                              AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
+                             }
+                              
+                            }
+                          }),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      const Text(
+                        'Esqueceu sua senha?',
+                        style: TextStyle(
+                          color: Color(0xff7098DA),
+                          decoration: TextDecoration.underline,
                         ),
-                        InkWell(
-                          child: const Text(
-                            'Cadastre-se',
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Não tem conta? ',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xff7098DA),
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
+                              color: Color(0xff909090),
                             ),
                           ),
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return const Register();
-                            }));
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
+                          InkWell(
+                            child: const Text(
+                              'Cadastre-se',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xff7098DA),
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return const Register();
+                              }));
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

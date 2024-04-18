@@ -17,21 +17,27 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  late RegisterRequestModel requestModel;
+  late RegisterRequestModel _requestModel;
+  late bool _passwordVisible;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  final nameKey = GlobalKey<FormFieldState>();
+  final emailKey = GlobalKey<FormFieldState>();
+  final emailConfirmKey = GlobalKey<FormFieldState>();
+  final passwordKey = GlobalKey<FormFieldState>();
+
   bool isApiCallProcess = false;
 
    @override
   void initState() {
     super.initState();
-    requestModel = RegisterRequestModel();
+    _requestModel = RegisterRequestModel();
+    _passwordVisible = true;
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
-    
  
     return Scaffold(
       backgroundColor: Global.white,
@@ -69,44 +75,57 @@ class _RegisterState extends State<Register> {
                 child: ListView(
                   children: <Widget>[
                     TextFieldWidget(
+                      key: nameKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       hintText: 'Nome',
                       obscureText: false,
                       prefixIconData: Icons.account_circle_rounded,
-                      suffixIconData: Icons.check,
-                      onChanged: (value) {},
-                      onSaved: (input) => requestModel.name = input,
-                      validator: _validarNome,
+                      onChanged: _validateNome,
+                      onSaved: (input) => _requestModel.name = input,
+                      validator: _validateNome,
                     ),
                     const SizedBox(
                       height: 10.0,
                     ),
                     TextFieldWidget(
+                      key: emailKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       hintText: 'E-mail',
                       obscureText: false,
                       prefixIconData: Icons.mail_outline,
-                      suffixIconData: Icons.check,
-                      onChanged: (value) {},
-                      onSaved: (input) => requestModel.email = input
+                      onChanged: _validateEmail,
+                      onSaved: (input) => _requestModel.email = input,
+                      validator: _validateEmail,
                     ),
                     const SizedBox(
                       height: 10.0,
                     ),
                      TextFieldWidget(
+                      key: emailConfirmKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       hintText: 'Confirme seu e-mail',
                       obscureText: false,
                       prefixIconData: Icons.mail_outline,
-                      suffixIconData: Icons.check,
                       onChanged: (value) {},
-                      onSaved: (input) => requestModel.confirm_email = input),
+                      onSaved: (input) => _requestModel.confirm_email = input,
+                      validator:_validateEmail,),
                     const SizedBox(
                       height: 10.0,
                     ),
                    TextFieldWidget(
+                        key: passwordKey,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         hintText: 'Senha',
-                        obscureText: true,
+                        obscureText: _passwordVisible,
                         prefixIconData: Icons.lock_outline,
-                        suffixIconData: Icons.visibility,
-                        onSaved:(input) => requestModel.password = input
+                        suffixIcon:  GestureDetector(onTap: ()=> {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          })
+                        }, child: _passwordVisible? Icon(Icons.visibility): Icon(Icons.visibility_off),),
+                        onSaved:(input) => _requestModel.password = input,
+                        validator: _validatePassword,
+
                       ),
                     const SizedBox(
                       height: 50.0,
@@ -118,7 +137,7 @@ class _RegisterState extends State<Register> {
                           if (validateAndSave()) {
                            try{
                               AlertDialogService().showLoader(context);
-                              await APIService().register(requestModel);
+                              await APIService().register(_requestModel);
                               AlertDialogService().closeLoader(context);
                               Navigator.of(context)
                                       .push(MaterialPageRoute(builder: (context) {
@@ -164,7 +183,7 @@ bool validateAndSave() {
     }
     return false;
   }
-  String? _validarNome(String? value) {
+  String? _validateNome(String? value) {
     String patttern = r'(^[a-zA-Z ]*$)';
     RegExp regExp = new RegExp(patttern);
     
@@ -175,4 +194,30 @@ bool validateAndSave() {
     }
     return null;
   }
+
+  String? _validateEmail(String? value) {
+    String patttern = r'^\S+@\S+$';
+    RegExp regExp = new RegExp(patttern);
+    
+    if (value!.length == 0) {
+      return "Informe o e-mail";
+    } else if (!regExp.hasMatch(value)) {
+      return "E-mail inválido";
+    }
+    return null;
+  }
+
+   String? _validatePassword(String? value) {
+    String patttern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = new RegExp(patttern);
+    
+    if (value!.length == 0) {
+      return "Informe a senha";
+    } else if (!regExp.hasMatch(value)) {
+      return "A senha precisa ter:\n• Um caractere especial\n• Letra maiúscula\n• Letra minúscula\n• Um número\n• No mínimo oito caracteres";
+    }
+    return null;
+  }
+
+ 
 }

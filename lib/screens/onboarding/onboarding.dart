@@ -80,6 +80,9 @@ class OnBoarding extends StatelessWidget {
                   //   Navigator.push(context,
                   //       MaterialPageRoute(builder: (context) => const Login()));
                   // }),
+                    const SizedBox(
+                        height: 20.0,
+                      ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

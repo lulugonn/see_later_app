@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/global.dart';
+import 'package:see_later_app/screens/menu/menu.dart';
 
 class UserHeader extends StatelessWidget implements PreferredSizeWidget {
   const UserHeader(
-      {super.key, required this.appBarTitle, required this.comeback});
+      {super.key, required this.appBarTitle, required this.comeback, required this.showUser});
   final String appBarTitle;
   final bool comeback;
+  final bool showUser;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +29,25 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
           actions: [
             Padding(
                 padding: EdgeInsets.only(right: 20),
-                child: IconButton(
+                child: 
+                (showUser)?
+                IconButton(
                   icon: const Icon(
                     Icons.account_circle_rounded,
                     size: 40,
                     color: Global.grey,
                   ),
                   focusColor: Global.black,
-                  onPressed: () {},
-                ))
+                  onPressed: () {
+                    Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  return Menu();
+                                }));
+                  },
+                ):
+                Container()
+                
+                )
           ],
         ),
       ),

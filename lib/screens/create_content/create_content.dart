@@ -29,6 +29,7 @@ class _CreateContentState extends State<CreateContent> {
         appBar: const UserHeader(
           appBarTitle: 'Conteúdo',
           comeback: true,
+          showUser: true,
         ),
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,

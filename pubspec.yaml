@@ -42,6 +42,7 @@ dependencies:
   flutter_secure_storage: ^8.1.0
   flutter_expandable_fab: ^2.0.0
   intl: ^0.18.1
+  chips_choice: ^3.0.1
 
 dev_dependencies:
   flutter_test:
