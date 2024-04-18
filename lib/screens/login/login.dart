@@ -20,11 +20,16 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late LoginRequestModel requestModel;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  final emailKey = GlobalKey<FormFieldState>();
+  final passwordKey = GlobalKey<FormFieldState>();
+  late bool _passwordVisible;
+
 
   @override
   void initState() {
     super.initState();
     requestModel = LoginRequestModel();
+     _passwordVisible = true;
   }
 
   @override
@@ -70,6 +75,9 @@ class _LoginState extends State<Login> {
                     children: <Widget>[
                       TextFieldWidget(
                           hintText: 'E-mail',
+                          key: emailKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: _validateEmail,
                           obscureText: false,
                           prefixIconData: Icons.mail_outline,
                           onChanged: (value) {},
@@ -79,6 +87,14 @@ class _LoginState extends State<Login> {
                       ),
                       TextFieldWidget(
                           hintText: 'Senha',
+                          validator: _validatePassword,
+                          key: passwordKey,
+                          suffixIcon:  GestureDetector(onTap: ()=> {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          })
+                        }, child: _passwordVisible? Icon(Icons.visibility): Icon(Icons.visibility_off),),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           obscureText: true,
                           prefixIconData: Icons.lock_outline,
                           onSaved: (input) => requestModel.password = input),
@@ -172,4 +188,25 @@ class _LoginState extends State<Login> {
     }
     return false;
   }
+
+   String? _validateEmail(String? value) {
+    String patttern = r'^\S+@\S+$';
+    RegExp regExp = new RegExp(patttern);
+    
+    if (value!.length == 0) {
+      return "Informe o e-mail";
+    } else if (!regExp.hasMatch(value)) {
+      return "E-mail inválido";
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+   
+    if (value!.length == 0) {
+      return "Informe a senha";
+    }
+    return null;
+  }
+
 }
