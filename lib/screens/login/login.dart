@@ -89,13 +89,13 @@ class _LoginState extends State<Login> {
                           hintText: 'Senha',
                           validator: _validatePassword,
                           key: passwordKey,
+                          obscureText: _passwordVisible,
                           suffixIcon:  GestureDetector(onTap: ()=> {
                           setState(() {
                             _passwordVisible = !_passwordVisible;
                           })
                         }, child: _passwordVisible? Icon(Icons.visibility): Icon(Icons.visibility_off),),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          obscureText: true,
                           prefixIconData: Icons.lock_outline,
                           onSaved: (input) => requestModel.password = input),
                       SizedBox(
