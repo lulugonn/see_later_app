@@ -1,18 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/screens/menu/menu.dart';
 
-class UserHeader extends StatelessWidget implements PreferredSizeWidget {
+class UserHeader extends StatefulWidget implements PreferredSizeWidget {
   const UserHeader(
-      {super.key, required this.appBarTitle, required this.comeback, required this.showUser});
+      {super.key,
+      required this.appBarTitle,
+      required this.comeback,
+      required this.showUser});
   final String appBarTitle;
   final bool comeback;
   final bool showUser;
 
   @override
+  State<UserHeader> createState() => _UserHeaderState();
+
+  @override
+// TODO: implement preferredSize
+  Size get preferredSize => throw UnimplementedError();
+}
+
+class _UserHeaderState extends State<UserHeader> {
+  late Future<String?> _name;
+
+  Future<String?> _getName() async {
+    return _name = AuthController.getName();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getName();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: preferredSize,
+      preferredSize: const Size.fromHeight(100),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: AppBar(
@@ -21,33 +46,30 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
           flexibleSpace: Container(),
           toolbarHeight: 120,
-          automaticallyImplyLeading: comeback,
+          automaticallyImplyLeading: widget.comeback,
           elevation: 0,
           backgroundColor: Global.white,
-          title: Text(appBarTitle,
+          title: Text(widget.appBarTitle,
               style: TextStyle(fontSize: 20, color: Global.black)),
           actions: [
             Padding(
                 padding: EdgeInsets.only(right: 20),
-                child: 
-                (showUser)?
-                IconButton(
-                  icon: const Icon(
-                    Icons.account_circle_rounded,
-                    size: 40,
-                    color: Global.grey,
-                  ),
-                  focusColor: Global.black,
-                  onPressed: () {
-                    Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return Menu();
-                                }));
-                  },
-                ):
-                Container()
-                
-                )
+                child: (widget.showUser)
+                    ? IconButton(
+                        icon: const Icon(
+                          Icons.account_circle_rounded,
+                          size: 40,
+                          color: Global.grey,
+                        ),
+                        focusColor: Global.black,
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return Menu();
+                          }));
+                        },
+                      )
+                    : Container())
           ],
         ),
       ),
@@ -61,7 +83,5 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
     // );
   }
 
-  @override
-// TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(100);
+
 }

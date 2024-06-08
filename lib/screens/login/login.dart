@@ -19,9 +19,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   late LoginRequestModel requestModel;
-  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  final emailKey = GlobalKey<FormFieldState>();
-  final passwordKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  final TextEditingController _loginEmailKey = TextEditingController();
+  final TextEditingController _loginPasswordKey = TextEditingController();
   late bool _passwordVisible;
 
 
@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             Form(
-              key: globalFormKey,
+              key: _loginFormKey,
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 250.0, left: 30.0, right: 30.0, bottom: 30.0),
@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                     children: <Widget>[
                       TextFieldWidget(
                           hintText: 'E-mail',
-                          key: emailKey,
+                          controller: _loginEmailKey ,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: _validateEmail,
                           obscureText: false,
@@ -88,7 +88,7 @@ class _LoginState extends State<Login> {
                       TextFieldWidget(
                           hintText: 'Senha',
                           validator: _validatePassword,
-                          key: passwordKey,
+                          controller: _loginPasswordKey,
                           obscureText: _passwordVisible,
                           suffixIcon:  GestureDetector(onTap: ()=> {
                           setState(() {
@@ -181,7 +181,7 @@ class _LoginState extends State<Login> {
   }
 
   bool validateAndSave() {
-    final form = globalFormKey.currentState;
+    final form = _loginFormKey.currentState;
     if (form!.validate()) {
       form.save();
       return true;

@@ -19,11 +19,11 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   late RegisterRequestModel _requestModel;
   late bool _passwordVisible;
-  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  final nameKey = GlobalKey<FormFieldState>();
-  final emailKey = GlobalKey<FormFieldState>();
-  final emailConfirmKey = GlobalKey<FormFieldState>();
-  final passwordKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormState> _registerFormKey  = GlobalKey<FormState>();
+  final TextEditingController _registerNameKey = TextEditingController();
+  final TextEditingController _registerEmailKey = TextEditingController();
+  final TextEditingController _registerEmailConfirmKey = TextEditingController();
+  final TextEditingController _registerPasswordKey = TextEditingController();
 
   bool isApiCallProcess = false;
 
@@ -70,12 +70,12 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.only(
                 top: 250.0, left: 30.0, right: 30.0, bottom: 30.0),
             child: Form(
-              key: globalFormKey,
+              key: _registerFormKey,
               child: Center(
                 child: ListView(
                   children: <Widget>[
                     TextFieldWidget(
-                      key: nameKey,
+                      controller: _registerNameKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       hintText: 'Nome',
                       obscureText: false,
@@ -88,7 +88,7 @@ class _RegisterState extends State<Register> {
                       height: 10.0,
                     ),
                     TextFieldWidget(
-                      key: emailKey,
+                      controller: _registerEmailKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       hintText: 'E-mail',
                       obscureText: false,
@@ -101,7 +101,7 @@ class _RegisterState extends State<Register> {
                       height: 10.0,
                     ),
                      TextFieldWidget(
-                      key: emailConfirmKey,
+                      controller: _registerEmailConfirmKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       hintText: 'Confirme seu e-mail',
                       obscureText: false,
@@ -113,7 +113,7 @@ class _RegisterState extends State<Register> {
                       height: 10.0,
                     ),
                    TextFieldWidget(
-                        key: passwordKey,
+                        controller: _registerPasswordKey,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         hintText: 'Senha',
                         obscureText: _passwordVisible,
@@ -176,7 +176,7 @@ class _RegisterState extends State<Register> {
   
 }
 bool validateAndSave() {
-    final form = globalFormKey.currentState;
+    final form = _registerFormKey.currentState;
     if (form!.validate()) {
       form.save();
       return true;

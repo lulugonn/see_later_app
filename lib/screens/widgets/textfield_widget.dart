@@ -13,9 +13,11 @@ class TextFieldWidget extends StatelessWidget {
   final int? maxLines;
   final AutovalidateMode? autovalidateMode;
   final Widget? suffixIcon;
+  final TextEditingController? controller;
 
   const TextFieldWidget(
       {super.key,
+      this.controller,
       this.onSaved,
       this.validator,
       required this.hintText,
@@ -33,6 +35,7 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       key: key,
+      controller: controller,
       autovalidateMode: autovalidateMode,
       initialValue: initialValue ?? null,
       onSaved: onSaved,

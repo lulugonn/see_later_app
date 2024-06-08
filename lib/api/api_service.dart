@@ -16,6 +16,7 @@ class APIService {
       final response = await dio.post('$url/auth/sign-in', data: requestModel.toJson());
       if (response.statusCode == 200) {
         await AuthController.setToken(response.data['token']);
+        // await AuthController.setName(response.data['name']);
       }
     }on DioException catch (e) {
       if(e.response != null){
@@ -41,6 +42,7 @@ class APIService {
       final response = await dio.post('$url/auth/sign-up', data: requestModel.toJson());
       if (response.statusCode == 200) {
           await AuthController.setToken(response.data['token']);
+          await AuthController.setName(response.data['name']);
       }
     }on DioException catch (e) {
       if(e.response != null){

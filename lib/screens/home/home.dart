@@ -53,47 +53,44 @@ class _HomeState extends State<Home> {
                     appBarTitle: 'Olá, Marcela!',
                     showUser: true,
                   ),
-                  body: SingleChildScrollView(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Column(
-                      children: [
-                        ProgressCard(),
-                        Padding(
-                          padding: EdgeInsets.only(top: 40, bottom: 16),
-                          child: Row(
-                            children: const [
-                              Text(
-                                'Últimos Conteúdos Salvos',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        (items?.length != 0)
-                            ? _widgetLastContents(items!)
-                            : _widgetEmpty()
-                      ],
-                    ),
-                  )));
+                  body: Container()
+                  // body: SingleChildScrollView(
+                  //     child: Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  //   child: Column(
+                  //     children: [
+                  //       (items!= null && items.length != 0)
+                  //           ? ProgressCard(): Container(),
+                  //       Padding(
+                  //         padding: EdgeInsets.only(top: 40, bottom: 16),
+                  //         child: Row(
+                  //           children: const [
+                  //             Text(
+                  //               'Últimos Conteúdos Salvos',
+                  //               style: TextStyle(
+                  //                 fontWeight: FontWeight.bold,
+                  //                 fontSize: 18,
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       (items!= null && items.length != 0)
+                  //           ? _widgetLastContents(items)
+                  //           : _widgetEmpty()
+                  //     ],
+                  //   ),
+                  // ))
+                  );
             } else {
               return Container();
             }
           }),
       Center(
-        child: Text("About"),
+        child: CreateContent(),
       ),
       Center(
         child: SearchContent(),
-      ),
-      Center(
-        child: Text("Contact"),
-      ),
-      Center(
-        child: Text("Settings"),
       ),
     ];
 
