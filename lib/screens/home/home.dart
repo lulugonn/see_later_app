@@ -43,13 +43,8 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               final items = snapshot.data;
-              return  Scaffold(
-                appBar: UserHeader(
-                    comeback: false,
-                    appBarTitle: 'Olá, Marcela!',
-                    showUser: true,
-                  ),
-                body: SingleChildScrollView(
+              return  
+                SingleChildScrollView(
                   
                         child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -76,8 +71,8 @@ class _HomeState extends State<Home> {
                               : _widgetEmpty()
                         ],
                       ),
-                    )),
-              );
+                    ));
+              
                   
             } else {
               return Container();
