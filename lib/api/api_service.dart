@@ -181,6 +181,9 @@ class APIService {
       final response = await dio.get('$url/content/progress');
       if(response.statusCode == 200){
         double progress = double.parse(response.data);
+        if(progress == 1.00){
+          return 1.00;
+        }
         return progress * 0.01;
       }else{
         return 0.0;
