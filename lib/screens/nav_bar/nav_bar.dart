@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
-import 'package:see_later_app/screens/create_content/create_content.dart';
 import 'package:see_later_app/screens/Home/widgets/content_card.dart';
-import 'package:see_later_app/screens/Home/widgets/content_form.dart';
-import 'package:see_later_app/screens/Home/widgets/progress_card.dart';
 import 'package:see_later_app/screens/home/home.dart';
-import 'package:see_later_app/screens/search_content/search_content.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class NavBar extends StatefulWidget {
@@ -22,14 +18,15 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   late Future<ListContentModel?> _listContent;
-   int _currentIndex = 0;
-    bool comeback = false, showUser = true;
+  int _currentIndex = 0;
+  bool comeback = false, showUser = true;
+  String appBarTitle = 'ola';
 
-    final List<Widget> _screens = [
-      const Home(),
-      Container(),
-      Container(),
-    ];
+  final List<Widget> _screens = [
+    const Home(),
+    Container(),
+    Container(),
+  ];
 
   Future<ListContentModel?> _getLastContents() async {
     return _listContent = APIService().getLastContents();
@@ -43,14 +40,12 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Global.white,
-      appBar:  UserHeader(
-                    comeback: comeback,
-                    appBarTitle: 'Olá, Marcela!',
-                    showUser: showUser,
-      
+      appBar: UserHeader(
+        comeback: comeback,
+        appBarTitle: appBarTitle,
+        showUser: showUser,
       ),
       // floatingActionButtonLocation:  FloatingActionButtonLocation.centerDocked,
       // floatingActionButton: FloatingActionButton(
@@ -78,13 +73,14 @@ class _NavBarState extends State<NavBar> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            if(index!= 0){
+            if (index != 0) {
               comeback = true;
+              appBarTitle = '';
               showUser = false;
-            }else{
+            } else {
+              appBarTitle = 'ola';
               comeback = false;
-                            showUser = true;
-
+              showUser = true;
             }
           });
         },

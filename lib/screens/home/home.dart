@@ -24,7 +24,8 @@ class _HomeState extends State<Home> {
   late Future<ListContentModel?> _listContent;
 
   Future<ListContentModel?> _getLastContents() async {
-    return _listContent = APIService().getLastContents();
+    return _listContent =
+         APIService().getLastContents();
   }
 
   @override
@@ -33,51 +34,45 @@ class _HomeState extends State<Home> {
     _getLastContents();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    
-    return   FutureBuilder<ListContentModel?>(
-          future: _listContent,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              final items = snapshot.data;
-              return  
-                SingleChildScrollView(
-                  
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          (items!= null && items.length != 0)
-                              ? ProgressCard(): Container(),
-                          Padding(
-                            padding: EdgeInsets.only(top: 40, bottom: 16),
-                            child: Row(
-                              children: const [
-                                Text(
-                                  'Últimos Conteúdos Salvos',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
+    return FutureBuilder<ListContentModel?>(
+        future: _listContent,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            final items = snapshot.data;
+            return SingleChildScrollView(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Column(
+                children: [
+                  (items != null && items.length != 0)
+                      ? ProgressCard()
+                      : Container(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 40, bottom: 16),
+                    child: Row(
+                      children: const [
+                        Text(
+                          'Últimos Conteúdos Salvos',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
-                          (items!= null && items.length != 0)
-                              ? _widgetLastContents(items)
-                              : _widgetEmpty()
-                        ],
-                      ),
-                    ));
-              
-                  
-            } else {
-              return Container();
-            }
-          });
+                        ),
+                      ],
+                    ),
+                  ),
+                  (items != null && items.length != 0)
+                      ? _widgetLastContents(items)
+                      : _widgetEmpty()
+                ],
+              ),
+            ));
+          } else {
+            return Container();
+          }
+        });
   }
 
   Widget _widgetEmpty() {
