@@ -99,6 +99,8 @@ class _NavBarState extends State<NavBar> {
             label: '',
           ),
         ],
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         selectedItemColor: Global.mediumBlue,
       ),
     );
