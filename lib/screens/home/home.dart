@@ -33,111 +33,56 @@ class _HomeState extends State<Home> {
     _getLastContents();
   }
 
-  _changeTab(int index) {
-    setState(() {
-      _selectedTab = index;
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    List _pages = [
-      FutureBuilder<ListContentModel?>(
+    
+    return   FutureBuilder<ListContentModel?>(
           future: _listContent,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               final items = snapshot.data;
-              return Scaffold(
-                  appBar: const UserHeader(
+              return  Scaffold(
+                appBar: UserHeader(
                     comeback: false,
                     appBarTitle: 'Olá, Marcela!',
                     showUser: true,
                   ),
-                  body: Container()
-                  // body: SingleChildScrollView(
-                  //     child: Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  //   child: Column(
-                  //     children: [
-                  //       (items!= null && items.length != 0)
-                  //           ? ProgressCard(): Container(),
-                  //       Padding(
-                  //         padding: EdgeInsets.only(top: 40, bottom: 16),
-                  //         child: Row(
-                  //           children: const [
-                  //             Text(
-                  //               'Últimos Conteúdos Salvos',
-                  //               style: TextStyle(
-                  //                 fontWeight: FontWeight.bold,
-                  //                 fontSize: 18,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       (items!= null && items.length != 0)
-                  //           ? _widgetLastContents(items)
-                  //           : _widgetEmpty()
-                  //     ],
-                  //   ),
-                  // ))
-                  );
+                body: SingleChildScrollView(
+                  
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Column(
+                        children: [
+                          (items!= null && items.length != 0)
+                              ? ProgressCard(): Container(),
+                          Padding(
+                            padding: EdgeInsets.only(top: 40, bottom: 16),
+                            child: Row(
+                              children: const [
+                                Text(
+                                  'Últimos Conteúdos Salvos',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          (items!= null && items.length != 0)
+                              ? _widgetLastContents(items)
+                              : _widgetEmpty()
+                        ],
+                      ),
+                    )),
+              );
+                  
             } else {
               return Container();
             }
-          }),
-      Center(
-        child: CreateContent(),
-      ),
-      Center(
-        child: SearchContent(),
-      ),
-    ];
-
-    return Scaffold(
-      backgroundColor: Global.white,
-      // floatingActionButtonLocation:  FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Global.mediumBlue,
-      //   tooltip: 'Criar novo conteúdo',
-      //   onPressed: () {
-      //     showModalBottomSheet(
-      //       context: context,
-      //       builder: (builder) {
-      //         return  const CreateContent();
-      //       },
-      //       isScrollControlled: true,
-      //       backgroundColor: Colors.white,
-      //       shape: const RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
-      //       ),
-      //     );
-      //   },
-      //   child: const Icon(Icons.add, color: Colors.white, size: 28),
-      // ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _selectedTab,
-        onTap: (index) => _changeTab(index),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Página inicial',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: 'Criar novo conteúdo',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.format_list_bulleted),
-            label: 'Menu',
-          ),
-        ],
-        selectedItemColor: Global.mediumBlue,
-      ),
-      body: _pages[_selectedTab],
-    );
+          });
   }
 
   Widget _widgetEmpty() {

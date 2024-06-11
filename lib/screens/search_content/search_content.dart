@@ -108,7 +108,7 @@ class _SearchContentState extends State<SearchContent> {
           if (snapshot.connectionState == ConnectionState.done) {
             final items = snapshot.data;
             return Scaffold(
-                appBar: const UserHeader(
+                appBar: UserHeader(
                   comeback: false,
                   appBarTitle: '',
                   showUser: true,

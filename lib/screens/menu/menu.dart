@@ -13,7 +13,7 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  const UserHeader(
+      appBar:  UserHeader(
           appBarTitle: 'Menu',
           comeback: true,
           showUser: false,

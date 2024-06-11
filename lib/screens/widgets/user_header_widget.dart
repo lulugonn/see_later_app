@@ -4,7 +4,7 @@ import 'package:see_later_app/global.dart';
 import 'package:see_later_app/screens/menu/menu.dart';
 
 class UserHeader extends StatefulWidget implements PreferredSizeWidget {
-  const UserHeader(
+   UserHeader(
       {super.key,
       required this.appBarTitle,
       required this.comeback,
@@ -18,7 +18,8 @@ class UserHeader extends StatefulWidget implements PreferredSizeWidget {
 
   @override
 // TODO: implement preferredSize
-  Size get preferredSize => throw UnimplementedError();
+    Size get preferredSize => const Size.fromHeight(kToolbarHeight + 50);
+
 }
 
 class _UserHeaderState extends State<UserHeader> {
@@ -37,15 +38,14 @@ class _UserHeaderState extends State<UserHeader> {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(100),
+      preferredSize: const Size.fromHeight(300),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 30),
         child: AppBar(
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
           flexibleSpace: Container(),
-          toolbarHeight: 120,
           automaticallyImplyLeading: widget.comeback,
           elevation: 0,
           backgroundColor: Global.white,

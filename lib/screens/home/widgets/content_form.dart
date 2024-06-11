@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/screens/home/home.dart';
+import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
@@ -95,7 +96,7 @@ class _ContentFormState extends State<ContentForm> {
       await APIService().registerContent(order);
       AlertDialogService().closeLoader(context);
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return const Home();
+        return const NavBar();
       }));
       AlertDialogService().showAlertDefault(context, 'Parabéns!','Conteúdo criado com sucesso!');
      

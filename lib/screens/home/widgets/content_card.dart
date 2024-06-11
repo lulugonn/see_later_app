@@ -5,6 +5,7 @@ import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/screens/edit_content/edit_content.dart';
 import 'package:see_later_app/screens/home/home.dart';
+import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class ContentCard extends StatefulWidget {
@@ -132,7 +133,7 @@ class _ContentCardState extends State<ContentCard> {
                   AlertDialogService().closeLoader(context);
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return const Home();
+                    return const NavBar();
                   }));
                   AlertDialogService().showAlertDefault(
                       context, 'Sucesso!', 'Conteúdo deletado!');

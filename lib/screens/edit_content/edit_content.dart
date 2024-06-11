@@ -5,6 +5,7 @@ import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/models/list_content_model.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
+import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
@@ -22,7 +23,7 @@ class _EditContentState extends State<EditContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const UserHeader(
+      appBar:  UserHeader(
                       appBarTitle: 'Conteúdo',
                       comeback: true,
                       showUser: true,
@@ -211,7 +212,7 @@ class _EditContentState extends State<EditContent> {
       await APIService().updateContent(widget.content);
       AlertDialogService().closeLoader(context);
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return const Home();
+        return const NavBar();
       }));
       AlertDialogService().showAlertDefault(
           context, 'Parabéns!', 'Conteúdo atualizado com sucesso!');

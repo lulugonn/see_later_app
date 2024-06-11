@@ -3,6 +3,7 @@ import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/screens/home/home.dart';
+import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
@@ -26,7 +27,7 @@ class _CreateContentState extends State<CreateContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const UserHeader(
+        appBar:  UserHeader(
           appBarTitle: 'Conteúdo',
           comeback: true,
           showUser: true,
@@ -162,7 +163,7 @@ class _CreateContentState extends State<CreateContent> {
       await APIService().registerContent(order);
       AlertDialogService().closeLoader(context);
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return const Home();
+        return const NavBar();
       }));
       AlertDialogService().showAlertDefault(
           context, 'Parabéns!', 'Conteúdo criado com sucesso!');
