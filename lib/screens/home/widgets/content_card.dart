@@ -6,6 +6,7 @@ import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/screens/edit_content/edit_content.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
+import 'package:see_later_app/screens/view_content/view_content.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class ContentCard extends StatefulWidget {
@@ -43,6 +44,26 @@ class _ContentCardState extends State<ContentCard> {
             ),
           ),
           child: ListTile(
+            onTap: () {
+                        Future.delayed(
+                            Duration.zero,
+                            () => Navigator.of(context).push(
+                                    // PageTransition(
+                                    //   child: EditContent(
+                                    //     content: widget.content,
+                                    //   ),
+                                    //   type: PageTransitionType
+                                    //       .leftToRight, // Tipo de animação
+                                    //   duration: Duration(
+                                    //       milliseconds:
+                                    //           500), // Duração da animação
+                                    // ),
+                                    MaterialPageRoute(builder: (context) {
+                                  return ViewContent(
+                                    content: widget.content,
+                                  );
+                                })));
+                      },
             contentPadding: EdgeInsets.all(0),
             leading: Container(
               padding: EdgeInsets.all(8.0),

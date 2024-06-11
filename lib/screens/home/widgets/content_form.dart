@@ -28,7 +28,7 @@ class _ContentFormState extends State<ContentForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-                padding: EdgeInsets.all(40),
+                padding: EdgeInsets.all(20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -61,6 +61,19 @@ class _ContentFormState extends State<ContentForm> {
                         onChanged: (value) {
                           setState(() {
                             order.url = value;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: TextFieldWidget(
+                        hintText: 'Tipo',
+                        obscureText: false,
+                        prefixIconData: Icons.link,
+                        onChanged: (value) {
+                          setState(() {
+                            order.type = value;
                           });
                         },
                       ),

@@ -4,6 +4,7 @@ import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
 import 'package:see_later_app/screens/Home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/home.dart';
+import 'package:see_later_app/screens/home/widgets/content_form.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class NavBar extends StatefulWidget {
@@ -24,7 +25,7 @@ class _NavBarState extends State<NavBar> {
 
   final List<Widget> _screens = [
     const Home(),
-    Container(),
+    const ContentForm(),
     Container(),
   ];
 
@@ -87,15 +88,15 @@ class _NavBarState extends State<NavBar> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Página inicial',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_circle),
-            label: 'Criar novo conteúdo',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.format_list_bulleted),
-            label: 'Menu',
+            label: '',
           ),
         ],
         selectedItemColor: Global.mediumBlue,
