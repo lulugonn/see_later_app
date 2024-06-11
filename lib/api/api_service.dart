@@ -174,6 +174,35 @@ class APIService {
     }
   }
 
+  Future<double?> getProgress() async {
+    try {
+      String? token = await AuthController.getToken();
+      dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await dio.get('$url/content/progress');
+      if(response.statusCode == 200){
+        double progress = double.parse(response.data);
+        return progress * 0.01;
+      }else{
+        return 0.0;
+      }
+    }on DioException catch (e) {
+      if(e.response != null){
+        var errorMessage =  e.response!.data['message'];
+        var message = '';
+        if(errorMessage is List){
+          for (var item in errorMessage) {
+            message += ('- $item\n');
+          }
+        }else{
+          message = errorMessage;
+        }
+        throw message;
+      }else{
+        throw 'Ocorreu um erro inesperado';
+      }
+    }
+  }
+
   Future<String?> updateContent(ContentModel requestModel) async {
     try {
       String? token = await AuthController.getToken();

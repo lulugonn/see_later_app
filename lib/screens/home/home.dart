@@ -28,6 +28,8 @@ class _HomeState extends State<Home> {
          APIService().getLastContents();
   }
 
+  
+
   @override
   void initState() {
     super.initState();
