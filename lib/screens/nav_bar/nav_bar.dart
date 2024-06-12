@@ -74,14 +74,22 @@ class _NavBarState extends State<NavBar> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            if (index != 0) {
-              comeback = true;
-              appBarTitle = '';
-              showUser = false;
-            } else {
-              appBarTitle = 'ola';
-              comeback = false;
-              showUser = true;
+            switch (_currentIndex) {
+              case 0:
+                appBarTitle = 'ola';
+                comeback = false;
+                showUser = true;
+                break;
+              case 1:
+                comeback = true;
+                appBarTitle = 'Salvar Novo Conteúdo';
+                showUser = true;
+                break;
+              case 2:
+                comeback = true;
+                appBarTitle = 'Salvar Novo Conteúdo';
+                showUser = false;
+                break;
             }
           });
         },

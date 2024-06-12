@@ -11,6 +11,7 @@ class TextFieldWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final int? maxLines;
+  final int? minLines;
   final AutovalidateMode? autovalidateMode;
   final Widget? suffixIcon;
   final TextEditingController? controller;
@@ -29,6 +30,7 @@ class TextFieldWidget extends StatelessWidget {
       this.maxLines,
       this.autovalidateMode,
       this.suffixIcon,
+      this.minLines,
       });
 
   @override
@@ -42,7 +44,8 @@ class TextFieldWidget extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       obscureText: obscureText,
-      maxLines: maxLines?? 1 ,
+      minLines: minLines,
+      maxLines: maxLines ,
       keyboardType: keyboardType,
       style: const TextStyle(
         color: Global.mediumBlue,
