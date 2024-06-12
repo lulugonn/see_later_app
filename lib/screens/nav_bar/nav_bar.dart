@@ -20,7 +20,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late Future<ListContentModel?> _listContent;
   int _currentIndex = 0;
-  bool comeback = false, showUser = true;
+  bool showUser = true;
   String appBarTitle = 'ola';
 
   final List<Widget> _screens = [
@@ -44,7 +44,7 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       backgroundColor: Global.white,
       appBar: UserHeader(
-        comeback: comeback,
+        comeback: false,
         appBarTitle: appBarTitle,
         showUser: showUser,
       ),
@@ -77,16 +77,13 @@ class _NavBarState extends State<NavBar> {
             switch (_currentIndex) {
               case 0:
                 appBarTitle = 'ola';
-                comeback = false;
                 showUser = true;
                 break;
               case 1:
-                comeback = true;
                 appBarTitle = 'Salvar Novo Conteúdo';
                 showUser = true;
                 break;
               case 2:
-                comeback = true;
                 appBarTitle = 'Salvar Novo Conteúdo';
                 showUser = false;
                 break;

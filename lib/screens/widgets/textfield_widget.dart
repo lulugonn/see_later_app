@@ -44,8 +44,8 @@ class TextFieldWidget extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       obscureText: obscureText,
-      minLines: minLines,
-      maxLines: maxLines ,
+      minLines: minLines?? 1,
+      maxLines: maxLines?? 1,
       keyboardType: keyboardType,
       style: const TextStyle(
         color: Global.mediumBlue,

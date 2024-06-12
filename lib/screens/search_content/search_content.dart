@@ -61,7 +61,7 @@ class _SearchContentState extends State<SearchContent> {
                 width: 10,
               ),
               Text(previousSearchs[index],
-                  style: Theme.of(context).textTheme.bodyText2!),
+                  style: Theme.of(context).textTheme.bodyLarge!),
               const Spacer(),
               const Icon(
                 Icons.close,
@@ -134,21 +134,21 @@ class _SearchContentState extends State<SearchContent> {
                         children: [
                           Flexible(
                             child: Container(
-                              child: SearchBar(
-                                onFocusChange: (onFocus) => {
-                                  setState(() {
-                                    focusInput = onFocus!;
-                                  }),
-                                },
-                                controller: searchController,
-                                prefixOnPressed: _getContent,
-                                suffixOnPressed: () => {
-                                  setState(() {
-                                    searchController.text = "";
-                                    showFilter = false;
-                                  }),
-                                },
-                              ),
+                              // child: SearchBar(
+                              //   onFocusChange: (onFocus) => {
+                              //     setState(() {
+                              //       focusInput = onFocus!;
+                              //     }),
+                              //   },
+                              //   controller: searchController,
+                              //   prefixOnPressed: _getContent,
+                              //   suffixOnPressed: () => {
+                              //     setState(() {
+                              //       searchController.text = "";
+                              //       showFilter = false;
+                              //     }),
+                              //   },
+                              // ),
                             ),
                           ),
                           IconButton(

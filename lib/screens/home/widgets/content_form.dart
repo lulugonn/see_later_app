@@ -1,7 +1,8 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
+import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
-import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
@@ -16,6 +17,7 @@ class ContentForm extends StatefulWidget {
 
 class _ContentFormState extends State<ContentForm> {
   late ContentModel order;
+  late String selected = 'Luaa';
   final GlobalKey<FormState> _contentFormKey = GlobalKey<FormState>();
   final TextEditingController _contentTitleKey = TextEditingController();
   final TextEditingController _contentTypeKey = TextEditingController();
@@ -60,14 +62,29 @@ class _ContentFormState extends State<ContentForm> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
-              child: TextFieldWidget(
-                  hintText: 'Tipo',
-                  obscureText: false,
-                  prefixIconData: Icons.filter_alt_outlined,
-                  controller: _contentLinkKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: DropdownSearch<String>(
+                popupProps: PopupProps.menu(
+                  showSelectedItems: true,
+                ),
+                items: ["Site", "Artigo", "Vídeo", 'Imagem'],
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                  
+                  dropdownSearchDecoration: InputDecoration(
+                    labelText: "Tipo",
+                    hintText: "Tipo",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Global.black, width: 0.5),
+                    ),
+                    fillColor: Global.white,
+                    filled: true,
+                    prefixIcon:Icon(Icons.filter_alt_outlined),
+                  ),
+                ),
+                autoValidateMode: AutovalidateMode.onUserInteraction,
                   validator: _validateInput,
-                  onSaved: (input) => order.type = input),
+                  onSaved: (input) => order.type = input,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
@@ -85,7 +102,7 @@ class _ContentFormState extends State<ContentForm> {
               child: TextFieldWidget(
                   minLines: 6,
                   keyboardType: TextInputType.multiline,
-                  maxLines: null,
+                  maxLines: 9,
                   hintText: 'Descrição',
                   obscureText: false,
                   prefixIconData: Icons.info,
@@ -180,7 +197,7 @@ class _ContentFormState extends State<ContentForm> {
   }
 
   String? _validateInput(String? value) {
-    if (value!.length == 0) {
+    if (value == null || value!.length == 0) {
       return "Por favor, preencha os dados";
     }
     return null;

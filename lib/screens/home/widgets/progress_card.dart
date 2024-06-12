@@ -37,9 +37,12 @@ class _ProgressCardState extends State<ProgressCard>
       future: _progress,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircularProgressIndicator(),
+          ));
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Erro inesperada: ${snapshot.error}'));
         } else if (snapshot.hasData) {
           double progressValue = snapshot.data ?? 0.0;
           if (progressValue != 0) {
