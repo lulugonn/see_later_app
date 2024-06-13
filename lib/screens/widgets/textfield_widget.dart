@@ -49,7 +49,7 @@ class TextFieldWidget extends StatelessWidget {
       keyboardType: keyboardType,
       style: const TextStyle(
         color: Global.mediumBlue,
-        fontSize: 14.0,
+        fontSize: 12.0,
       ),
       cursorColor: Global.mediumBlue,
       decoration: InputDecoration(

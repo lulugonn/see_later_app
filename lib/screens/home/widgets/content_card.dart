@@ -27,12 +27,13 @@ class _ContentCardState extends State<ContentCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Global.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -75,7 +76,7 @@ class _ContentCardState extends State<ContentCard> {
             title: Text(widget.content.title!,
                 style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
+              padding: const EdgeInsets.only(bottom: 0.0),
               child: Text(
                 widget.content.type?? '',
                 style: TextStyle(
