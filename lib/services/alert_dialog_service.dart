@@ -24,7 +24,7 @@ class AlertDialogService {
       context: context,
       builder: (BuildContext context) {
         // retorna um objeto do tipo Dialog
-        return AlertDialog(
+        return AlertDialog.adaptive(
           title: Text(title ?? 'Atenção!'),
           content: Text(content ?? 'Ocorreu um erro insperado.'),
           actions: <Widget>[
