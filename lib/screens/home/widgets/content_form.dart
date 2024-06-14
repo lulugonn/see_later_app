@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
@@ -99,6 +100,27 @@ class _ContentFormState extends State<ContentForm> {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: _validateInput,
                   onSaved: (input) => order.notes = input),
+            ),
+            InkWell(
+              onTap: 
+                 () async {
+              final result = await showOkCancelAlertDialog(
+                context: context,
+                title: 'Title',
+                message: 'This is message.',
+              );
+              },
+              child: Row(
+                        children: const [
+                          Text(
+                            'Tags:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
             ),
             ButtonWidget(
                 title: 'Salvar',
