@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
-import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
-import 'package:see_later_app/screens/create_content/create_content.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
-import 'package:see_later_app/screens/home/widgets/content_form.dart';
 import 'package:see_later_app/screens/home/widgets/progress_card.dart';
-import 'package:see_later_app/screens/search_content/search_content.dart';
-import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

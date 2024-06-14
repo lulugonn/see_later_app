@@ -38,17 +38,6 @@ class _ContentFormState extends State<ContentForm> {
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(children: [
-            Row(
-              children: const [
-                Text(
-                  'Conteúdo',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
               child: TextFieldWidget(

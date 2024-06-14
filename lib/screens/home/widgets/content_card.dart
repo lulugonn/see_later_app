@@ -4,7 +4,6 @@ import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/screens/edit_content/edit_content.dart';
-import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/view_content/view_content.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';

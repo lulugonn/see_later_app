@@ -80,7 +80,7 @@ class _NavBarState extends State<NavBar> {
                 showUser = true;
                 break;
               case 1:
-                appBarTitle = 'Salvar Novo Conteúdo';
+                appBarTitle = 'Salvar Conteúdo';
                 showUser = true;
                 break;
               case 2:

@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/register_model.dart';
-import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';

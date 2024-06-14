@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.19.0
   chips_choice: ^3.0.1
   dropdown_search: ^5.0.6
+  adaptive_dialog: ^2.1.0
 
 dev_dependencies:
   flutter_test:
