@@ -60,6 +60,7 @@ class TextFieldWidget extends StatelessWidget {
         fillColor: Global.white,
         filled: true,
         labelText: hintText,
+        labelStyle: TextStyle(fontSize: 13),
         prefixIcon: Icon(prefixIconData, size: 18),
         suffixIcon: suffixIcon,
           

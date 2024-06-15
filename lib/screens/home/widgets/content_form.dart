@@ -1,9 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:material_tag_editor/tag_editor.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
+import 'package:see_later_app/screens/home/widgets/_chip.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
@@ -24,6 +26,7 @@ class _ContentFormState extends State<ContentForm> {
   final TextEditingController _contentTypeKey = TextEditingController();
   final TextEditingController _contentLinkKey = TextEditingController();
   final TextEditingController _contentNotesKey = TextEditingController();
+  late List<String> values = [];
 
   @override
   void initState() {
@@ -45,7 +48,6 @@ class _ContentFormState extends State<ContentForm> {
                   hintText: 'Título do conteúdo',
                   obscureText: false,
                   prefixIconData: Icons.title,
-                  controller: _contentTitleKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: _validateInput,
                   onSaved: (input) => order.title = input),
@@ -55,25 +57,35 @@ class _ContentFormState extends State<ContentForm> {
               child: DropdownSearch<String>(
                 popupProps: PopupProps.menu(
                   showSelectedItems: true,
+                  itemBuilder: (context, item, isSelected) {
+                    return ListTile(
+                      title: Text(
+                        item,
+                        style: TextStyle(
+                            fontSize:
+                                13.0), // Change font size for dropdown options here
+                      ),
+                    );
+                  },
                 ),
                 items: ["Site", "Artigo", "Vídeo", 'Imagem'],
                 dropdownDecoratorProps: DropDownDecoratorProps(
-                  
+                  baseStyle: TextStyle(fontSize: 13),
                   dropdownSearchDecoration: InputDecoration(
                     labelText: "Tipo",
-                    hintText: "Tipo",
+                    labelStyle: TextStyle(fontSize: 13),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide(color: Global.black, width: 0.5),
                     ),
                     fillColor: Global.white,
                     filled: true,
-                    prefixIcon:Icon(Icons.filter_alt_outlined),
+                    prefixIcon: Icon(Icons.filter_alt_outlined),
                   ),
                 ),
                 autoValidateMode: AutovalidateMode.onUserInteraction,
-                  validator: _validateInput,
-                  onSaved: (input) => order.type = input,
+                validator: _validateInput,
+                onSaved: (input) => order.type = input,
               ),
             ),
             Padding(
@@ -101,102 +113,61 @@ class _ContentFormState extends State<ContentForm> {
                   validator: _validateInput,
                   onSaved: (input) => order.notes = input),
             ),
-            InkWell(
-              onTap: 
-                 () async {
-              final result = await showOkCancelAlertDialog(
-                context: context,
-                title: 'Title',
-                message: 'This is message.',
-              );
-              },
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
-                        children: const [
-                          Text(
-                            'Tags:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
+                children: const [
+                  Text(
+                    'Tags:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            ButtonWidget(
-                title: 'Salvar',
-                hasBorder: false,
-                onTap: () async {
-                  if (validateAndSave()) {
-                    _salvarConteudo();
-                  }
-                }),
+            TagEditor(
+              length: values.length,
+              delimiters: [',', ' '],
+              hasAddButton: true,
+              textStyle: TextStyle(fontSize: 13),
+              inputDecoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(color: Global.black, width: 0.5),
+                ),
+                fillColor: Global.white,
+                filled: true,
+                labelText: "Criat tag",
+                labelStyle: TextStyle(fontSize: 13),
+              ),
+              onTagChanged: (newValue) {
+                setState(() {
+                  values.add(newValue);
+                });
+              },
+              tagBuilder: (context, index) => ChipRead(
+                index: index,
+                label: values[index],
+                onDeleted: print,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ButtonWidget(
+                  title: 'Salvar',
+                  hasBorder: false,
+                  onTap: () async {
+                    if (validateAndSave()) {
+                      _salvarConteudo();
+                    }
+                  }),
+            ),
           ])),
     ));
-    // return SingleChildScrollView(
-    //   child: Container(
-    //               padding: EdgeInsets.all(20),
-    //               child: Column(
-    //                 mainAxisSize: MainAxisSize.min,
-    //                 children: [
-    //                   const Padding(
-    //                     padding: EdgeInsets.all(8.0),
-    //                     child: Text(
-    //                       'Criar conteúdo',
-    //                       style: TextStyle(fontSize: 20),
-    //                     ),
-    //                   ),
-    //                   Padding(
-    //                     padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-    //                     child: TextFieldWidget(
-    //                       hintText: 'Título do conteúdo',
-    //                       obscureText: false,
-    //                       prefixIconData: Icons.title,
-    //                       onChanged: (value) {
-    //                         setState(() {
-    //                           order.title = value;
-    //                         });
-    //                       },
-    //                     ),
-    //                   ),
-    //                   Padding(
-    //                     padding: const EdgeInsets.only(bottom: 20.0),
-    //                     child: TextFieldWidget(
-    //                       hintText: 'URL',
-    //                       obscureText: false,
-    //                       prefixIconData: Icons.link,
-    //                       onChanged: (value) {
-    //                         setState(() {
-    //                           order.url = value;
-    //                         });
-    //                       },
-    //                     ),
-    //                   ),
-    //                   Padding(
-    //                     padding: const EdgeInsets.only(bottom: 20.0),
-    //                     child: TextFieldWidget(
-    //                       hintText: 'Tipo',
-    //                       obscureText: false,
-    //                       prefixIconData: Icons.filter_alt_outlined,
-    //                       onChanged: (value) {
-    //                         setState(() {
-    //                           order.type = value;
-    //                         });
-    //                       },
-    //                     ),
-    //                   ),
-
-    //
-    //                   ButtonWidget(
-    //                       title: 'Salvar',
-    //                       hasBorder: false,
-    //                       onTap: () {
-    //                         _salvarConteudo();
-    //                       }),
-    //                 ],
-    //               ),
-    //             ),
-    // );
-  }
+  
+   }
 
   bool validateAndSave() {
     final form = _contentFormKey.currentState;
