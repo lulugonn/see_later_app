@@ -129,17 +129,19 @@ class _ContentFormState extends State<ContentForm> {
             ),
             TagEditor(
               length: values.length,
-              delimiters: [',', ' '],
+              delimiters: [','],
+              textInputAction: TextInputAction.next,
               hasAddButton: true,
               textStyle: TextStyle(fontSize: 13),
-              inputDecoration: InputDecoration(
+              inputDecoration: const InputDecoration(
+                isDense: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(color: Global.black, width: 0.5),
                 ),
                 fillColor: Global.white,
                 filled: true,
-                labelText: "Criat tag",
+                labelText: "Criar tag",
                 labelStyle: TextStyle(fontSize: 13),
               ),
               onTagChanged: (newValue) {
@@ -150,7 +152,11 @@ class _ContentFormState extends State<ContentForm> {
               tagBuilder: (context, index) => ChipRead(
                 index: index,
                 label: values[index],
-                onDeleted: print,
+                onDeleted: (index) {
+                  setState(() {
+                    values.removeAt(index);
+                  });
+                },
               ),
             ),
             Padding(
@@ -166,8 +172,7 @@ class _ContentFormState extends State<ContentForm> {
             ),
           ])),
     ));
-  
-   }
+  }
 
   bool validateAndSave() {
     final form = _contentFormKey.currentState;

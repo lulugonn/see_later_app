@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:see_later_app/screens/loading.dart';
 
@@ -30,7 +31,7 @@ class AlertDialogService {
         return AlertDialog.adaptive(
           title: Text(title ?? 'Atenção!'),
           content: Text(content ?? 'Ocorreu um erro insperado.'),
-          actions: Platform.isIOS? <Widget>[
+          actions: (!kIsWeb)? Platform.isIOS? <Widget>[
             // define os botões na base do dialogo
             CupertinoDialogAction(
               isDefaultAction: true,
@@ -40,6 +41,11 @@ class AlertDialogService {
               child: Text('Ok'),
             ),
           ]:  [TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            )]:[TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
