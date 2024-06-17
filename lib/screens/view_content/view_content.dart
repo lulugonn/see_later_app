@@ -9,6 +9,7 @@ import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
+
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class ViewContent extends StatefulWidget {
@@ -23,175 +24,256 @@ class ViewContent extends StatefulWidget {
 }
 
 class _ViewContentState extends State<ViewContent> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: UserHeader(
-          appBarTitle: 'Conteúdo',
-          comeback: true,
-          showUser: true,
-        ),
-        backgroundColor: Global.white,
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              heroTag: "Salvar",
-              backgroundColor: Global.mediumBlue,
-              tooltip: 'Salvar conteúdo',
-              onPressed: () {
-                _updateContent();
-              },
-              child: const Icon(Icons.save, color: Colors.white, size: 28),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            FloatingActionButton(
-              heroTag: "Excluir",
-              backgroundColor: Colors.red,
-              tooltip: 'Excluir conteúdo',
-              onPressed: () {
-                Future.delayed(
-                    Duration.zero, () => _deleteContent(widget.content.id!));
-              },
-              child: const Icon(Icons.delete, color: Colors.white, size: 28),
-            ),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.format_list_bulleted),
-            label: '',
-          ),
-        ],
-          selectedItemColor: Global.mediumBlue,
-        ),
-        body: SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Column(children: [
-                  Card(
-                      color: Global.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.transparent,
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          leading: Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                                color: Color(0x66404040),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Icon(Icons.link,
-                                color: Global.white, size: 30),
-                          ),
-                          title: Text(widget.content.title!,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(bottom: 0.0),
-                            child: Text(
-                              widget.content.type ?? '',
-                              style: TextStyle(
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              widget.content.notes!,
-                              textAlign: TextAlign.left,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 100,
-                            ))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Chip(label: Text('faculdade')))
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Última atualização: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.content.updatedAt!)).toString()}',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 11),
-                      ),
-                    ],
-                  ),
-         Container(
-          padding: EdgeInsets.only(top: 20.0),
-          height: 100,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  child:  ButtonWidget(
-                      title: 'Copiar link',
-                      hasBorder: false,
-                      onTap: () {
-                      }),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child:  ButtonWidget(
-                      title: 'Acessar',
-                      hasBorder: false,
-                      onTap: () {
-                      }),
-                ),
-              )
-            ],
-          ),
-        )            ]))));
+  late Future<ContentModel?> _content;
+
+  Future<ContentModel?> _getContentById() async {
+    return _content = APIService().getContentById(widget.content.id);
   }
 
-  void _updateContent() async {
+  @override
+  void initState() {
+    super.initState();
+    _getContentById();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<ContentModel?>(
+        future: _content,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            var items = snapshot.data;
+            return Scaffold(
+                appBar: UserHeader(
+                  appBarTitle: 'Conteúdo',
+                  comeback: true,
+                  showUser: true,
+                ),
+                backgroundColor: Global.white,
+                floatingActionButton: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: "Salvar",
+                      backgroundColor: Global.mediumBlue,
+                      tooltip: 'Salvar conteúdo',
+                      onPressed: () {
+                        _updateContent(items!);
+                      },
+                      child:
+                          const Icon(Icons.save, color: Colors.white, size: 28),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    FloatingActionButton(
+                      heroTag: "Excluir",
+                      backgroundColor: Colors.red,
+                      tooltip: 'Excluir conteúdo',
+                      onPressed: () {
+                        Future.delayed(
+                            Duration.zero, () => _deleteContent(items!.id!));
+                      },
+                      child: const Icon(Icons.delete,
+                          color: Colors.white, size: 28),
+                    ),
+                  ],
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add_circle),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.format_list_bulleted),
+                      label: '',
+                    ),
+                  ],
+                  selectedItemColor: Global.mediumBlue,
+                ),
+                body: SingleChildScrollView(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Column(children: [
+                          Card(
+                              color: Global.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0.5,
+                                    ),
+                                  ),
+                                ),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.all(0),
+                                  leading: Container(
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                        color: Color(0x66404040),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Icon(Icons.link,
+                                        color: Global.white, size: 30),
+                                  ),
+                                  title: Text(items!.title!,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20)),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(bottom: 0.0),
+                                    child: Text(
+                                      items.type ?? '',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(top: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      items.notes!,
+                                      textAlign: TextAlign.left,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 100,
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Chip(label: Text('faculdade')))
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Última atualização: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(items.updatedAt!)).toString()}',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontSize: 11),
+                              ),
+                            ],
+                          ),
+                          // Container(
+                          //   padding: EdgeInsets.only(top: 20.0),
+                          //   height: 100,
+                          //   child: Row(
+                          //     children: [
+                          //       Expanded(
+                          //         child: Container(
+                          //           child: ButtonWidget(
+                          //               title: 'Copiar link',
+                          //               hasBorder: false,
+                          //               onTap: () {}),
+                          //         ),
+                          //       ),
+                          //       Expanded(
+                          //         child: Container(
+                          //           padding: EdgeInsets.only(left: 8.0),
+                          //           child: ButtonWidget(
+                          //               title: 'Acessar',
+                          //               hasBorder: false,
+                          //               onTap: () {}),
+                          //         ),
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
+                          InkWell(
+                              onTap: () {
+                                checkContent(items);
+                              },
+                              child: !items.seen!
+                                  ? Container(
+                                      margin: EdgeInsets.only(top: 60),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 16.0, horizontal: 63.0),
+                                      decoration: BoxDecoration(
+                                        color: Global.darkGreen,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1, color: Global.darkGreen),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Icon(Icons.check,
+                                                color: Global.white),
+                                          ),
+                                          Text("Marcar como concluído",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Global.white)),
+                                        ],
+                                      ))
+                                  : Container(
+                                      margin: EdgeInsets.only(top: 60),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 16.0, horizontal: 63.0),
+                                      decoration: BoxDecoration(
+                                        color: Global.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1, color: Global.darkGreen),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Icon(Icons.close,
+                                                color: Global.darkGreen),
+                                          ),
+                                          Text("Desmarcar como concluído",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Global.darkGreen)),
+                                        ],
+                                      )))
+                        ]))));
+          } else {
+            return Container();
+          }
+        });
+  }
+
+  void _updateContent(items) async {
     try {
       AlertDialogService().showLoader(context);
-      await APIService().updateContent(widget.content);
+      await APIService().updateContent(items);
       AlertDialogService().closeLoader(context);
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         return const NavBar();
@@ -251,13 +333,20 @@ class _ViewContentState extends State<ViewContent> {
         context, 'Atenção!', 'Deseja realmente excluir o conteúdo?', id);
   }
 
-  void checkContent() async {
+  void checkContent(items) async {
     try {
       AlertDialogService().showLoader(context);
-      await APIService().checkContent(widget.content.id);
+      await APIService().checkContent(items.id);
+
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(
           context, 'Parabéns!', 'Conteúdo visto com sucesso!');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ViewContent(content: widget.content)),
+      );
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
