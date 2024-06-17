@@ -26,7 +26,7 @@ class _ContentCardState extends State<ContentCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Global.white,
+        color: Global.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
@@ -45,25 +45,27 @@ class _ContentCardState extends State<ContentCard> {
           ),
           child: ListTile(
             onTap: () {
-                        Future.delayed(
-                            Duration.zero,
-                            () => Navigator.of(context).push(
-                                    // PageTransition(
-                                    //   child: EditContent(
-                                    //     content: widget.content,
-                                    //   ),
-                                    //   type: PageTransitionType
-                                    //       .leftToRight, // Tipo de animação
-                                    //   duration: Duration(
-                                    //       milliseconds:
-                                    //           500), // Duração da animação
-                                    // ),
-                                    MaterialPageRoute(builder: (context) {
-                                  return ViewContent(
-                                    content: widget.content,
-                                  );
-                                })));
-                      },
+              Future.delayed(
+                  Duration.zero,
+                  () => Navigator.of(context).push(
+                          // PageTransition(
+                          //   child: EditContent(
+                          //     content: widget.content,
+                          //   ),
+                          //   type: PageTransitionType
+                          //       .leftToRight, // Tipo de animação
+                          //   duration: Duration(
+                          //       milliseconds:
+                          //           500), // Duração da animação
+                          // ),
+                          MaterialPageRoute(builder: (context) {
+                        return ViewContent(
+                          content: widget.content,
+                          index: widget.index,
+                          length: widget.length,
+                        );
+                      })));
+            },
             contentPadding: EdgeInsets.all(0),
             leading: Container(
               padding: EdgeInsets.all(8.0),
@@ -77,7 +79,7 @@ class _ContentCardState extends State<ContentCard> {
             subtitle: Padding(
               padding: const EdgeInsets.only(bottom: 0.0),
               child: Text(
-                widget.content.type?? '',
+                widget.content.type ?? '',
                 style: TextStyle(
                   fontSize: 13,
                 ),
@@ -86,7 +88,9 @@ class _ContentCardState extends State<ContentCard> {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text( DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.content.createdAt!)).toString()),
+                Text(DateFormat('dd/MM/yyyy')
+                    .format(DateTime.parse(widget.content.createdAt!))
+                    .toString()),
                 PopupMenuButton(
                   tooltip: "Opções",
                   offset: Offset(0.0, 60.0),

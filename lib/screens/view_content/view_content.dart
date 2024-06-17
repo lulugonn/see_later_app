@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_model.dart';
+import 'package:see_later_app/screens/edit_content/edit_content.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
+import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class ViewContent extends StatefulWidget {
-  const ViewContent({super.key, required this.content});
+  const ViewContent(
+      {super.key, required this.content, this.index, this.length});
   final ContentModel content;
+  final int? index;
+  final num? length;
 
   @override
   State<ViewContent> createState() => _ViewContentState();
 }
 
 class _ViewContentState extends State<ViewContent> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  UserHeader(
-                      appBarTitle: 'Conteúdo',
-                      comeback: true,
-                      showUser: true,
-                    ),
+        appBar: UserHeader(
+          appBarTitle: 'Conteúdo',
+          comeback: true,
+          showUser: true,
+        ),
         backgroundColor: Global.white,
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -47,8 +52,8 @@ class _ViewContentState extends State<ViewContent> {
               backgroundColor: Colors.red,
               tooltip: 'Excluir conteúdo',
               onPressed: () {
-                 Future.delayed(Duration.zero,
-                            () => _deleteContent(widget.content.id!));
+                Future.delayed(
+                    Duration.zero, () => _deleteContent(widget.content.id!));
               },
               child: const Icon(Icons.delete, color: Colors.white, size: 28),
             ),
@@ -57,156 +62,130 @@ class _ViewContentState extends State<ViewContent> {
         bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Página inicial',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Configurações',
-            ),
-          ],
+          items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.format_list_bulleted),
+            label: '',
+          ),
+        ],
           selectedItemColor: Global.mediumBlue,
         ),
-        body: 
-                   SingleChildScrollView(
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(top: 20, bottom: 30),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                TextFieldWidget(
-                                  initialValue: widget.content.title,
-                                  obscureText: false,
-                                  prefixIconData: Icons.title,
-                                  hintText: 'Título',
-                                  onChanged: (value) {
-                          setState(() {
-                            widget.content.title = value;
-                          });}
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: TextFieldWidget(
-                                    initialValue: widget.content.type,
-                                    obscureText: false,
-                                    prefixIconData: Icons.filter_alt,
-                                    hintText: 'Tipo',
-                                     onChanged: (value) {
-                          setState(() {
-                            widget.content.type = value;
-                          });
-                        },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 20.0),
-                                  child: TextFieldWidget(
-                                    initialValue: widget.content.url,
-                                    obscureText: false,
-                                    prefixIconData: Icons.link,
-                                    hintText: 'Link',
-                                    onChanged: (value) {
-                          setState(() {
-                            widget.content.url = value;
-                          });}
-                                  ),
-                                ),
-                                TextFieldWidget(
-                                  initialValue:  widget.content.notes,
-                                  obscureText: false,
-                                  prefixIconData: Icons.info,
-                                  hintText: 'Descricao',
-                                  onChanged: (value) {
-                          setState(() {
-                            widget.content.notes = value;
-                          });}
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Tags',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Row(children: [
-                                    Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 16.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            width: 1, color: Global.black),
-                                      ),
-                                      child: Text("Faculdade",
-                                          style: TextStyle(fontSize: 14)),
-                                    ),
-                                    CircleAvatar(
-                                      radius: 13,
-                                      backgroundColor: Colors.black,
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.add,
-                                          color: Global.white,
-                                          size: 11,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                  ]),
-                                )
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: (){
-                              checkContent();
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(top: 60),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16.0, horizontal: 63.0),
-                              decoration: BoxDecoration(
-                              color: Global.darkGreen,
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(width: 1, color: Global.darkGreen),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Icon(Icons.check, color: Global.white),
-                                  ),
-                                  Text("Marcar como concluído",
-                                      style: TextStyle(fontSize: 16, color: Global.white)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+        body: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Column(children: [
+                  Card(
+                      color: Global.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
                       ),
-                    )));
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.transparent,
+                              width: 0.5,
+                            ),
+                          ),
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(0),
+                          leading: Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                color: Color(0x66404040),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Icon(Icons.link,
+                                color: Global.white, size: 30),
+                          ),
+                          title: Text(widget.content.title!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(bottom: 0.0),
+                            child: Text(
+                              widget.content.type ?? '',
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              widget.content.notes!,
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 100,
+                            ))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Chip(label: Text('faculdade')))
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Última atualização: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.content.updatedAt!)).toString()}',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 11),
+                      ),
+                    ],
+                  ),
+         Container(
+          padding: EdgeInsets.only(top: 20.0),
+          height: 100,
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  child:  ButtonWidget(
+                      title: 'Copiar link',
+                      hasBorder: false,
+                      onTap: () {
+                      }),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child:  ButtonWidget(
+                      title: 'Acessar',
+                      hasBorder: false,
+                      onTap: () {
+                      }),
+                ),
+              )
+            ],
+          ),
+        )            ]))));
   }
 
   void _updateContent() async {
@@ -271,14 +250,14 @@ class _ViewContentState extends State<ViewContent> {
     showAlertConfirm(
         context, 'Atenção!', 'Deseja realmente excluir o conteúdo?', id);
   }
-  
+
   void checkContent() async {
     try {
       AlertDialogService().showLoader(context);
       await APIService().checkContent(widget.content.id);
       AlertDialogService().closeLoader(context);
-      AlertDialogService().showAlertDefault(context, 'Parabéns!','Conteúdo visto com sucesso!');
-     
+      AlertDialogService().showAlertDefault(
+          context, 'Parabéns!', 'Conteúdo visto com sucesso!');
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());

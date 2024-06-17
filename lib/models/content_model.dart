@@ -5,6 +5,8 @@ class ContentModel {
   String? type;
   String? notes;
   String? createdAt;
+  String? updatedAt;
+
 
   ContentModel({
     this.id,
@@ -13,6 +15,7 @@ class ContentModel {
      this.type,
      this.notes,
      this.createdAt,
+     this.updatedAt,
   });
 
   factory ContentModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +26,8 @@ class ContentModel {
       type: json['type'] as String?,
       notes: json['notes'] as String?,
       createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+
     );
   }
 
