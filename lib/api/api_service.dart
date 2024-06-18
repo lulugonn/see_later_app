@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/models/content_model.dart';
 import 'package:see_later_app/models/list_content_model.dart';
+import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/models/login_model.dart';
 import 'package:see_later_app/models/register_model.dart';
 import 'package:dio/dio.dart';
+import 'package:see_later_app/models/tag_model.dart';
 
 
 class APIService {
@@ -67,6 +71,33 @@ class APIService {
       String? token = await AuthController.getToken();
       dio.options.headers["Authorization"] = "Bearer $token";
       final response = await dio.post('$url/content', data: requestModel.toJson());
+      if(response.statusCode == 201){
+         return 'Conteúdo criado com sucesso!';
+      }
+      return null;
+    }on DioException catch (e) {
+      if(e.response != null){
+        var errorMessage =  e.response!.data['message'];
+        var message = '';
+        if(errorMessage is List){
+          for (var item in errorMessage) {
+            message += ('- $item\n');
+          }
+        }else{
+          message = errorMessage;
+        }
+        throw message;
+      }else{
+        throw 'Ocorreu um erro inesperado';
+      }
+    }
+  }
+
+  Future<String?> registerTag(String name) async {
+    try {
+      String? token = await AuthController.getToken();
+      dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await dio.post('$url/tag', data: jsonEncode({'name': name}));
       if(response.statusCode == 201){
          return 'Conteúdo criado com sucesso!';
       }
@@ -184,6 +215,37 @@ class APIService {
       }else{
         final data = response.data;
         return ContentModel.fromJson(data);
+      }
+    }on DioException catch (e) {
+      if(e.response != null){
+        var errorMessage =  e.response!.data['message'];
+        var message = '';
+        if(errorMessage is List){
+          for (var item in errorMessage) {
+            message += ('- $item\n');
+          }
+        }else{
+          message = errorMessage;
+        }
+        throw message;
+      }else{
+        throw 'Ocorreu um erro inesperado';
+      }
+    }
+  }
+
+   Future<List<TagModel>> getTags() async {
+    try {
+      String? token = await AuthController.getToken();
+      dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await dio.get('$url/tag');
+      if(response.statusCode == 204){
+         return List.empty();
+      }else{
+       List<dynamic> data = response.data; 
+        List<TagModel> tags = data.map((tag) => TagModel.fromJson(tag)).toList();
+        return tags; 
+    
       }
     }on DioException catch (e) {
       if(e.response != null){

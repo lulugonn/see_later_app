@@ -45,7 +45,7 @@ dependencies:
   chips_choice: ^3.0.1
   dropdown_search: ^5.0.6
   adaptive_dialog: ^2.1.0
-  material_tag_editor: ^0.1.2
+  flutter_tagging_plus: ^4.0.2
 
 dev_dependencies:
   flutter_test:

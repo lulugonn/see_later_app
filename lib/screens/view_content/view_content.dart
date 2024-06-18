@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
@@ -33,6 +34,7 @@ class _ViewContentState extends State<ViewContent> {
   @override
   void initState() {
     super.initState();
+    
     _getContentById();
   }
 
@@ -333,6 +335,8 @@ class _ViewContentState extends State<ViewContent> {
         context, 'Atenção!', 'Deseja realmente excluir o conteúdo?', id);
   }
 
+  
+
   void checkContent(items) async {
     try {
       AlertDialogService().showLoader(context);
@@ -353,3 +357,4 @@ class _ViewContentState extends State<ViewContent> {
     }
   }
 }
+

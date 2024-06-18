@@ -1,7 +1,9 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/models/list_content_model.dart';
+import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
@@ -15,6 +17,7 @@ class SearchContent extends StatefulWidget {
 class _SearchContentState extends State<SearchContent> {
   TextEditingController searchController = TextEditingController();
   static List previousSearchs = ['banana'];
+
   late Future<ListContentModel?> _listContent;
   bool showFilter = false;
   bool focusInput = false;
