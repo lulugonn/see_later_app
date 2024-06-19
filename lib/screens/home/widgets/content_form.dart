@@ -137,9 +137,9 @@ class _ContentFormState extends State<ContentForm> {
                     name: value,
                   );
                 },
-                onAdded: (tag) {
-                  _criarTag(tag.name);
-                  return TagModel(name: tag.name);
+                onAdded: (tag) async {
+                  var aux = await _criarTag(tag.name);
+                  return TagModel(name: tag.name, id: aux as int);
                 },
                 configureSuggestion: (lang) {
                   return SuggestionConfiguration(
@@ -172,11 +172,8 @@ class _ContentFormState extends State<ContentForm> {
                 configureChip: (lang) {
                   return ChipConfiguration(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          20.0),
-                      side: BorderSide(
-                          color:
-                              Global.black), 
+                      borderRadius: BorderRadius.circular(20.0),
+                      side: BorderSide(color: Global.black),
                     ),
                     materialTapTargetSize: MaterialTapTargetSize.padded,
                     label: Text(lang.name),
@@ -189,10 +186,18 @@ class _ContentFormState extends State<ContentForm> {
                   setState(() {
                     _selectedLanguages = _selectedLanguages;
                   });
+                  var tagsId = [];
+                  _selectedLanguages.forEach((tag) {
+                    var aux = int.parse(tag.id.toString());
+                    tagsId.add(aux);
+                  });
+                  setState(() {
+                    order.categories = tagsId.cast<int>();
+                  });
                 },
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.only(top: 16.0, bottom: 100),
                 child: ButtonWidget(
                   title: 'Salvar',
                   hasBorder: false,
@@ -242,14 +247,15 @@ class _ContentFormState extends State<ContentForm> {
     }
   }
 
-  void _criarTag(name) async {
+  FutureOr<int?> _criarTag(name) async {
     try {
       AlertDialogService().showLoader(context);
-      await APIService().registerTag(name);
+      var id = await APIService().registerTag(name);
       AlertDialogService().closeLoader(context);
-     
-      AlertDialogService().showAlertDefault(
-          context, 'Parabéns!', 'Tag criada com sucesso!');
+
+      AlertDialogService()
+          .showAlertDefault(context, 'Parabéns!', 'Tag criada com sucesso!');
+      return id;
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());

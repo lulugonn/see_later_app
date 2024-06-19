@@ -7,6 +7,8 @@ class ContentModel {
   String? createdAt;
   String? updatedAt;
   bool? seen;
+  List<int>? categories;
+
 
 
   ContentModel({
@@ -14,6 +16,7 @@ class ContentModel {
      this.title,
      this.url,
      this.type,
+     this.categories,
      this.notes,
      this.createdAt,
      this.updatedAt,
@@ -30,6 +33,7 @@ class ContentModel {
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
       seen: json['seen'] as bool?,
+      categories: json['categories'] as List<int>?,
     );
   }
 
@@ -39,6 +43,8 @@ class ContentModel {
       'url': url!.trim(),
       'type': type!.trim(),
       'notes': notes!.trim(),
+      'categories': categories?.map((cat) => cat).toList(),
+
     };
 
     return map;
