@@ -71,7 +71,7 @@ class _ProgressCardState extends State<ProgressCard>
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              "Progresso de consumo",
+                              "Conteúdos visualizados",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),

@@ -9,6 +9,7 @@ class ContentResponseModel {
   String? createdAt;
   String? updatedAt;
   bool? seen;
+  bool? favorite;
   List<TagModel>? categories;
 
   ContentResponseModel({
@@ -21,6 +22,7 @@ class ContentResponseModel {
     this.createdAt,
     this.updatedAt,
     this.seen,
+    this.favorite,
   });
 
   factory ContentResponseModel.fromJson(Map<String, dynamic> json) {
@@ -39,6 +41,7 @@ class ContentResponseModel {
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
       seen: json['seen'] as bool?,
+      favorite: json['favorite'] as bool?,
       categories: tagModels,
     );
   }
@@ -53,6 +56,7 @@ class ContentResponseModel {
       'createdAt': createdAt!,
       'updatedAt': updatedAt!,
       'seen': seen!,
+      'favorite': favorite!,
       'categories': categories?.map((cat) => cat.toJson()).toList(),
     };
 

@@ -100,30 +100,41 @@ class _ViewContentState extends State<ViewContent> {
                                   ),
                                 ),
                                 child: ListTile(
-                                  contentPadding: EdgeInsets.all(0),
-                                  leading: Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                        color: Color(0x66404040),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: const Icon(Icons.link,
-                                        color: Global.white, size: 30),
-                                  ),
-                                  title: Text(items!.title!,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20)),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(bottom: 0.0),
-                                    child: Text(
-                                      items.type ?? '',
-                                      style: TextStyle(
-                                        fontSize: 13,
+                                    contentPadding: EdgeInsets.all(0),
+                                    leading: Container(
+                                      padding: EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                          color: Color(0x66404040),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: const Icon(Icons.link,
+                                          color: Global.white, size: 30),
+                                    ),
+                                    title: Text(items!.title!,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    subtitle: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 0.0),
+                                      child: Text(
+                                        items.type ?? '',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
+                                    trailing: Tooltip(
+                                      message: !items.favorite!
+                                          ? 'Marcar como favorito'
+                                          : 'Desmarcar como favorito',
+                                      child: IconButton(
+                                          onPressed: () =>
+                                              {checkFavorite(items)},
+                                          icon: !items.favorite!
+                                              ? Icon(Icons.star_border)
+                                              : Icon(Icons.star)),
+                                    )),
                               )),
                           Padding(
                             padding: EdgeInsets.only(top: 16),
@@ -211,7 +222,7 @@ class _ViewContentState extends State<ViewContent> {
                               ],
                             ),
                           ),
-                          SizedBox(height:50),
+                          SizedBox(height: 50),
                           Ink(
                             decoration: !items.seen!
                                 ? BoxDecoration(
@@ -284,12 +295,12 @@ class _ViewContentState extends State<ViewContent> {
       AlertDialogService().showLoader(context);
       await APIService().updateContent(items);
       AlertDialogService().closeLoader(context);
-   
+
       AlertDialogService().showAlertDefault(
           context, 'Parabéns!', 'Conteúdo atualizado com sucesso!');
-          setState(() {
-      _content = _getContentById();
-    });
+      setState(() {
+        _content = _getContentById();
+      });
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
@@ -350,10 +361,35 @@ class _ViewContentState extends State<ViewContent> {
 
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(
-          context, 'Parabéns!', 'Conteúdo visto com sucesso!');
-    setState(() {
-      _content = _getContentById();
-    });
+          context,
+          'Parabéns!',
+          items.seen
+              ? 'Conteúdo desmarcado como visualizado!'
+              : 'Conteúdo marcado como visto!');
+      setState(() {
+        _content = _getContentById();
+      });
+    } catch (e) {
+      AlertDialogService().closeLoader(context);
+      AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
+    }
+  }
+
+  void checkFavorite(items) async {
+    try {
+      AlertDialogService().showLoader(context);
+      await APIService().checkFavorite(items.id);
+
+      AlertDialogService().closeLoader(context);
+      AlertDialogService().showAlertDefault(
+          context,
+          'Parabéns!',
+          items.favorite
+              ? 'Conteúdo retirado dos favoritos!'
+              : 'Conteúdo favoritado!');
+      setState(() {
+        _content = _getContentById();
+      });
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());

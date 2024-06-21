@@ -351,6 +351,29 @@ class APIService {
     }
   }
 
+  Future<void> checkFavorite(id) async {
+    try {
+      String? token = await AuthController.getToken();
+      dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await dio.patch('$url/content/$id/favorite');
+    } on DioException catch (e) {
+      if (e.response != null) {
+        var errorMessage = e.response!.data['message'];
+        var message = '';
+        if (errorMessage is List) {
+          for (var item in errorMessage) {
+            message += ('- $item\n');
+          }
+        } else {
+          message = errorMessage;
+        }
+        throw message;
+      } else {
+        throw 'Ocorreu um erro inesperado';
+      }
+    }
+  }
+
   Future<String?> updateContent(ContentRequestModel requestModel) async {
     try {
       String? token = await AuthController.getToken();
