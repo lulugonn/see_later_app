@@ -30,7 +30,6 @@ class _TagViewState extends State<TagView> {
       future: _listTagFuture,
       builder: (context, AsyncSnapshot<ListTagModel?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // While waiting for future to complete, show loading indicator or skeleton screen
           return Scaffold(
             appBar: UserHeader(
               appBarTitle: 'Menu > Tags',
@@ -53,25 +52,30 @@ class _TagViewState extends State<TagView> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Column(
-                  children: tags!.map((tag) => ListTile(
-                    contentPadding: EdgeInsets.all(0),
-                    title: Text(
-                      tag.name!, 
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                    ),
-                    trailing: PopupMenuButton(
-                      tooltip: 'Options',
-                      offset: Offset(0.0, 60.0),
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Text('Edit'),
-                          onTap: () {
-                            // Handle edit action
-                          },
+                  children: [
+                    Column(
+                      children:
+                       tags!.map((tag) => ListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          tag.name!, 
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                         ),
-                      ],
+                        trailing: PopupMenuButton(
+                          tooltip: 'Options',
+                          offset: Offset(0.0, 60.0),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              child: Text('Edit'),
+                              onTap: () {
+                                // Handle edit action
+                              },
+                            ),
+                          ],
+                        ),
+                      )).toList(),
                     ),
-                  )).toList(),
+                  ],
                 ),
               ),
             ),

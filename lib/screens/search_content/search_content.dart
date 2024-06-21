@@ -149,8 +149,10 @@ class _SearchContentState extends State<SearchContent> {
                       onTap: () {
                         controller.openView();
                       },
-                      onChanged: (_) {
-                        controller.openView();
+                      onChanged: (input) {
+                        setState(() {
+                          filter!.text = input;
+                        });
                       },
                       leading: const Icon(Icons.search),
                       trailing: <Widget>[
@@ -319,15 +321,16 @@ class _SearchContentState extends State<SearchContent> {
                                                   ],
                                                 ),
                                                 ChipsChoice<int>.single(
-                                                    value:
-                                                          filter!.categories != null
-                                                              ? filter!.categories!
-                                                              : null,
-                                                      onChanged: ( value) {
-                                                        setState(() {
-                                                          filter!.categories = value;
-                                                        });
-                                                      },
+                                                  value:
+                                                      filter!.categories != null
+                                                          ? filter!.categories!
+                                                          : null,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      filter!.categories =
+                                                          value;
+                                                    });
+                                                  },
                                                   // value: value,
                                                   // onChanged: (val) {
                                                   //   setState(() => value = val);

@@ -300,9 +300,9 @@ class _ViewContentState extends State<ViewContent> {
   }
 
   _launchURL(link) async {
-    final Uri url = Uri.parse('https://' + link);
+    final Uri url = Uri.parse(link);
     if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
+      throw Exception('Não foi possível carregar a $url');
     }
   }
 

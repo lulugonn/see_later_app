@@ -127,7 +127,7 @@ class _EditContentState extends State<EditContent> {
                                   obscureText: false,
                                   prefixIconData: Icons.link,
                                   hintText: 'Link',
-                                  validator: _validateInput,
+                                  validator: _validateInputUrl,
                                   onSaved: (input) => order.url = input!,
                                 ),
                               ),
@@ -138,7 +138,6 @@ class _EditContentState extends State<EditContent> {
                                 hintText: 'Descricao',
                                 maxLines: 5,
                                 keyboardType: TextInputType.multiline,
-                                validator: _validateInput,
                                 onSaved: (input) => order.notes = input!,
                               ),
                             ],
@@ -309,6 +308,13 @@ class _EditContentState extends State<EditContent> {
     return null;
   }
 
+  String? _validateInputUrl(String? value) {
+    if (!Uri.parse(value!).isAbsolute) {
+      return "Por favor, insira um link válido. Exemplo: https://www.google.com";
+    }
+    return null;
+  }
+
   void _updateContent() async {
     try {
       AlertDialogService().showLoader(context);
@@ -316,9 +322,9 @@ class _EditContentState extends State<EditContent> {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(
           context, 'Parabéns!', 'Conteúdo atualizado com sucesso!');
-      setState(() {
-        _content = _getContentById();
-      });
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return const NavBar();
+      }));
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
@@ -348,12 +354,10 @@ class _EditContentState extends State<EditContent> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // retorna um objeto do tipo Dialog
         return AlertDialog(
           title: Text(title ?? 'Atenção!'),
           content: Text(content ?? 'Ocorreu um erro insperado.'),
           actions: <Widget>[
-            // define os botões na base do dialogo
             ElevatedButton(
               child: const Text("Cancelar"),
               onPressed: () {

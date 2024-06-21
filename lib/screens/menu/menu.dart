@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/screens/favorite/favorite_view/favorite_view.dart';
 import 'package:see_later_app/screens/home/widgets/progress_card.dart';
+import 'package:see_later_app/screens/onboarding/onboarding.dart';
 import 'package:see_later_app/screens/search_content/search_content.dart';
 import 'package:see_later_app/screens/tag/tag_view/tag_view.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
@@ -39,13 +41,13 @@ class _MenuState extends State<Menu> {
                   }));
                 },
               ),
-                 ListTile(
+              ListTile(
                 contentPadding: EdgeInsets.all(0),
                 leading: Icon(Icons.star, size: 25),
                 title: Text('Favoritos',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                         onTap: () {
+                onTap: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return FavoriteView();
@@ -63,8 +65,17 @@ class _MenuState extends State<Menu> {
                 contentPadding: EdgeInsets.all(0),
                 leading: Icon(Icons.logout, size: 25, color: Colors.red),
                 title: Text('Sair',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.red)),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: Colors.red)),
+                onTap: () async {
+                  await AuthController.removeToken();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return OnBoarding();
+                  }));
+                },
               ),
             ],
           ),

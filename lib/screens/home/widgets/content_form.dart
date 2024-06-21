@@ -98,7 +98,7 @@ class _ContentFormState extends State<ContentForm> {
                   prefixIconData: Icons.link,
                   controller: _contentTypeKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: _validateInput,
+                  validator: _validateInputUrl,
                   onSaved: (input) => order.url = input!,
                 ),
               ),
@@ -113,7 +113,6 @@ class _ContentFormState extends State<ContentForm> {
                   prefixIconData: Icons.info,
                   controller: _contentNotesKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: _validateInput,
                   onSaved: (input) => order.notes = input!,
                 ),
               ),
@@ -227,6 +226,13 @@ class _ContentFormState extends State<ContentForm> {
   String? _validateInput(String? value) {
     if (value == null || value.isEmpty) {
       return "Por favor, preencha os dados";
+    }
+    return null;
+  }
+
+  String? _validateInputUrl(String? value) {
+    if (!Uri.parse(value!).isAbsolute) {
+      return "Por favor, insira um link válido. Exemplo: https://www.google.com";
     }
     return null;
   }
