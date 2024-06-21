@@ -1,4 +1,4 @@
-class ContentModel {
+class ContentRequestModel {
   int? id;
   String? title;
   String? url;
@@ -11,7 +11,7 @@ class ContentModel {
 
 
 
-  ContentModel({
+  ContentRequestModel({
     this.id,
      this.title,
      this.url,
@@ -23,8 +23,8 @@ class ContentModel {
      this.seen,
   });
 
-  factory ContentModel.fromJson(Map<String, dynamic> json) {
-    return ContentModel(
+  factory ContentRequestModel.fromJson(Map<String, dynamic> json) {
+    return ContentRequestModel(
       id: json['id'] as int?,
       title: json['title'] as String?,
       url: json['url'] as String?,

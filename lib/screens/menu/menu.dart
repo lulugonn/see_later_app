@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/screens/home/widgets/progress_card.dart';
+import 'package:see_later_app/screens/search_content/search_content.dart';
+import 'package:see_later_app/screens/tag/tag_view/tag_view.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class Menu extends StatefulWidget {
@@ -14,7 +16,7 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  UserHeader(
+        appBar: UserHeader(
           appBarTitle: 'Menu',
           comeback: true,
           showUser: false,
@@ -24,62 +26,41 @@ class _MenuState extends State<Menu> {
           child: Column(
             children: [
               ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading:   Icon(Icons.loyalty, size: 25),
-
-                  // Container(
-                  //   padding: EdgeInsets.all(8.0),
-                  //   decoration: BoxDecoration(
-                  //       color: Color(0x66404040),
-                  //       borderRadius: BorderRadius.circular(10)),)
-                  
-                  title: Text('Tags',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                 ),
-                  ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading:   Icon(Icons.search, size: 25),
-                  title: Text('Busca',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                 ),
-                  ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading:   Icon(Icons.star, size: 25),
-                  title: Text('Favoritos',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                 ),
+                contentPadding: EdgeInsets.all(0),
+                leading: Icon(Icons.loyalty, size: 25),
+                title: Text('Tags',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return TagView();
+                  }));
+                },
+              ),
                  ListTile(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return ProgressCard();
-      }));
-                  },
-                  contentPadding: EdgeInsets.all(0),
-                  leading:   Icon(Icons.trending_up, size: 25),
-                  title: Text('Progress',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                 ),
-                 ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading:   Icon(Icons.timer, size: 25),
-                  title: Text('Próximos conteúdos',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                 ),
-                  ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading:   Icon(Icons.key, size: 25),
-                  title: Text('Alterar senha',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                 ),
-                  ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading:   Icon(Icons.logout, size: 25),
-                  title: Text('Sair',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                 ),
+                contentPadding: EdgeInsets.all(0),
+                leading: Icon(Icons.star, size: 25),
+                title: Text('Favoritos',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+              ),
+              ListTile(
+                contentPadding: EdgeInsets.all(0),
+                leading: Icon(Icons.key, size: 25),
+                title: Text('Alterar senha',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+              ),
+              ListTile(
+                contentPadding: EdgeInsets.all(0),
+                leading: Icon(Icons.logout, size: 25, color: Colors.red),
+                title: Text('Sair',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.red)),
+              ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

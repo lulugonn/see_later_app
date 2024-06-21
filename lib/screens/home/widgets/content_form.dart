@@ -5,7 +5,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
-import 'package:see_later_app/models/content_model.dart';
+import 'package:see_later_app/models/content_request_model.dart';
+import 'package:see_later_app/models/content_response_model.dart';
 import 'package:see_later_app/models/tag_model.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
@@ -21,19 +22,19 @@ class ContentForm extends StatefulWidget {
 
 class _ContentFormState extends State<ContentForm> {
   late FutureOr<List<TagModel>> _listTag;
-  late ContentModel order;
+  late ContentRequestModel order;
   final GlobalKey<FormState> _contentFormKey = GlobalKey<FormState>();
   final TextEditingController _contentTitleKey = TextEditingController();
   final TextEditingController _contentTypeKey = TextEditingController();
   final TextEditingController _contentLinkKey = TextEditingController();
   final TextEditingController _contentNotesKey = TextEditingController();
-  late List<TagModel> _selectedLanguages = [];
+  late List<TagModel> _selectedTags = [];
 
   @override
   void initState() {
     super.initState();
-    order = ContentModel();
-    _selectedLanguages = [];
+    order = ContentRequestModel();
+    _selectedTags = [];
   }
 
   @override
@@ -118,7 +119,7 @@ class _ContentFormState extends State<ContentForm> {
                 ),
               ),
               FlutterTagging<TagModel>(
-                initialItems: _selectedLanguages,
+                initialItems: _selectedTags,
                 textFieldConfiguration: TextFieldConfiguration(
                   decoration: InputDecoration(
                     labelText: 'Tags',
@@ -144,7 +145,7 @@ class _ContentFormState extends State<ContentForm> {
                 configureSuggestion: (lang) {
                   return SuggestionConfiguration(
                     title: Text(
-                      lang.name,
+                      lang.name!,
                       style: TextStyle(fontSize: 13),
                     ),
                     additionWidget: Chip(
@@ -176,7 +177,7 @@ class _ContentFormState extends State<ContentForm> {
                       side: BorderSide(color: Global.black),
                     ),
                     materialTapTargetSize: MaterialTapTargetSize.padded,
-                    label: Text(lang.name),
+                    label: Text(lang.name!),
                     backgroundColor: Global.black,
                     labelStyle: TextStyle(color: Colors.white),
                     deleteIconColor: Colors.white,
@@ -184,15 +185,15 @@ class _ContentFormState extends State<ContentForm> {
                 },
                 onChanged: () {
                   setState(() {
-                    _selectedLanguages = _selectedLanguages;
+                    _selectedTags = _selectedTags;
                   });
                   var tagsId = [];
-                  _selectedLanguages.forEach((tag) {
+                  _selectedTags.forEach((tag) {
                     var aux = int.parse(tag.id.toString());
                     tagsId.add(aux);
                   });
                   setState(() {
-                    order.categories = tagsId.cast<int>();
+                //    order.categories = tagsId.cast<int>();
                   });
                 },
               ),

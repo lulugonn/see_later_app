@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
-import 'package:see_later_app/models/content_model.dart';
-import 'package:see_later_app/screens/edit_content/edit_content.dart';
+import 'package:see_later_app/models/content_request_model.dart';
+import 'package:see_later_app/models/content_response_model.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
-import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 import 'package:see_later_app/services/alert_dialog_service.dart';
@@ -16,7 +14,7 @@ import 'package:see_later_app/services/alert_dialog_service.dart';
 class ViewContent extends StatefulWidget {
   const ViewContent(
       {super.key, required this.content, this.index, this.length});
-  final ContentModel content;
+  final ContentRequestModel content;
   final int? index;
   final num? length;
 
@@ -25,22 +23,22 @@ class ViewContent extends StatefulWidget {
 }
 
 class _ViewContentState extends State<ViewContent> {
-  late Future<ContentModel?> _content;
+  late Future<ContentResponseModel?> _content;
 
-  Future<ContentModel?> _getContentById() async {
+  Future<ContentResponseModel?> _getContentById() async {
     return _content = APIService().getContentById(widget.content.id);
   }
 
   @override
   void initState() {
     super.initState();
-    
+
     _getContentById();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ContentModel?>(
+    return FutureBuilder<ContentResponseModel?>(
         future: _content,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -80,25 +78,6 @@ class _ViewContentState extends State<ViewContent> {
                           color: Colors.white, size: 28),
                     ),
                   ],
-                ),
-                bottomNavigationBar: BottomNavigationBar(
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: '',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.add_circle),
-                      label: '',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.format_list_bulleted),
-                      label: '',
-                    ),
-                  ],
-                  selectedItemColor: Global.mediumBlue,
                 ),
                 body: SingleChildScrollView(
                     child: Padding(
@@ -163,17 +142,40 @@ class _ViewContentState extends State<ViewContent> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Chip(label: Text('faculdade')))
-                              ],
-                            ),
-                          ),
+                          (items.categories != null)
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      for (var category in items.categories!)
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 8.0),
+                                          child: Chip(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              side: BorderSide(
+                                                  color: Global.black),
+                                            ),
+                                            label: Text(category.name!),
+                                            labelStyle: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 13.0,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                            backgroundColor: Global.black,
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16.0),
+                                ),
                           Row(
                             children: [
                               Text(
@@ -183,31 +185,31 @@ class _ViewContentState extends State<ViewContent> {
                               ),
                             ],
                           ),
-                          // Container(
-                          //   padding: EdgeInsets.only(top: 20.0),
-                          //   height: 100,
-                          //   child: Row(
-                          //     children: [
-                          //       Expanded(
-                          //         child: Container(
-                          //           child: ButtonWidget(
-                          //               title: 'Copiar link',
-                          //               hasBorder: false,
-                          //               onTap: () {}),
-                          //         ),
-                          //       ),
-                          //       Expanded(
-                          //         child: Container(
-                          //           padding: EdgeInsets.only(left: 8.0),
-                          //           child: ButtonWidget(
-                          //               title: 'Acessar',
-                          //               hasBorder: false,
-                          //               onTap: () {}),
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
+                          Container(
+                            padding: EdgeInsets.only(top: 20.0),
+                            height: 100,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    child: ButtonWidget(
+                                        title: 'Copiar link',
+                                        hasBorder: false,
+                                        onTap: () {}),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    child: ButtonWidget(
+                                        title: 'Acessar',
+                                        hasBorder: false,
+                                        onTap: () {}),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                           InkWell(
                               onTap: () {
                                 checkContent(items);
@@ -335,8 +337,6 @@ class _ViewContentState extends State<ViewContent> {
         context, 'Atenção!', 'Deseja realmente excluir o conteúdo?', id);
   }
 
-  
-
   void checkContent(items) async {
     try {
       AlertDialogService().showLoader(context);
@@ -357,4 +357,3 @@ class _ViewContentState extends State<ViewContent> {
     }
   }
 }
-

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
-import 'package:see_later_app/models/content_model.dart';
+import 'package:see_later_app/models/content_request_model.dart';
+import 'package:see_later_app/models/content_response_model.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
@@ -10,7 +11,7 @@ import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class EditContent extends StatefulWidget {
   const EditContent({super.key, required this.content});
-  final ContentModel content;
+  final ContentRequestModel content;
 
   @override
   State<EditContent> createState() => _EditContentState();
@@ -53,21 +54,6 @@ class _EditContentState extends State<EditContent> {
               child: const Icon(Icons.delete, color: Colors.white, size: 28),
             ),
           ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Página inicial',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Configurações',
-            ),
-          ],
-          selectedItemColor: Global.mediumBlue,
         ),
         body: 
                    SingleChildScrollView(

@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:chips_choice/chips_choice.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:see_later_app/api/api_service.dart';
+import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
 import 'package:see_later_app/models/list_tag_model.dart';
+import 'package:see_later_app/models/tag_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/textfield_widget.dart';
@@ -19,8 +24,9 @@ class _SearchContentState extends State<SearchContent> {
   TextEditingController searchController = TextEditingController();
   static List previousSearchs = ['banana'];
   TextEditingController textController = TextEditingController();
+  late List<TagModel> _selectedTags = [];
 
-  late Future<ListContentModel?> _listContent;
+  late Future<ListContentRequestModel?> _listContent;
   bool showFilter = false;
   bool focusInput = false;
   List<String> tags = [];
@@ -30,7 +36,7 @@ class _SearchContentState extends State<SearchContent> {
     'Últimos 7 dias',
   ];
 
-  Future<ListContentModel?> _getContent() async {
+  Future<ListContentRequestModel?> _getContent() async {
     setState(() {
       _listContent = APIService().getContent(searchController.text);
     });
@@ -41,6 +47,7 @@ class _SearchContentState extends State<SearchContent> {
   void initState() {
     super.initState();
     _getContent();
+    _selectedTags = [];
   }
 
   previousSearchsItem(int index) {
@@ -78,6 +85,8 @@ class _SearchContentState extends State<SearchContent> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     Widget _widgetEmpty() {
       return Container(
         padding: const EdgeInsets.all(40),
@@ -94,7 +103,7 @@ class _SearchContentState extends State<SearchContent> {
       );
     }
 
-    Widget _widgetContents(ListContentModel items) {
+    Widget _widgetContents(ListContentRequestModel items) {
       return Column(children: [
         for (var i = 0; i < items.length; i++)
           ContentCard(
@@ -105,7 +114,7 @@ class _SearchContentState extends State<SearchContent> {
       ]);
     }
 
-    return FutureBuilder<ListContentModel?>(
+    return FutureBuilder<ListContentRequestModel?>(
         future: _listContent,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -115,131 +124,276 @@ class _SearchContentState extends State<SearchContent> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(
                 children: [
-                  
-                  SearchAnchor(
-                                builder: (BuildContext context, SearchController controller) {
-                              return SearchBar(
-                                controller: controller,
-                                padding: const MaterialStatePropertyAll<EdgeInsets>(
-                                    EdgeInsets.symmetric(horizontal: 16.0)),
-                                onTap: () {
-                                  controller.openView();
-                                },
-                                onChanged: (_) {
-                                  controller.openView();
-                                },
-                                leading: const Icon(Icons.search),
-                                trailing: <Widget>[
-                                  Tooltip(
-                                    message: 'Change brightness mode',
-                                    child: IconButton(
-                                      isSelected: true,
-                                      onPressed: () {
-                  setState(() {
-                  });
+                  SearchAnchor(builder:
+                      (BuildContext context, SearchController controller) {
+                    return SearchBar(
+                      controller: controller,
+                      padding: const WidgetStatePropertyAll<EdgeInsets>(
+                          EdgeInsets.symmetric(horizontal: 16.0)),
+                      onTap: () {
+                        controller.openView();
+                      },
+                      onChanged: (_) {
+                        controller.openView();
+                      },
+                      leading: const Icon(Icons.search),
+                      trailing: <Widget>[
+                        Tooltip(
+                          message: 'Filtros avançados',
+                          child: IconButton(
+                              onPressed: () => {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (builder) {
+                                        return Container(
+                                          padding: EdgeInsets.all(40),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 20.0),
+                                                child: DropdownSearch<String>(
+                                                  popupProps: PopupProps.menu(
+                                                    showSelectedItems: true,
+                                                    itemBuilder: (context, item,
+                                                        isSelected) {
+                                                      return ListTile(
+                                                        title: Text(
+                                                          item,
+                                                          style: TextStyle(
+                                                              fontSize: 13.0),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                  items: [
+                                                    "Hoje",
+                                                    "Últimos 7 dias",
+                                                    "Último mês",
+                                                    'Último ano',
+                                                    'Personalizado'
+                                                  ],
+                                                  dropdownDecoratorProps:
+                                                      DropDownDecoratorProps(
+                                                    baseStyle:
+                                                        TextStyle(fontSize: 13),
+                                                    dropdownSearchDecoration:
+                                                        InputDecoration(
+                                                      labelText: "Período",
+                                                      labelStyle: TextStyle(
+                                                          fontSize: 13),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0)),
+                                                        borderSide: BorderSide(
+                                                            color: Global.black,
+                                                            width: 0.5),
+                                                      ),
+                                                      fillColor: Global.white,
+                                                      filled: true,
+                                                      prefixIcon: Icon(Icons
+                                                          .filter_alt_outlined),
+                                                    ),
+                                                  ),
+                                                  autoValidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  //     validator: _validateInput,
+                                                  //   onSaved: (input) => order.type = input!,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 20.0),
+                                                child: DropdownSearch<String>(
+                                                  popupProps: PopupProps.menu(
+                                                    showSelectedItems: true,
+                                                    itemBuilder: (context, item,
+                                                        isSelected) {
+                                                      return ListTile(
+                                                        title: Text(
+                                                          item,
+                                                          style: TextStyle(
+                                                              fontSize: 13.0),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                  items: [
+                                                    "Site",
+                                                    "Artigo",
+                                                    "Vídeo",
+                                                    'Imagem'
+                                                  ],
+                                                  dropdownDecoratorProps:
+                                                      DropDownDecoratorProps(
+                                                    baseStyle:
+                                                        TextStyle(fontSize: 13),
+                                                    dropdownSearchDecoration:
+                                                        InputDecoration(
+                                                      labelText: "Tipo",
+                                                      labelStyle: TextStyle(
+                                                          fontSize: 13),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0)),
+                                                        borderSide: BorderSide(
+                                                            color: Global.black,
+                                                            width: 0.5),
+                                                      ),
+                                                      fillColor: Global.white,
+                                                      filled: true,
+                                                      prefixIcon: Icon(Icons
+                                                          .filter_alt_outlined),
+                                                    ),
+                                                  ),
+                                                  autoValidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  //     validator: _validateInput,
+                                                  //   onSaved: (input) => order.type = input!,
+                                                ),
+                                              ),
+                                              FlutterTagging<TagModel>(
+                                                initialItems: _selectedTags,
+                                                textFieldConfiguration:
+                                                    TextFieldConfiguration(
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Tags',
+                                                    labelStyle:
+                                                        TextStyle(fontSize: 13),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10.0)),
+                                                      borderSide: BorderSide(
+                                                          color: Global.black,
+                                                          width: 0.5),
+                                                    ),
+                                                    fillColor: Global.white,
+                                                    filled: true,
+                                                  ),
+                                                ),
+                                                findSuggestions: _getTags,
+                                                additionCallback: (value) {
+                                                  return TagModel(
+                                                    name: value,
+                                                  );
+                                                },
+                                                configureSuggestion: (lang) {
+                                                  return SuggestionConfiguration(
+                                                    title: Text(
+                                                      lang.name!,
+                                                      style: TextStyle(
+                                                          fontSize: 13),
+                                                    ),
+                                                  );
+                                                },
+                                                configureChip: (lang) {
+                                                  return ChipConfiguration(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                      side: BorderSide(
+                                                          color: Global.black),
+                                                    ),
+                                                    materialTapTargetSize:
+                                                        MaterialTapTargetSize
+                                                            .padded,
+                                                    label: Text(lang.name!),
+                                                    backgroundColor:
+                                                        Global.black,
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.white),
+                                                    deleteIconColor:
+                                                        Colors.white,
+                                                  );
+                                                },
+                                                onChanged: () {
+                                                  setState(() {
+                                                    _selectedTags =
+                                                        _selectedTags;
+                                                  });
+                                                },
+                                              ),
+                                              Container(
+                                                padding:
+                                                    EdgeInsets.only(top: 20.0),
+                                                height: 100,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Container(
+                                                        child: ButtonWidget(
+                                                            title:
+                                                                'Limpar filtros',
+                                                            hasBorder: false,
+                                                            onTap: () {}),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
+                                                        child: ButtonWidget(
+                                                            title:
+                                                                'Aplicar filtros',
+                                                            hasBorder: false,
+                                                            onTap: () {}),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
                                       },
-                                      icon: const Icon(Icons.wb_sunny_outlined),
-                                      selectedIcon: const Icon(Icons.brightness_2_outlined),
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20)),
+                                      ),
                                     ),
-                                  )
-                                ],
-                              );
-                            }, suggestionsBuilder:
-                                    (BuildContext context, SearchController controller) {
-                              return List<ListTile>.generate(5, (int index) {
-                                final String item = 'item $index';
-                                return ListTile(
-                                  title: Text(item),
-                                  onTap: () {
                                     setState(() {
-                                      controller.closeView(item);
-                                    });
+                                      showFilter = !showFilter;
+                                    })
                                   },
-                                );
-                              });}),
+                              icon: Icon(Icons.filter_alt_sharp)),
+                        )
+                      ],
+                    );
+                  }, suggestionsBuilder:
+                      (BuildContext context, SearchController controller) {
+                    return List<ListTile>.generate(5, (int index) {
+                      final String item = 'item $index';
+                      return ListTile(
+                        title: Text(item),
+                        onTap: () {
+                          setState(() {
+                            controller.closeView(item);
+                          });
+                        },
+                      );
+                    });
+                  }),
                   // Flexible(
-                    
+
                   //  child: SearchBar(),
                   // ),
-                  IconButton(
-                      onPressed: () => {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (builder) {
-                                return Container(
-                                  padding: EdgeInsets.all(40),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          'Criar conteúdo',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20.0, bottom: 20.0),
-                                        child: TextFieldWidget(
-                                          hintText: 'Título da conteúdo',
-                                          obscureText: false,
-                                          prefixIconData: Icons.title,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              //      order.title = value;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            bottom: 20.0),
-                                        child: TextFieldWidget(
-                                          hintText: 'URL',
-                                          obscureText: false,
-                                          prefixIconData: Icons.link,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              //   order.url = value;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            bottom: 20.0),
-                                        child: TextFieldWidget(
-                                          hintText: 'Descrição',
-                                          obscureText: false,
-                                          prefixIconData: Icons.description,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              //  order.notes = value;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      ButtonWidget(
-                                          title: 'Salvar',
-                                          hasBorder: false,
-                                          onTap: () {}),
-                                    ],
-                                  ),
-                                );
-                              },
-                              isScrollControlled: true,
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20)),
-                              ),
-                            ),
-                            setState(() {
-                              showFilter = !showFilter;
-                            })
-                          },
-                      icon: Icon(Icons.filter_alt_sharp)),
+
                   const SizedBox(
                     height: 8,
                   ),
@@ -253,34 +407,6 @@ class _SearchContentState extends State<SearchContent> {
                           itemBuilder: (context, index) =>
                               previousSearchsItem(index)),
                     ),
-                  if (showFilter)
-                    Container(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  'Por data:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            ChipsChoice<String>.multiple(
-                              value: tags,
-                              onChanged: (val) => setState(() => tags = val),
-                              choiceItems: C2Choice.listFrom<String, String>(
-                                source: options,
-                                value: (i, v) => v,
-                                label: (i, v) => v,
-                              ),
-                            )
-                          ],
-                        )),
                   const SizedBox(
                     height: 8,
                   ),
@@ -294,5 +420,9 @@ class _SearchContentState extends State<SearchContent> {
             return Container();
           }
         });
+  }
+
+  FutureOr<List<TagModel>> _getTags(String query) async {
+    return await APIService().getTags();
   }
 }

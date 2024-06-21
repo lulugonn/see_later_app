@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
-import 'package:see_later_app/models/content_model.dart';
+import 'package:see_later_app/models/content_request_model.dart';
+import 'package:see_later_app/models/content_response_model.dart';
 import 'package:see_later_app/screens/edit_content/edit_content.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/view_content/view_content.dart';
@@ -14,7 +15,7 @@ class ContentCard extends StatefulWidget {
       required this.content,
       required this.index,
       required this.length});
-  final ContentModel content;
+  final ContentRequestModel content;
   final int index;
   final num length;
 

@@ -20,7 +20,7 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  late Future<ListContentModel?> _listContent;
+  late Future<ListContentRequestModel?> _listContent;
   int _currentIndex = 0;
   bool showUser = true;
   String appBarTitle = 'ola';
@@ -31,7 +31,7 @@ class _NavBarState extends State<NavBar> {
     SearchContent(),
   ];
 
-  Future<ListContentModel?> _getLastContents() async {
+  Future<ListContentRequestModel?> _getLastContents() async {
     return _listContent = APIService().getLastContents();
   }
 
@@ -128,7 +128,7 @@ class _NavBarState extends State<NavBar> {
     );
   }
 
-  Widget _widgetLastContents(ListContentModel items) {
+  Widget _widgetLastContents(ListContentRequestModel items) {
     return Column(children: [
       for (var i = 0; i < items.length; i++)
         ContentCard(

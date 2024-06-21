@@ -1,27 +1,25 @@
-
 import 'package:see_later_app/models/tag_model.dart';
 
-class ListTagModel  {
-  late List<TagModel>? items;
+class ListTagModel {
+  List<TagModel>? items;
 
-  ListTagModel({ this.items});
+  ListTagModel({this.items});
 
   factory ListTagModel.fromJson(List<dynamic> json) {
-    List<TagModel> contentList = json.map((item) {
+    List<TagModel> tagList = json.map((item) {
       return TagModel.fromJson(item as Map<String, dynamic>);
     }).toList();
 
-    return ListTagModel(items: contentList);
+    return ListTagModel(items: tagList);
   }
 
-  num get length => items!.length;
-
-  TagModel operator [](int index) {
-    return items![index];
+  List<Map<String, dynamic>> toJson() {
+    return items?.map((item) => item.toJson()).toList() ?? [];
   }
 
-  // Método necessário para a desserialização do JSON
-  List<Map<String, dynamic>> toJson() =>
-      items!.map((item) => item.toJson()).toList();
+  int get length => items?.length ?? 0;
 
+  TagModel? operator [](int index) {
+    return items?[index];
+  }
 }
