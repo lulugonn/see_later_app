@@ -48,18 +48,8 @@ class _ContentCardState extends State<ContentCard> {
             onTap: () {
               Future.delayed(
                   Duration.zero,
-                  () => Navigator.of(context).push(
-                          // PageTransition(
-                          //   child: EditContent(
-                          //     content: widget.content,
-                          //   ),
-                          //   type: PageTransitionType
-                          //       .leftToRight, // Tipo de animação
-                          //   duration: Duration(
-                          //       milliseconds:
-                          //           500), // Duração da animação
-                          // ),
-                          MaterialPageRoute(builder: (context) {
+                  () => Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
                         return ViewContent(
                           content: widget.content,
                           index: widget.index,
@@ -69,12 +59,11 @@ class _ContentCardState extends State<ContentCard> {
             },
             contentPadding: EdgeInsets.all(0),
             leading: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                  color: Color(0x66404040),
-                  borderRadius: BorderRadius.circular(10)),
-              child: const Icon(Icons.link, color: Global.white, size: 30),
-            ),
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                    color: getColorItem(),
+                    borderRadius: BorderRadius.circular(10)),
+                child: getContentIcon(widget.content.type)),
             title: Text(widget.content.title!,
                 style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Padding(
@@ -101,8 +90,8 @@ class _ContentCardState extends State<ContentCard> {
                       onTap: () {
                         Future.delayed(
                             Duration.zero,
-                            () => Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
+                            () => Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
                                   return EditContent(
                                     content: widget.content,
                                   );
@@ -163,6 +152,36 @@ class _ContentCardState extends State<ContentCard> {
         );
       },
     );
+  }
+
+  Icon getContentIcon(type) {
+    switch (type.toLowerCase()) {
+      case 'site':
+        return Icon(Icons.public, color: Global.white, size: 30);
+        break;
+      case 'artigo':
+        return Icon(Icons.book, color: Global.white, size: 30);
+        break;
+      case 'vídeo':
+        return Icon(Icons.videocam, color: Global.white, size: 30);
+        break;
+      case 'imagem':
+        return Icon(Icons.image, color: Global.white, size: 30);
+        break;
+      default:
+        return Icon(Icons.notes, color: Global.white, size: 30);
+        break;
+    }
+  }
+
+  Color getColorItem() {
+    List color = [
+      const Color(0x80404040),
+      const Color(0x999BE3AC),
+      const Color(0x99ECC5EB),
+      const Color(0x807098DA),
+    ];
+    return (color.toList()..shuffle()).first;
   }
 
   void _deleteContent(int id) async {

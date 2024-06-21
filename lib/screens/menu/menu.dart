@@ -60,6 +60,16 @@ class _MenuState extends State<Menu> {
                 title: Text('Alterar senha',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                                        trailing: Text('EM BREVE', style: TextStyle(color: Global.darkGrey)),
+
+              ),
+               ListTile(
+                contentPadding: EdgeInsets.all(0),
+                leading: Icon(Icons.notifications, size: 25),
+                title: Text('Notificações',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                trailing: Text('EM BREVE', style: TextStyle(color: Global.darkGrey)),
               ),
               ListTile(
                 contentPadding: EdgeInsets.all(0),
