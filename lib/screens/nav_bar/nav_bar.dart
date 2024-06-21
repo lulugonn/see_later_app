@@ -6,6 +6,7 @@ import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/screens/Home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
+import 'package:see_later_app/screens/search_content/search_content.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 
 class NavBar extends StatefulWidget {
@@ -27,7 +28,7 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> _screens = [
     const Home(),
     const ContentForm(),
-    Container(),
+    SearchContent(),
   ];
 
   Future<ListContentModel?> _getLastContents() async {
@@ -85,7 +86,7 @@ class _NavBarState extends State<NavBar> {
                 showUser = true;
                 break;
               case 2:
-                appBarTitle = 'Salvar Novo Conteúdo';
+                appBarTitle = 'Conteúdos Salvos';
                 showUser = false;
                 break;
             }
