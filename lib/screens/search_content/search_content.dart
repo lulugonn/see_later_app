@@ -40,7 +40,10 @@ class _SearchContentState extends State<SearchContent> {
   }
 
   Future<ListContentResponseModel?> _getContent() async {
-   return _listContent=   APIService().getContent(filter!); // Correção: Chamada correta para APIService().getContent()
+    setState(() {
+      _listContent = APIService().getContent(filter!);
+    }); // Correção: Chamada correta para APIService().getContent()
+    return _listContent;
   }
 
   Future<void> _loadTags() async {
@@ -117,20 +120,20 @@ class _SearchContentState extends State<SearchContent> {
     return FutureBuilder<ListContentResponseModel?>(
       future: _listContent,
       builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Padding(
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+              child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircularProgressIndicator(),
           ));
-        } else
-        if (snapshot.connectionState == ConnectionState.done) {
+        } else if (snapshot.connectionState == ConnectionState.done) {
           final items = snapshot.data;
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(
                 children: [
-               SearchAnchor(builder:
+                  SearchAnchor(builder:
                       (BuildContext context, SearchController controller) {
                     return SearchBar(
                       controller: controller,
@@ -154,267 +157,282 @@ class _SearchContentState extends State<SearchContent> {
                                         return StatefulBuilder(builder:
                                             (BuildContext context,
                                                 StateSetter setState) {
-                                            return Container(
-                                              padding: EdgeInsets.all(40),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        bottom: 20.0),
-                                                    child: DropdownSearch<String>(
-                                                      popupProps: PopupProps.menu(
-                                                        showSelectedItems: true,
-                                                        itemBuilder: (context, item,
-                                                            isSelected) {
-                                                          return ListTile(
-                                                            title: Text(
-                                                              item,
-                                                              style: TextStyle(
-                                                                  fontSize: 13.0),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                      items: [
-                                                        "Hoje",
-                                                        "Últimos 7 dias",
-                                                        "Último mês",
-                                                        'Último ano',
-                                                        'Personalizado'
-                                                      ],
-                                                      dropdownDecoratorProps:
-                                                          DropDownDecoratorProps(
-                                                        baseStyle:
-                                                            TextStyle(fontSize: 13),
-                                                        dropdownSearchDecoration:
-                                                            InputDecoration(
-                                                          labelText: "Período",
-                                                          labelStyle: TextStyle(
-                                                              fontSize: 13),
-                                                          border:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        10.0)),
-                                                            borderSide: BorderSide(
-                                                                color: Global.black,
-                                                                width: 0.5),
+                                          return Container(
+                                            padding: EdgeInsets.all(40),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 20.0),
+                                                  child: DropdownSearch<String>(
+                                                    popupProps: PopupProps.menu(
+                                                      showSelectedItems: true,
+                                                      itemBuilder: (context,
+                                                          item, isSelected) {
+                                                        return ListTile(
+                                                          title: Text(
+                                                            item,
+                                                            style: TextStyle(
+                                                                fontSize: 13.0),
                                                           ),
-                                                          fillColor: Global.white,
-                                                          filled: true,
-                                                          prefixIcon: Icon(Icons
-                                                              .filter_alt_outlined),
-                                                        ),
-                                                      ),
-                                                      autoValidateMode:
-                                                          AutovalidateMode
-                                                              .onUserInteraction,
-                                                      //     validator: _validateInput,
-                                                      //   onSaved: (input) => order.type = input!,
+                                                        );
+                                                      },
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        bottom: 20.0),
-                                                    child: DropdownSearch<String>(
-                                                      popupProps: PopupProps.menu(
-                                                        showSelectedItems: true,
-                                                        itemBuilder: (context, item,
-                                                            isSelected) {
-                                                          return ListTile(
-                                                            title: Text(
-                                                              item,
-                                                              style: TextStyle(
-                                                                  fontSize: 13.0),
-                                                            ),
-                                                          );
-                                                        },
+                                                    items: [
+                                                      "Hoje",
+                                                      "Últimos 7 dias",
+                                                      "Último mês",
+                                                      'Último ano',
+                                                      'Personalizado'
+                                                    ],
+                                                    dropdownDecoratorProps:
+                                                        DropDownDecoratorProps(
+                                                      baseStyle: TextStyle(
+                                                          fontSize: 13),
+                                                      dropdownSearchDecoration:
+                                                          InputDecoration(
+                                                        labelText: "Período",
+                                                        labelStyle: TextStyle(
+                                                            fontSize: 13),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10.0)),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Global
+                                                                      .black,
+                                                                  width: 0.5),
+                                                        ),
+                                                        fillColor: Global.white,
+                                                        filled: true,
+                                                        prefixIcon: Icon(Icons
+                                                            .filter_alt_outlined),
                                                       ),
-                                                      items: [
-                                                        "Site",
-                                                        "Artigo",
-                                                        "Vídeo",
-                                                        'Imagem'
-                                                      ],
-                                                      dropdownDecoratorProps:
-                                                          DropDownDecoratorProps(
-                                                        baseStyle:
-                                                            TextStyle(fontSize: 13),
-                                                        dropdownSearchDecoration:
-                                                            InputDecoration(
-                                                          labelText: "Tipo",
-                                                          labelStyle: TextStyle(
-                                                              fontSize: 13),
-                                                          border:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        10.0)),
-                                                            borderSide: BorderSide(
-                                                                color: Global.black,
-                                                                width: 0.5),
+                                                    ),
+                                                    autoValidateMode:
+                                                        AutovalidateMode
+                                                            .onUserInteraction,
+                                                    //     validator: _validateInput,
+                                                    //   onSaved: (input) => order.type = input!,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 20.0),
+                                                  child: DropdownSearch<String>(
+                                                    popupProps: PopupProps.menu(
+                                                      showSelectedItems: true,
+                                                      itemBuilder: (context,
+                                                          item, isSelected) {
+                                                        return ListTile(
+                                                          title: Text(
+                                                            item,
+                                                            style: TextStyle(
+                                                                fontSize: 13.0),
                                                           ),
-                                                          fillColor: Global.white,
-                                                          filled: true,
-                                                          prefixIcon: Icon(Icons
-                                                              .filter_alt_outlined),
-                                                        ),
-                                                      ),
-                                                      autoValidateMode:
-                                                          AutovalidateMode
-                                                              .onUserInteraction,
-                                                      //     validator: _validateInput,
-                                                      //   onSaved: (input) => order.type = input!,
+                                                        );
+                                                      },
                                                     ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'Tags',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
+                                                    items: [
+                                                      "Site",
+                                                      "Artigo",
+                                                      "Vídeo",
+                                                      'Imagem'
                                                     ],
-                                                  ),
-                                                  ChipsChoice<int>.single(
-                                                    value: value,
-                                                    onChanged: (val) {
-                                                      setState(() => value = val);
-                                                    },
-                                                    choiceLoader: getChoices,
-                                                    wrapped: true,
-                                                    choiceCheckmark: true,
-                                                    choiceStyle: C2ChipStyle(
-                                                      //labelStyle: TextStyle(color: Colors.white),
-                                                      backgroundColor: Global.white,
-                                                      borderColor: Global.black,
-                                                      borderStyle: BorderStyle.solid,
-                                                      //  borderColor:
-                                                      //                                                   OutlineInputBorder(
-                                                      //                                                 borderRadius:
-                                                      //                                                     BorderRadius.all(
-                                                      //                                                         Radius.circular(
-                                                      //                                                             10.0)),
-                                                      //                                                 borderSide: BorderSide(
-                                                      //                                                     color: Global.black,
-                                                      //                                                     width: 0.5),
-                                                      //                                               ),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  20.0)),
-                                                      //selectedColor: Colors.green,
-                                                      //brightness: Brightness.dark,
+                                                    dropdownDecoratorProps:
+                                                        DropDownDecoratorProps(
+                                                      baseStyle: TextStyle(
+                                                          fontSize: 13),
+                                                      dropdownSearchDecoration:
+                                                          InputDecoration(
+                                                        labelText: "Tipo",
+                                                        labelStyle: TextStyle(
+                                                            fontSize: 13),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10.0)),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Global
+                                                                      .black,
+                                                                  width: 0.5),
+                                                        ),
+                                                        fillColor: Global.white,
+                                                        filled: true,
+                                                        prefixIcon: Icon(Icons
+                                                            .filter_alt_outlined),
+                                                      ),
                                                     ),
+                                                    autoValidateMode:
+                                                        AutovalidateMode
+                                                            .onUserInteraction,
+                                                    //     validator: _validateInput,
+                                                    //   onSaved: (input) => order.type = input!,
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Tags',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                ChipsChoice<int>.single(
+                                                  value: value,
+                                                  onChanged: (val) {
+                                                    setState(() => value = val);
+                                                  },
+                                                  choiceLoader: getChoices,
+                                                  wrapped: true,
+                                                  choiceCheckmark: true,
+                                                  choiceStyle: C2ChipStyle(
+                                                    //labelStyle: TextStyle(color: Colors.white),
+                                                    backgroundColor:
+                                                        Global.white,
+                                                    borderColor: Global.black,
+                                                    borderStyle:
+                                                        BorderStyle.solid,
+                                                    //  borderColor:
+                                                    //                                                   OutlineInputBorder(
+                                                    //                                                 borderRadius:
+                                                    //                                                     BorderRadius.all(
+                                                    //                                                         Radius.circular(
+                                                    //                                                             10.0)),
+                                                    //                                                 borderSide: BorderSide(
+                                                    //                                                     color: Global.black,
+                                                    //                                                     width: 0.5),
+                                                    //                                               ),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20.0)),
+                                                    //selectedColor: Colors.green,
+                                                    //brightness: Brightness.dark,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'Incluir conteúdos já consumidos',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Switch(
+                                                      value:
+                                                          filter!.seen != null
+                                                              ? filter!.seen!
+                                                              : false,
+                                                      activeColor: Colors.blue,
+                                                      onChanged: (bool value) {
+                                                        setState(() {
+                                                          filter!.seen = value;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.only(
+                                                      top: 20.0),
+                                                  height: 100,
+                                                  child: Row(
                                                     children: [
-                                                      Text(
-                                                        'Incluir conteúdos já consumidos',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                      Switch(
-                                                      value: filter!.seen!=null?filter!.seen! :false,
-                                                        activeColor: Colors.blue,
-                                                        onChanged: (bool value) {
-                                                          setState(() {
-                                                            filter!.seen = value;
-                                                          });
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.only(top: 20.0),
-                                                    height: 100,
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child: Container(
-                                                            child: Ink(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Global.white,
+                                                      Expanded(
+                                                        child: Container(
+                                                          child: Ink(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Global.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              border: Border.all(
+                                                                  width: 1,
+                                                                  color: Global
+                                                                      .mediumBlue),
+                                                            ),
+                                                            child: InkWell(
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
                                                                             10),
-                                                                border: Border.all(
-                                                                    width: 1,
-                                                                    color: Global
-                                                                        .mediumBlue),
-                                                              ),
-                                                              child: InkWell(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  onTap: () {},
-                                                                  child: SizedBox(
-                                                                    height: 45.0,
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        Text(
-                                                                            'Limpar filtros',
-                                                                            textAlign:
-                                                                                TextAlign
-                                                                                    .left,
-                                                                            style: TextStyle(
-                                                                                fontWeight: FontWeight
-                                                                                    .bold,
-                                                                                fontSize:
-                                                                                    12,
-                                                                                color:
-                                                                                    Global.mediumBlue)),
-                                                                      ],
-                                                                    ),
-                                                                  )),
-                                                            ),
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                  filter =
+                                                                        FilterModel();
+                                                                  });
+                                                                },
+                                                                child: SizedBox(
+                                                                  height: 45.0,
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                          'Limpar filtros',
+                                                                          textAlign: TextAlign
+                                                                              .left,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 12,
+                                                                              color: Global.mediumBlue)),
+                                                                    ],
+                                                                  ),
+                                                                )),
                                                           ),
                                                         ),
-                                                        Expanded(
-                                                          child: Container(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 8.0),
-                                                            child: ButtonWidget(
-                                                                fontSize: 14,
-                                                                title:
-                                                                    'Aplicar filtros',
-                                                                hasBorder: false,
-                                                                onTap: ()  {
-                                                                  setState(()async {    _listContent= _getContent();
-      });
-         Navigator.of(context).pop();
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
+                                                          child: ButtonWidget(
+                                                              fontSize: 14,
+                                                              title:
+                                                                  'Aplicar filtros',
+                                                              hasBorder: false,
+                                                              onTap: () async {
+                                                                await _getContent();
 
-                                                                }),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              }),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            );
-                                          }
-                                        );
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        });
                                       },
                                       isScrollControlled: true,
                                       backgroundColor: Colors.white,
