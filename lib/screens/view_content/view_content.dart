@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
-import 'package:see_later_app/models/content_request_model.dart';
 import 'package:see_later_app/models/content_response_model.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
@@ -46,7 +45,8 @@ class _ViewContentState extends State<ViewContent> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             var items = snapshot.data;
-            return Scaffold(
+            return 
+            Scaffold(
                 appBar: UserHeader(
                   appBarTitle: 'Conteúdo',
                   comeback: true,
@@ -99,16 +99,20 @@ class _ViewContentState extends State<ViewContent> {
                                       ),
                                     ),
                                     trailing: Tooltip(
-                                      message: !items.favorite!
-                                          ? 'Marcar como favorito'
-                                          : 'Desmarcar como favorito',
+                                      message: items.favorite!=null && items.favorite!=false
+                                          ? 'Desmarcar como favorito':'Marcar como favorito'
+                                          ,
                                       child: IconButton(
                                           onPressed: () =>
-                                              {checkFavorite(items)},
-                                          icon: !items.favorite!
-                                              ? Icon(Icons.star_border)
-                                              : Icon(Icons.star)),
-                                    )),
+                                              {
+                                                checkFavorite(items)
+                                                },
+                                          icon: items.favorite!=null && items.favorite!=false
+                                          ?  
+                                             Icon(Icons.star):
+                                             Icon(Icons.star_border)),
+                                    )
+                                   ),
                               )),
                           Padding(
                             padding: EdgeInsets.only(top: 16),
@@ -119,7 +123,7 @@ class _ViewContentState extends State<ViewContent> {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      items.notes!,
+                                      items.notes!= null? items.notes!:'',
                                       textAlign: TextAlign.left,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 100,
@@ -165,7 +169,7 @@ class _ViewContentState extends State<ViewContent> {
                           Row(
                             children: [
                               Text(
-                                'Última atualização: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(items.updatedAt!)).toString()}',
+                                'Última atualização: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(items.updatedAt!=null?items.updatedAt!:items.createdAt!)).toString()}',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(fontSize: 11),
                               ),
@@ -270,6 +274,7 @@ class _ViewContentState extends State<ViewContent> {
                                     ),
                             ),
                           )
+                   
                         ]))));
           } else {
             return Container();
@@ -378,9 +383,9 @@ class _ViewContentState extends State<ViewContent> {
       AlertDialogService().showAlertDefault(
           context,
           'Parabéns!',
-          items.favorite
-              ? 'Conteúdo retirado dos favoritos!'
-              : 'Conteúdo favoritado!');
+          items.favorite!=null && items.favorite!=false
+              ? 
+              'Conteúdo favoritado!':'Conteúdo retirado dos favoritos!');
       setState(() {
         _content = _getContentById();
       });

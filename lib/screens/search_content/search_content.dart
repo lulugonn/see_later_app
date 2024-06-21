@@ -1,18 +1,15 @@
 import 'dart:async';
 
 import 'package:chips_choice/chips_choice.dart';
+import 'package:dio/dio.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
-import 'package:see_later_app/models/list_content_model.dart';
 import 'package:see_later_app/models/list_content_response_model.dart';
-import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/models/tag_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
-import 'package:see_later_app/screens/widgets/textfield_widget.dart';
 
 class SearchContent extends StatefulWidget {
   const SearchContent({super.key});
@@ -32,6 +29,8 @@ class _SearchContentState extends State<SearchContent> {
   bool focusInput = false;
   List<String> tags = [];
 
+  late String value;
+
   // list of string options
   List<String> options = [
     'Últimos 7 dias',
@@ -41,6 +40,7 @@ class _SearchContentState extends State<SearchContent> {
     setState(() {
       _listContent = APIService().getContent(searchController.text);
     });
+
     return _listContent;
   }
 
@@ -49,6 +49,15 @@ class _SearchContentState extends State<SearchContent> {
     super.initState();
     _getContent();
     _selectedTags = [];
+    _loadTags();
+    value = '';
+  }
+
+  Future<void> _loadTags() async {
+    List<TagModel> tags = await _getTags();
+    setState(() {
+      _selectedTags = tags;
+    });
   }
 
   previousSearchsItem(int index) {
@@ -262,70 +271,74 @@ class _SearchContentState extends State<SearchContent> {
                                                   //   onSaved: (input) => order.type = input!,
                                                 ),
                                               ),
-                                              FlutterTagging<TagModel>(
-                                                initialItems: _selectedTags,
-                                                textFieldConfiguration:
-                                                    TextFieldConfiguration(
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Tags',
-                                                    labelStyle:
-                                                        TextStyle(fontSize: 13),
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10.0)),
-                                                      borderSide: BorderSide(
-                                                          color: Global.black,
-                                                          width: 0.5),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Tags',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14,
                                                     ),
-                                                    fillColor: Global.white,
-                                                    filled: true,
                                                   ),
+                                                ],
+                                              ),
+                                              ChipsChoice<String>.single(
+                                                value: value,
+                                                onChanged: (val) {
+                                                  setState(() => value = val);
+                                                },
+                                                choiceLoader: getChoices,
+                                                wrapped: true,
+                                                choiceCheckmark: true,
+                                                choiceStyle: C2ChipStyle(
+                                                  //labelStyle: TextStyle(color: Colors.white),
+                                                  backgroundColor: Global.white,
+                                                  borderColor: Global.black,
+                                                  borderStyle: BorderStyle.solid,
+                                                  //  borderColor:
+                                                  //                                                   OutlineInputBorder(
+                                                  //                                                 borderRadius:
+                                                  //                                                     BorderRadius.all(
+                                                  //                                                         Radius.circular(
+                                                  //                                                             10.0)),
+                                                  //                                                 borderSide: BorderSide(
+                                                  //                                                     color: Global.black,
+                                                  //                                                     width: 0.5),
+                                                  //                                               ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              20.0)),
+                                                  //selectedColor: Colors.green,
+                                                  //brightness: Brightness.dark,
                                                 ),
-                                                findSuggestions: _getTags,
-                                                additionCallback: (value) {
-                                                  return TagModel(
-                                                    name: value,
-                                                  );
-                                                },
-                                                configureSuggestion: (lang) {
-                                                  return SuggestionConfiguration(
-                                                    title: Text(
-                                                      lang.name!,
-                                                      style: TextStyle(
-                                                          fontSize: 13),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Incluir conteúdos já consumidos',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14,
                                                     ),
-                                                  );
-                                                },
-                                                configureChip: (lang) {
-                                                  return ChipConfiguration(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                      side: BorderSide(
-                                                          color: Global.black),
-                                                    ),
-                                                    materialTapTargetSize:
-                                                        MaterialTapTargetSize
-                                                            .padded,
-                                                    label: Text(lang.name!),
-                                                    backgroundColor:
-                                                        Global.black,
-                                                    labelStyle: TextStyle(
-                                                        color: Colors.white),
-                                                    deleteIconColor:
-                                                        Colors.white,
-                                                  );
-                                                },
-                                                onChanged: () {
-                                                  setState(() {
-                                                    _selectedTags =
-                                                        _selectedTags;
-                                                  });
-                                                },
+                                                  ),
+                                                  Switch(
+                                                    // This bool value toggles the switch.
+                                                    value: true,
+                                                    activeColor: Colors.blue,
+                                                    onChanged: (bool value) {
+                                                      // This is called when the user toggles the switch.
+                                                      setState(() {
+                                                        //   light = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
                                               ),
                                               Container(
                                                 padding:
@@ -335,11 +348,48 @@ class _SearchContentState extends State<SearchContent> {
                                                   children: [
                                                     Expanded(
                                                       child: Container(
-                                                        child: ButtonWidget(
-                                                            title:
-                                                                'Limpar filtros',
-                                                            hasBorder: false,
-                                                            onTap: () {}),
+                                                        child: Ink(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Global.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            border: Border.all(
+                                                                width: 1,
+                                                                color: Global
+                                                                    .mediumBlue),
+                                                          ),
+                                                          child: InkWell(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              onTap: () {},
+                                                              child: SizedBox(
+                                                                height: 45.0,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                        'Limpar filtros',
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .left,
+                                                                        style: TextStyle(
+                                                                            fontWeight: FontWeight
+                                                                                .bold,
+                                                                            fontSize:
+                                                                                12,
+                                                                            color:
+                                                                                Global.mediumBlue)),
+                                                                  ],
+                                                                ),
+                                                              )),
+                                                        ),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -348,6 +398,7 @@ class _SearchContentState extends State<SearchContent> {
                                                             EdgeInsets.only(
                                                                 left: 8.0),
                                                         child: ButtonWidget(
+                                                            fontSize: 14,
                                                             title:
                                                                 'Aplicar filtros',
                                                             hasBorder: false,
@@ -390,6 +441,7 @@ class _SearchContentState extends State<SearchContent> {
                       );
                     });
                   }),
+
                   // Flexible(
 
                   //  child: SearchBar(),
@@ -423,7 +475,22 @@ class _SearchContentState extends State<SearchContent> {
         });
   }
 
-  FutureOr<List<TagModel>> _getTags(String query) async {
+  Future<List<C2Choice<String>>> getChoices() async {
+    var res = await APIService().getTags();
+    List<C2Choice<String>> choices = res.map((tag) {
+      return C2Choice<String>(
+        meta: res,
+        value: tag.id.toString(),
+        label: tag.name!,
+      );
+    }).toList();
+
+    // choices.insert(0, C2Choice<String>(value: 'all', label: 'All'));
+
+    return choices;
+  }
+
+  FutureOr<List<TagModel>> _getTags() async {
     return await APIService().getTags();
   }
 }

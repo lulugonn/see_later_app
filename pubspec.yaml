@@ -48,6 +48,7 @@ dependencies:
   flutter_tagging_plus: ^4.0.2
   url_launcher: ^6.3.0
   fluttertoast: ^8.2.6
+  filter_list: ^1.0.3
 
 dev_dependencies:
   flutter_test:
