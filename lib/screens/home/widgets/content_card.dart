@@ -102,16 +102,6 @@ class _ContentCardState extends State<ContentCard> {
                         Future.delayed(
                             Duration.zero,
                             () => Navigator.of(context).push(
-                                    // PageTransition(
-                                    //   child: EditContent(
-                                    //     content: widget.content,
-                                    //   ),
-                                    //   type: PageTransitionType
-                                    //       .leftToRight, // Tipo de animação
-                                    //   duration: Duration(
-                                    //       milliseconds:
-                                    //           500), // Duração da animação
-                                    // ),
                                     MaterialPageRoute(builder: (context) {
                                   return EditContent(
                                     content: widget.content,

@@ -50,35 +50,6 @@ class _ViewContentState extends State<ViewContent> {
                   showUser: true,
                 ),
                 backgroundColor: Global.white,
-                floatingActionButton: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      heroTag: "Salvar",
-                      backgroundColor: Global.mediumBlue,
-                      tooltip: 'Salvar conteúdo',
-                      onPressed: () {
-                        _updateContent(items!);
-                      },
-                      child:
-                          const Icon(Icons.save, color: Colors.white, size: 28),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    FloatingActionButton(
-                      heroTag: "Excluir",
-                      backgroundColor: Colors.red,
-                      tooltip: 'Excluir conteúdo',
-                      onPressed: () {
-                        Future.delayed(
-                            Duration.zero, () => _deleteContent(items!.id!));
-                      },
-                      child: const Icon(Icons.delete,
-                          color: Colors.white, size: 28),
-                    ),
-                  ],
-                ),
                 body: SingleChildScrollView(
                     child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),

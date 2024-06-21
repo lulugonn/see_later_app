@@ -403,7 +403,7 @@ class APIService {
     }
   }
 
-  Future<String?> updateContent(ContentResponseModel requestModel) async {
+  Future<String?> updateContent(ContentRequestModel requestModel) async {
     try {
       String? token = await AuthController.getToken();
       dio.options.headers["Authorization"] = "Bearer $token";

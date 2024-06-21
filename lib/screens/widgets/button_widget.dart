@@ -5,9 +5,11 @@ class ButtonWidget extends StatelessWidget {
   final String title;
   final bool hasBorder;
   final VoidCallback onTap;
+  final double? fontSize;
 
   const ButtonWidget(
       {super.key,
+      this.fontSize,
       required this.title,
       required this.hasBorder,
       required this.onTap});
@@ -38,7 +40,7 @@ class ButtonWidget extends StatelessWidget {
                   style: TextStyle(
                     color: hasBorder ? Global.mediumBlue : Global.white,
                     fontWeight: FontWeight.w600,
-                    fontSize: 16.0,
+                    fontSize: fontSize!=null? fontSize:16.0,
                   )),
             ),
           ),

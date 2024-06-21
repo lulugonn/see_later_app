@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
-import 'package:see_later_app/models/list_content_model.dart';
 import 'package:see_later_app/models/list_content_response_model.dart';
-import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/screens/Home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/home/widgets/content_form.dart';
@@ -51,25 +49,6 @@ class _NavBarState extends State<NavBar> {
         appBarTitle: appBarTitle,
         showUser: showUser,
       ),
-      // floatingActionButtonLocation:  FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Global.mediumBlue,
-      //   tooltip: 'Criar novo conteúdo',
-      //   onPressed: () {
-      //     showModalBottomSheet(
-      //       context: context,
-      //       builder: (builder) {
-      //         return  const CreateContent();
-      //       },
-      //       isScrollControlled: true,
-      //       backgroundColor: Colors.white,
-      //       shape: const RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
-      //       ),
-      //     );
-      //   },
-      //   child: const Icon(Icons.add, color: Colors.white, size: 28),
-      // ),
       body: _screens[_currentIndex],
 
       bottomNavigationBar: BottomNavigationBar(
