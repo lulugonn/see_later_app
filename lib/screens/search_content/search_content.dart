@@ -3,6 +3,7 @@ import 'package:chips_choice/chips_choice.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
+import 'package:see_later_app/models/dropdown_item_model.dart';
 import 'package:see_later_app/models/filter_model.dart';
 import 'package:see_later_app/models/list_content_response_model.dart';
 import 'package:see_later_app/models/tag_model.dart';
@@ -28,7 +29,13 @@ class _SearchContentState extends State<SearchContent> {
   List<String> tags = [];
   late FilterModel? filter;
   late int value;
-
+  final List<int> dropdownSearchPeriod = [1, 7, 30, 365];
+  final List<String> dropdownSearchPeriodString = [
+    'Hoje',
+    'Últimos 7 dias',
+    'Último mês',
+    'Último ano'
+  ];
   @override
   void initState() {
     super.initState();
@@ -42,7 +49,7 @@ class _SearchContentState extends State<SearchContent> {
   Future<ListContentResponseModel?> _getContent() async {
     setState(() {
       _listContent = APIService().getContent(filter!);
-    }); // Correção: Chamada correta para APIService().getContent()
+    });
     return _listContent;
   }
 
@@ -167,6 +174,14 @@ class _SearchContentState extends State<SearchContent> {
                                                       const EdgeInsets.only(
                                                           bottom: 20.0),
                                                   child: DropdownSearch<String>(
+                                                    selectedItem: filter!
+                                                                .days !=
+                                                            null
+                                                        ? dropdownSearchPeriodString[
+                                                            dropdownSearchPeriod
+                                                                .indexOf(filter!
+                                                                    .days!)]
+                                                        : '',
                                                     popupProps: PopupProps.menu(
                                                       showSelectedItems: true,
                                                       itemBuilder: (context,
@@ -180,13 +195,8 @@ class _SearchContentState extends State<SearchContent> {
                                                         );
                                                       },
                                                     ),
-                                                    items: [
-                                                      "Hoje",
-                                                      "Últimos 7 dias",
-                                                      "Último mês",
-                                                      'Último ano',
-                                                      'Personalizado'
-                                                    ],
+                                                    items:
+                                                        dropdownSearchPeriodString,
                                                     dropdownDecoratorProps:
                                                         DropDownDecoratorProps(
                                                       baseStyle: TextStyle(
@@ -219,7 +229,15 @@ class _SearchContentState extends State<SearchContent> {
                                                         AutovalidateMode
                                                             .onUserInteraction,
                                                     //     validator: _validateInput,
-                                                    //   onSaved: (input) => order.type = input!,
+                                                    onChanged: (input) {
+                                                      setState(() {
+                                                        filter!.days =
+                                                            dropdownSearchPeriod[
+                                                                dropdownSearchPeriodString
+                                                                    .indexOf(
+                                                                        input!)];
+                                                      });
+                                                    },
                                                   ),
                                                 ),
                                                 Padding(
@@ -227,6 +245,10 @@ class _SearchContentState extends State<SearchContent> {
                                                       const EdgeInsets.only(
                                                           bottom: 20.0),
                                                   child: DropdownSearch<String>(
+                                                    selectedItem:
+                                                        filter!.type != null
+                                                            ? filter!.type
+                                                            : '',
                                                     popupProps: PopupProps.menu(
                                                       showSelectedItems: true,
                                                       itemBuilder: (context,
@@ -277,8 +299,11 @@ class _SearchContentState extends State<SearchContent> {
                                                     autoValidateMode:
                                                         AutovalidateMode
                                                             .onUserInteraction,
-                                                    //     validator: _validateInput,
-                                                    //   onSaved: (input) => order.type = input!,
+                                                    onChanged: (input) {
+                                                      setState(() {
+                                                        filter!.type = input;
+                                                      });
+                                                    },
                                                   ),
                                                 ),
                                                 Row(
@@ -294,36 +319,32 @@ class _SearchContentState extends State<SearchContent> {
                                                   ],
                                                 ),
                                                 ChipsChoice<int>.single(
-                                                  value: value,
-                                                  onChanged: (val) {
-                                                    setState(() => value = val);
-                                                  },
+                                                    value:
+                                                          filter!.categories != null
+                                                              ? filter!.categories!
+                                                              : null,
+                                                      onChanged: ( value) {
+                                                        setState(() {
+                                                          filter!.categories = value;
+                                                        });
+                                                      },
+                                                  // value: value,
+                                                  // onChanged: (val) {
+                                                  //   setState(() => value = val);
+                                                  // },
                                                   choiceLoader: getChoices,
                                                   wrapped: true,
                                                   choiceCheckmark: true,
                                                   choiceStyle: C2ChipStyle(
-                                                    //labelStyle: TextStyle(color: Colors.white),
                                                     backgroundColor:
                                                         Global.white,
                                                     borderColor: Global.black,
                                                     borderStyle:
                                                         BorderStyle.solid,
-                                                    //  borderColor:
-                                                    //                                                   OutlineInputBorder(
-                                                    //                                                 borderRadius:
-                                                    //                                                     BorderRadius.all(
-                                                    //                                                         Radius.circular(
-                                                    //                                                             10.0)),
-                                                    //                                                 borderSide: BorderSide(
-                                                    //                                                     color: Global.black,
-                                                    //                                                     width: 0.5),
-                                                    //                                               ),
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(
                                                                 20.0)),
-                                                    //selectedColor: Colors.green,
-                                                    //brightness: Brightness.dark,
                                                   ),
                                                 ),
                                                 Row(
@@ -382,7 +403,7 @@ class _SearchContentState extends State<SearchContent> {
                                                                             10),
                                                                 onTap: () {
                                                                   setState(() {
-                                                                  filter =
+                                                                    filter =
                                                                         FilterModel();
                                                                   });
                                                                 },
@@ -463,11 +484,6 @@ class _SearchContentState extends State<SearchContent> {
                       );
                     });
                   }),
-
-                  // Flexible(
-
-                  //  child: SearchBar(),
-                  // ),
                   const SizedBox(
                     height: 8,
                   ),
@@ -508,8 +524,6 @@ class _SearchContentState extends State<SearchContent> {
         label: tag.name!,
       );
     }).toList();
-
-    // choices.insert(0, C2Choice<String>(value: 'all', label: 'All'));
 
     return choices;
   }

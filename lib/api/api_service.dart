@@ -187,7 +187,7 @@ class APIService {
     try {
       String? token = await AuthController.getToken();
       dio.options.headers["Authorization"] = "Bearer $token";
-      final response = await dio.get('$url/content?${filter.seen !=null ?'seen=${filter.seen}' :''}');
+      final response = await dio.get('$url/content?${filter.toQueryString()}');
       if (response.statusCode == 204) {
         return null;
       } else {
