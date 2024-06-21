@@ -1,18 +1,17 @@
-import 'dart:async';
-
-import 'package:chips_choice/chips_choice.dart';
-import 'package:dio/dio.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:chips_choice/chips_choice.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
+import 'package:see_later_app/models/filter_model.dart';
 import 'package:see_later_app/models/list_content_response_model.dart';
 import 'package:see_later_app/models/tag_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
+import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class SearchContent extends StatefulWidget {
-  const SearchContent({super.key});
+  const SearchContent({Key? key}) : super(key: key);
 
   @override
   State<SearchContent> createState() => _SearchContentState();
@@ -23,34 +22,25 @@ class _SearchContentState extends State<SearchContent> {
   static List previousSearchs = ['banana'];
   TextEditingController textController = TextEditingController();
   late List<TagModel> _selectedTags = [];
-
   late Future<ListContentResponseModel?> _listContent;
   bool showFilter = false;
   bool focusInput = false;
   List<String> tags = [];
-
-  late String value;
-
-  // list of string options
-  List<String> options = [
-    'Últimos 7 dias',
-  ];
-
-  Future<ListContentResponseModel?> _getContent() async {
-    setState(() {
-      _listContent = APIService().getContent(searchController.text);
-    });
-
-    return _listContent;
-  }
+  late FilterModel? filter;
+  late int value;
 
   @override
   void initState() {
     super.initState();
-    _getContent();
     _selectedTags = [];
     _loadTags();
-    value = '';
+    filter = FilterModel();
+    value = 1;
+    _getContent(); // Correção: Inicialização correta de _listContent
+  }
+
+  Future<ListContentResponseModel?> _getContent() async {
+   return _listContent=   APIService().getContent(filter!); // Correção: Chamada correta para APIService().getContent()
   }
 
   Future<void> _loadTags() async {
@@ -60,7 +50,7 @@ class _SearchContentState extends State<SearchContent> {
     });
   }
 
-  previousSearchsItem(int index) {
+  Widget previousSearchsItem(int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: InkWell(
@@ -81,7 +71,7 @@ class _SearchContentState extends State<SearchContent> {
                 width: 10,
               ),
               Text(previousSearchs[index],
-                  style: Theme.of(context).textTheme.bodyLarge!),
+                  style: Theme.of(context).textTheme.bodyLarge),
               const Spacer(),
               const Icon(
                 Icons.close,
@@ -125,16 +115,22 @@ class _SearchContentState extends State<SearchContent> {
     }
 
     return FutureBuilder<ListContentResponseModel?>(
-        future: _listContent,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            final items = snapshot.data;
-            return SingleChildScrollView(
-                child: Padding(
+      future: _listContent,
+      builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircularProgressIndicator(),
+          ));
+        } else
+        if (snapshot.connectionState == ConnectionState.done) {
+          final items = snapshot.data;
+          return SingleChildScrollView(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(
                 children: [
-                  SearchAnchor(builder:
+               SearchAnchor(builder:
                       (BuildContext context, SearchController controller) {
                     return SearchBar(
                       controller: controller,
@@ -155,261 +151,269 @@ class _SearchContentState extends State<SearchContent> {
                                     showModalBottomSheet(
                                       context: context,
                                       builder: (builder) {
-                                        return Container(
-                                          padding: EdgeInsets.all(40),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 20.0),
-                                                child: DropdownSearch<String>(
-                                                  popupProps: PopupProps.menu(
-                                                    showSelectedItems: true,
-                                                    itemBuilder: (context, item,
-                                                        isSelected) {
-                                                      return ListTile(
-                                                        title: Text(
-                                                          item,
-                                                          style: TextStyle(
-                                                              fontSize: 13.0),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                  items: [
-                                                    "Hoje",
-                                                    "Últimos 7 dias",
-                                                    "Último mês",
-                                                    'Último ano',
-                                                    'Personalizado'
-                                                  ],
-                                                  dropdownDecoratorProps:
-                                                      DropDownDecoratorProps(
-                                                    baseStyle:
-                                                        TextStyle(fontSize: 13),
-                                                    dropdownSearchDecoration:
-                                                        InputDecoration(
-                                                      labelText: "Período",
-                                                      labelStyle: TextStyle(
-                                                          fontSize: 13),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.0)),
-                                                        borderSide: BorderSide(
-                                                            color: Global.black,
-                                                            width: 0.5),
-                                                      ),
-                                                      fillColor: Global.white,
-                                                      filled: true,
-                                                      prefixIcon: Icon(Icons
-                                                          .filter_alt_outlined),
-                                                    ),
-                                                  ),
-                                                  autoValidateMode:
-                                                      AutovalidateMode
-                                                          .onUserInteraction,
-                                                  //     validator: _validateInput,
-                                                  //   onSaved: (input) => order.type = input!,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 20.0),
-                                                child: DropdownSearch<String>(
-                                                  popupProps: PopupProps.menu(
-                                                    showSelectedItems: true,
-                                                    itemBuilder: (context, item,
-                                                        isSelected) {
-                                                      return ListTile(
-                                                        title: Text(
-                                                          item,
-                                                          style: TextStyle(
-                                                              fontSize: 13.0),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                  items: [
-                                                    "Site",
-                                                    "Artigo",
-                                                    "Vídeo",
-                                                    'Imagem'
-                                                  ],
-                                                  dropdownDecoratorProps:
-                                                      DropDownDecoratorProps(
-                                                    baseStyle:
-                                                        TextStyle(fontSize: 13),
-                                                    dropdownSearchDecoration:
-                                                        InputDecoration(
-                                                      labelText: "Tipo",
-                                                      labelStyle: TextStyle(
-                                                          fontSize: 13),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.0)),
-                                                        borderSide: BorderSide(
-                                                            color: Global.black,
-                                                            width: 0.5),
-                                                      ),
-                                                      fillColor: Global.white,
-                                                      filled: true,
-                                                      prefixIcon: Icon(Icons
-                                                          .filter_alt_outlined),
-                                                    ),
-                                                  ),
-                                                  autoValidateMode:
-                                                      AutovalidateMode
-                                                          .onUserInteraction,
-                                                  //     validator: _validateInput,
-                                                  //   onSaved: (input) => order.type = input!,
-                                                ),
-                                              ),
-                                              Row(
+                                        return StatefulBuilder(builder:
+                                            (BuildContext context,
+                                                StateSetter setState) {
+                                            return Container(
+                                              padding: EdgeInsets.all(40),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Text(
-                                                    'Tags',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              ChipsChoice<String>.single(
-                                                value: value,
-                                                onChanged: (val) {
-                                                  setState(() => value = val);
-                                                },
-                                                choiceLoader: getChoices,
-                                                wrapped: true,
-                                                choiceCheckmark: true,
-                                                choiceStyle: C2ChipStyle(
-                                                  //labelStyle: TextStyle(color: Colors.white),
-                                                  backgroundColor: Global.white,
-                                                  borderColor: Global.black,
-                                                  borderStyle: BorderStyle.solid,
-                                                  //  borderColor:
-                                                  //                                                   OutlineInputBorder(
-                                                  //                                                 borderRadius:
-                                                  //                                                     BorderRadius.all(
-                                                  //                                                         Radius.circular(
-                                                  //                                                             10.0)),
-                                                  //                                                 borderSide: BorderSide(
-                                                  //                                                     color: Global.black,
-                                                  //                                                     width: 0.5),
-                                                  //                                               ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              20.0)),
-                                                  //selectedColor: Colors.green,
-                                                  //brightness: Brightness.dark,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    'Incluir conteúdos já consumidos',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                  Switch(
-                                                    // This bool value toggles the switch.
-                                                    value: true,
-                                                    activeColor: Colors.blue,
-                                                    onChanged: (bool value) {
-                                                      // This is called when the user toggles the switch.
-                                                      setState(() {
-                                                        //   light = value;
-                                                      });
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                              Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 20.0),
-                                                height: 100,
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Container(
-                                                        child: Ink(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Global.white,
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        bottom: 20.0),
+                                                    child: DropdownSearch<String>(
+                                                      popupProps: PopupProps.menu(
+                                                        showSelectedItems: true,
+                                                        itemBuilder: (context, item,
+                                                            isSelected) {
+                                                          return ListTile(
+                                                            title: Text(
+                                                              item,
+                                                              style: TextStyle(
+                                                                  fontSize: 13.0),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                      items: [
+                                                        "Hoje",
+                                                        "Últimos 7 dias",
+                                                        "Último mês",
+                                                        'Último ano',
+                                                        'Personalizado'
+                                                      ],
+                                                      dropdownDecoratorProps:
+                                                          DropDownDecoratorProps(
+                                                        baseStyle:
+                                                            TextStyle(fontSize: 13),
+                                                        dropdownSearchDecoration:
+                                                            InputDecoration(
+                                                          labelText: "Período",
+                                                          labelStyle: TextStyle(
+                                                              fontSize: 13),
+                                                          border:
+                                                              OutlineInputBorder(
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            border: Border.all(
-                                                                width: 1,
-                                                                color: Global
-                                                                    .mediumBlue),
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        10.0)),
+                                                            borderSide: BorderSide(
+                                                                color: Global.black,
+                                                                width: 0.5),
                                                           ),
-                                                          child: InkWell(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              onTap: () {},
-                                                              child: SizedBox(
-                                                                height: 45.0,
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                        'Limpar filtros',
-                                                                        textAlign:
-                                                                            TextAlign
-                                                                                .left,
-                                                                        style: TextStyle(
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                12,
-                                                                            color:
-                                                                                Global.mediumBlue)),
-                                                                  ],
-                                                                ),
-                                                              )),
+                                                          fillColor: Global.white,
+                                                          filled: true,
+                                                          prefixIcon: Icon(Icons
+                                                              .filter_alt_outlined),
                                                         ),
                                                       ),
+                                                      autoValidateMode:
+                                                          AutovalidateMode
+                                                              .onUserInteraction,
+                                                      //     validator: _validateInput,
+                                                      //   onSaved: (input) => order.type = input!,
                                                     ),
-                                                    Expanded(
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 8.0),
-                                                        child: ButtonWidget(
-                                                            fontSize: 14,
-                                                            title:
-                                                                'Aplicar filtros',
-                                                            hasBorder: false,
-                                                            onTap: () {}),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        bottom: 20.0),
+                                                    child: DropdownSearch<String>(
+                                                      popupProps: PopupProps.menu(
+                                                        showSelectedItems: true,
+                                                        itemBuilder: (context, item,
+                                                            isSelected) {
+                                                          return ListTile(
+                                                            title: Text(
+                                                              item,
+                                                              style: TextStyle(
+                                                                  fontSize: 13.0),
+                                                            ),
+                                                          );
+                                                        },
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
+                                                      items: [
+                                                        "Site",
+                                                        "Artigo",
+                                                        "Vídeo",
+                                                        'Imagem'
+                                                      ],
+                                                      dropdownDecoratorProps:
+                                                          DropDownDecoratorProps(
+                                                        baseStyle:
+                                                            TextStyle(fontSize: 13),
+                                                        dropdownSearchDecoration:
+                                                            InputDecoration(
+                                                          labelText: "Tipo",
+                                                          labelStyle: TextStyle(
+                                                              fontSize: 13),
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        10.0)),
+                                                            borderSide: BorderSide(
+                                                                color: Global.black,
+                                                                width: 0.5),
+                                                          ),
+                                                          fillColor: Global.white,
+                                                          filled: true,
+                                                          prefixIcon: Icon(Icons
+                                                              .filter_alt_outlined),
+                                                        ),
+                                                      ),
+                                                      autoValidateMode:
+                                                          AutovalidateMode
+                                                              .onUserInteraction,
+                                                      //     validator: _validateInput,
+                                                      //   onSaved: (input) => order.type = input!,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Tags',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  ChipsChoice<int>.single(
+                                                    value: value,
+                                                    onChanged: (val) {
+                                                      setState(() => value = val);
+                                                    },
+                                                    choiceLoader: getChoices,
+                                                    wrapped: true,
+                                                    choiceCheckmark: true,
+                                                    choiceStyle: C2ChipStyle(
+                                                      //labelStyle: TextStyle(color: Colors.white),
+                                                      backgroundColor: Global.white,
+                                                      borderColor: Global.black,
+                                                      borderStyle: BorderStyle.solid,
+                                                      //  borderColor:
+                                                      //                                                   OutlineInputBorder(
+                                                      //                                                 borderRadius:
+                                                      //                                                     BorderRadius.all(
+                                                      //                                                         Radius.circular(
+                                                      //                                                             10.0)),
+                                                      //                                                 borderSide: BorderSide(
+                                                      //                                                     color: Global.black,
+                                                      //                                                     width: 0.5),
+                                                      //                                               ),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  20.0)),
+                                                      //selectedColor: Colors.green,
+                                                      //brightness: Brightness.dark,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Incluir conteúdos já consumidos',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                      Switch(
+                                                      value: filter!.seen!=null?filter!.seen! :false,
+                                                        activeColor: Colors.blue,
+                                                        onChanged: (bool value) {
+                                                          setState(() {
+                                                            filter!.seen = value;
+                                                          });
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.only(top: 20.0),
+                                                    height: 100,
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Container(
+                                                            child: Ink(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Global.white,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                border: Border.all(
+                                                                    width: 1,
+                                                                    color: Global
+                                                                        .mediumBlue),
+                                                              ),
+                                                              child: InkWell(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  onTap: () {},
+                                                                  child: SizedBox(
+                                                                    height: 45.0,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Text(
+                                                                            'Limpar filtros',
+                                                                            textAlign:
+                                                                                TextAlign
+                                                                                    .left,
+                                                                            style: TextStyle(
+                                                                                fontWeight: FontWeight
+                                                                                    .bold,
+                                                                                fontSize:
+                                                                                    12,
+                                                                                color:
+                                                                                    Global.mediumBlue)),
+                                                                      ],
+                                                                    ),
+                                                                  )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 8.0),
+                                                            child: ButtonWidget(
+                                                                fontSize: 14,
+                                                                title:
+                                                                    'Aplicar filtros',
+                                                                hasBorder: false,
+                                                                onTap: ()  {
+                                                                  setState(()async {    _listContent= _getContent();
+      });
+         Navigator.of(context).pop();
+
+                                                                }),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            );
+                                          }
                                         );
                                       },
                                       isScrollControlled: true,
@@ -446,7 +450,6 @@ class _SearchContentState extends State<SearchContent> {
 
                   //  child: SearchBar(),
                   // ),
-
                   const SizedBox(
                     height: 8,
                   ),
@@ -454,11 +457,12 @@ class _SearchContentState extends State<SearchContent> {
                     Container(
                       color: Colors.white,
                       child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: previousSearchs.length,
-                          itemBuilder: (context, index) =>
-                              previousSearchsItem(index)),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: previousSearchs.length,
+                        itemBuilder: (context, index) =>
+                            previousSearchsItem(index),
+                      ),
                     ),
                   const SizedBox(
                     height: 8,
@@ -468,19 +472,21 @@ class _SearchContentState extends State<SearchContent> {
                       : _widgetEmpty()
                 ],
               ),
-            ));
-          } else {
-            return Container();
-          }
-        });
+            ),
+          );
+        } else {
+          return Container(); // Aqui pode ser mostrado um indicador de carregamento, se desejado
+        }
+      },
+    );
   }
 
-  Future<List<C2Choice<String>>> getChoices() async {
+  Future<List<C2Choice<int>>> getChoices() async {
     var res = await APIService().getTags();
-    List<C2Choice<String>> choices = res.map((tag) {
-      return C2Choice<String>(
+    List<C2Choice<int>> choices = res.map((tag) {
+      return C2Choice<int>(
         meta: res,
-        value: tag.id.toString(),
+        value: tag.id!,
         label: tag.name!,
       );
     }).toList();
@@ -490,7 +496,7 @@ class _SearchContentState extends State<SearchContent> {
     return choices;
   }
 
-  FutureOr<List<TagModel>> _getTags() async {
+  Future<List<TagModel>> _getTags() async {
     return await APIService().getTags();
   }
 }
