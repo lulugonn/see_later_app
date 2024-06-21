@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
@@ -8,6 +10,7 @@ import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
@@ -176,18 +179,31 @@ class _ViewContentState extends State<ViewContent> {
                                 Expanded(
                                   child: Container(
                                     child: ButtonWidget(
+                                        icon: Icons.link,
                                         title: 'Copiar link',
                                         hasBorder: false,
-                                        onTap: () {}),
+                                        onTap: () {
+                                          Clipboard.setData(ClipboardData(text: items.url!));
+                                          Fluttertoast.showToast(
+                                              msg: "Link copiado",
+                                              toastLength: Toast.LENGTH_LONG,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.black,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        }),
                                   ),
                                 ),
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.only(left: 8.0),
                                     child: ButtonWidget(
+                                        icon: Icons.open_in_new,
                                         title: 'Acessar',
                                         hasBorder: false,
-                                        onTap: () {}),
+                                        onTap: () {
+                                          _launchURL(items.url!);
+                                        }),
                                   ),
                                 )
                               ],
@@ -275,6 +291,13 @@ class _ViewContentState extends State<ViewContent> {
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
+    }
+  }
+
+  _launchURL(link) async {
+    final Uri url = Uri.parse('https://' + link);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
     }
   }
 

@@ -6,10 +6,12 @@ class ButtonWidget extends StatelessWidget {
   final bool hasBorder;
   final VoidCallback onTap;
   final double? fontSize;
+  final IconData? icon;
 
   const ButtonWidget(
       {super.key,
       this.fontSize,
+      this.icon,
       required this.title,
       required this.hasBorder,
       required this.onTap});
@@ -36,12 +38,27 @@ class ButtonWidget extends StatelessWidget {
           child: SizedBox(
             height: 45.0,
             child: Center(
-              child: Text(title,
-                  style: TextStyle(
-                    color: hasBorder ? Global.mediumBlue : Global.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: fontSize!=null? fontSize:16.0,
-                  )),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  icon != null
+                      ? Padding(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        child: Icon(
+                            icon, color: Global.white,
+                          ),
+                      )
+                      : SizedBox(
+                          height: 0,
+                        ),
+                  Text(title,
+                      style: TextStyle(
+                        color: hasBorder ? Global.mediumBlue : Global.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: fontSize != null ? fontSize : 16.0,
+                      )),
+                ],
+              ),
             ),
           ),
         ),
