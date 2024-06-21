@@ -152,7 +152,8 @@ class _ViewContentState extends State<ViewContent> {
                                     children: [
                                       for (var category in items.categories!)
                                         Padding(
-                                          padding: const EdgeInsets.only(right: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(right: 8.0),
                                           child: Chip(
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -210,21 +211,29 @@ class _ViewContentState extends State<ViewContent> {
                               ],
                             ),
                           ),
-                          InkWell(
+                          SizedBox(height:50),
+                          Ink(
+                            decoration: !items.seen!
+                                ? BoxDecoration(
+                                    color: Global.darkGreen,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        width: 1, color: Global.darkGreen),
+                                  )
+                                : BoxDecoration(
+                                    color: Global.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        width: 1, color: Global.darkGreen),
+                                  ),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(10),
                               onTap: () {
                                 checkContent(items);
                               },
                               child: !items.seen!
-                                  ? Container(
-                                      margin: EdgeInsets.only(top: 60),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 16.0, horizontal: 63.0),
-                                      decoration: BoxDecoration(
-                                        color: Global.darkGreen,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            width: 1, color: Global.darkGreen),
-                                      ),
+                                  ? SizedBox(
+                                      height: 45.0,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -235,22 +244,15 @@ class _ViewContentState extends State<ViewContent> {
                                             child: Icon(Icons.check,
                                                 color: Global.white),
                                           ),
-                                          Text("Marcar como concluído",
+                                          Text('Marcar como visto',
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Global.white)),
                                         ],
-                                      ))
-                                  : Container(
-                                      margin: EdgeInsets.only(top: 60),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 16.0, horizontal: 63.0),
-                                      decoration: BoxDecoration(
-                                        color: Global.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            width: 1, color: Global.darkGreen),
                                       ),
+                                    )
+                                  : SizedBox(
+                                      height: 45.0,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -261,12 +263,15 @@ class _ViewContentState extends State<ViewContent> {
                                             child: Icon(Icons.close,
                                                 color: Global.darkGreen),
                                           ),
-                                          Text("Desmarcar como concluído",
+                                          Text('Desmarcar como visto',
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Global.darkGreen)),
                                         ],
-                                      )))
+                                      ),
+                                    ),
+                            ),
+                          )
                         ]))));
           } else {
             return Container();
@@ -279,11 +284,12 @@ class _ViewContentState extends State<ViewContent> {
       AlertDialogService().showLoader(context);
       await APIService().updateContent(items);
       AlertDialogService().closeLoader(context);
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return const NavBar();
-      }));
+   
       AlertDialogService().showAlertDefault(
           context, 'Parabéns!', 'Conteúdo atualizado com sucesso!');
+          setState(() {
+      _content = _getContentById();
+    });
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());
@@ -345,12 +351,9 @@ class _ViewContentState extends State<ViewContent> {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(
           context, 'Parabéns!', 'Conteúdo visto com sucesso!');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>
-                ViewContent(content: widget.content)),
-      );
+    setState(() {
+      _content = _getContentById();
+    });
     } catch (e) {
       AlertDialogService().closeLoader(context);
       AlertDialogService().showAlertDefault(context, 'Atenção!', e.toString());

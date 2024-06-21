@@ -6,7 +6,6 @@ import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_request_model.dart';
-import 'package:see_later_app/models/content_response_model.dart';
 import 'package:see_later_app/models/tag_model.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
@@ -193,7 +192,7 @@ class _ContentFormState extends State<ContentForm> {
                     tagsId.add(aux);
                   });
                   setState(() {
-                //    order.categories = tagsId.cast<int>();
+                    order.categories = tagsId.cast<int>();
                   });
                 },
               ),

@@ -138,7 +138,6 @@ class _ContentCardState extends State<ContentCard> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // retorna um objeto do tipo Dialog
         return AlertDialog(
           title: Text(title ?? 'Atenção!'),
           content: Text(content ?? 'Ocorreu um erro insperado.'),
