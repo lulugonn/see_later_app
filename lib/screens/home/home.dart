@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/models/list_content_model.dart';
+import 'package:see_later_app/models/list_content_response_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/widgets/progress_card.dart';
 
@@ -16,9 +17,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedTab = 0;
-  late Future<ListContentRequestModel?> _listContent;
+  late Future<ListContentResponseModel?> _listContent;
 
-  Future<ListContentRequestModel?> _getLastContents() async {
+  Future<ListContentResponseModel?> _getLastContents() async {
     return _listContent =
          APIService().getLastContents();
   }
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ListContentRequestModel?>(
+    return FutureBuilder<ListContentResponseModel?>(
         future: _listContent,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -87,7 +88,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _widgetLastContents(ListContentRequestModel items) {
+  Widget _widgetLastContents(ListContentResponseModel items) {
     return Column(children: [
       for (var i = 0; i < items.length; i++)
         ContentCard(

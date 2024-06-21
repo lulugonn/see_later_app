@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:see_later_app/global.dart';
+import 'package:see_later_app/screens/favorite/favorite_view/favorite_view.dart';
 import 'package:see_later_app/screens/home/widgets/progress_card.dart';
 import 'package:see_later_app/screens/search_content/search_content.dart';
 import 'package:see_later_app/screens/tag/tag_view/tag_view.dart';
@@ -44,6 +45,12 @@ class _MenuState extends State<Menu> {
                 title: Text('Favoritos',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                         onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return FavoriteView();
+                  }));
+                },
               ),
               ListTile(
                 contentPadding: EdgeInsets.all(0),

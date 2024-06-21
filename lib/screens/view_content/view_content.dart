@@ -14,7 +14,7 @@ import 'package:see_later_app/services/alert_dialog_service.dart';
 class ViewContent extends StatefulWidget {
   const ViewContent(
       {super.key, required this.content, this.index, this.length});
-  final ContentRequestModel content;
+  final ContentResponseModel content;
   final int? index;
   final num? length;
 

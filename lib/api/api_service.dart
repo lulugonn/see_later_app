@@ -4,6 +4,7 @@ import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/models/content_request_model.dart';
 import 'package:see_later_app/models/content_response_model.dart';
 import 'package:see_later_app/models/list_content_model.dart';
+import 'package:see_later_app/models/list_content_response_model.dart';
 import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/models/login_model.dart';
 import 'package:see_later_app/models/register_model.dart';
@@ -152,7 +153,7 @@ class APIService {
     }
   }
 
-  Future<ListContentRequestModel?> getLastContents() async {
+  Future<ListContentResponseModel?> getLastContents() async {
     try {
       String? token = await AuthController.getToken();
       dio.options.headers["Authorization"] = "Bearer $token";
@@ -161,7 +162,7 @@ class APIService {
         return null;
       } else {
         final data = response.data as List<dynamic>;
-        return ListContentRequestModel.fromJson(data);
+        return ListContentResponseModel.fromJson(data);
       }
     } on DioException catch (e) {
       if (e.response != null) {
@@ -181,7 +182,7 @@ class APIService {
     }
   }
 
-  Future<ListContentRequestModel?> getContent(text) async {
+  Future<ListContentResponseModel?> getContent(text) async {
     try {
       String? token = await AuthController.getToken();
       dio.options.headers["Authorization"] = "Bearer $token";
@@ -190,7 +191,35 @@ class APIService {
         return null;
       } else {
         final data = response.data as List<dynamic>;
-        return ListContentRequestModel.fromJson(data);
+        return ListContentResponseModel.fromJson(data);
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        var errorMessage = e.response!.data['message'];
+        var message = '';
+        if (errorMessage is List) {
+          for (var item in errorMessage) {
+            message += ('- $item\n');
+          }
+        } else {
+          message = errorMessage;
+        }
+        throw message;
+      } else {
+        throw 'Ocorreu um erro inesperado';
+      }
+    }
+  }
+  Future<ListContentResponseModel?> getAllContents(favorite) async {
+    try {
+      String? token = await AuthController.getToken();
+      dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await dio.get('$url/content?favorite=$favorite');
+      if (response.statusCode == 204) {
+        return null;
+      } else {
+        final data = response.data as List<dynamic>;
+        return ListContentResponseModel.fromJson(data);
       }
     } on DioException catch (e) {
       if (e.response != null) {
@@ -374,7 +403,7 @@ class APIService {
     }
   }
 
-  Future<String?> updateContent(ContentRequestModel requestModel) async {
+  Future<String?> updateContent(ContentResponseModel requestModel) async {
     try {
       String? token = await AuthController.getToken();
       dio.options.headers["Authorization"] = "Bearer $token";

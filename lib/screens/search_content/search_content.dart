@@ -7,6 +7,7 @@ import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
+import 'package:see_later_app/models/list_content_response_model.dart';
 import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/models/tag_model.dart';
 import 'package:see_later_app/screens/home/widgets/content_card.dart';
@@ -26,7 +27,7 @@ class _SearchContentState extends State<SearchContent> {
   TextEditingController textController = TextEditingController();
   late List<TagModel> _selectedTags = [];
 
-  late Future<ListContentRequestModel?> _listContent;
+  late Future<ListContentResponseModel?> _listContent;
   bool showFilter = false;
   bool focusInput = false;
   List<String> tags = [];
@@ -36,7 +37,7 @@ class _SearchContentState extends State<SearchContent> {
     'Últimos 7 dias',
   ];
 
-  Future<ListContentRequestModel?> _getContent() async {
+  Future<ListContentResponseModel?> _getContent() async {
     setState(() {
       _listContent = APIService().getContent(searchController.text);
     });
@@ -103,7 +104,7 @@ class _SearchContentState extends State<SearchContent> {
       );
     }
 
-    Widget _widgetContents(ListContentRequestModel items) {
+    Widget _widgetContents(ListContentResponseModel items) {
       return Column(children: [
         for (var i = 0; i < items.length; i++)
           ContentCard(
@@ -114,7 +115,7 @@ class _SearchContentState extends State<SearchContent> {
       ]);
     }
 
-    return FutureBuilder<ListContentRequestModel?>(
+    return FutureBuilder<ListContentResponseModel?>(
         future: _listContent,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {

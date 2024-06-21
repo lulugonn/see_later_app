@@ -11,7 +11,7 @@ import 'package:see_later_app/services/alert_dialog_service.dart';
 
 class EditContent extends StatefulWidget {
   const EditContent({super.key, required this.content});
-  final ContentRequestModel content;
+  final ContentResponseModel content;
 
   @override
   State<EditContent> createState() => _EditContentState();

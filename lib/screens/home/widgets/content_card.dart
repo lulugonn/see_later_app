@@ -15,7 +15,7 @@ class ContentCard extends StatefulWidget {
       required this.content,
       required this.index,
       required this.length});
-  final ContentRequestModel content;
+  final ContentResponseModel content;
   final int index;
   final num length;
 

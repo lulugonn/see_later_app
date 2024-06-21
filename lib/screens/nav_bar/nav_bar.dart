@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/list_content_model.dart';
+import 'package:see_later_app/models/list_content_response_model.dart';
 import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/screens/Home/widgets/content_card.dart';
 import 'package:see_later_app/screens/home/home.dart';
@@ -20,7 +21,7 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  late Future<ListContentRequestModel?> _listContent;
+  late Future<ListContentResponseModel?> _listContent;
   int _currentIndex = 0;
   bool showUser = true;
   String appBarTitle = 'ola';
@@ -31,7 +32,7 @@ class _NavBarState extends State<NavBar> {
     SearchContent(),
   ];
 
-  Future<ListContentRequestModel?> _getLastContents() async {
+  Future<ListContentResponseModel?> _getLastContents() async {
     return _listContent = APIService().getLastContents();
   }
 
@@ -128,7 +129,7 @@ class _NavBarState extends State<NavBar> {
     );
   }
 
-  Widget _widgetLastContents(ListContentRequestModel items) {
+  Widget _widgetLastContents(ListContentResponseModel items) {
     return Column(children: [
       for (var i = 0; i < items.length; i++)
         ContentCard(
