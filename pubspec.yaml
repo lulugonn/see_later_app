@@ -46,9 +46,9 @@ dependencies:
   dropdown_search: ^5.0.6
   adaptive_dialog: ^2.1.0
   flutter_tagging_plus: ^4.0.2
-  url_launcher: ^6.3.0
   fluttertoast: ^8.2.6
   filter_list: ^1.0.3
+  universal_html: ^2.2.4
 
 dev_dependencies:
   flutter_test:

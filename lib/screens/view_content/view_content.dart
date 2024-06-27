@@ -9,7 +9,7 @@ import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:universal_html/html.dart' as html;
 
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
@@ -45,8 +45,7 @@ class _ViewContentState extends State<ViewContent> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             var items = snapshot.data;
-            return 
-            Scaffold(
+            return Scaffold(
                 appBar: UserHeader(
                   appBarTitle: 'Conteúdo',
                   comeback: true,
@@ -99,20 +98,18 @@ class _ViewContentState extends State<ViewContent> {
                                       ),
                                     ),
                                     trailing: Tooltip(
-                                      message: items.favorite!=null && items.favorite!=false
-                                          ? 'Desmarcar como favorito':'Marcar como favorito'
-                                          ,
+                                      message: items.favorite != null &&
+                                              items.favorite != false
+                                          ? 'Desmarcar como favorito'
+                                          : 'Marcar como favorito',
                                       child: IconButton(
                                           onPressed: () =>
-                                              {
-                                                checkFavorite(items)
-                                                },
-                                          icon: items.favorite!=null && items.favorite!=false
-                                          ?  
-                                             Icon(Icons.star):
-                                             Icon(Icons.star_border)),
-                                    )
-                                   ),
+                                              {checkFavorite(items)},
+                                          icon: items.favorite != null &&
+                                                  items.favorite != false
+                                              ? Icon(Icons.star)
+                                              : Icon(Icons.star_border)),
+                                    )),
                               )),
                           Padding(
                             padding: EdgeInsets.only(top: 16),
@@ -123,7 +120,7 @@ class _ViewContentState extends State<ViewContent> {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      items.notes!= null? items.notes!:'',
+                                      items.notes != null ? items.notes! : '',
                                       textAlign: TextAlign.left,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 100,
@@ -169,7 +166,7 @@ class _ViewContentState extends State<ViewContent> {
                           Row(
                             children: [
                               Text(
-                                'Última atualização: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(items.updatedAt!=null?items.updatedAt!:items.createdAt!)).toString()}',
+                                'Última atualização: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(items.updatedAt != null ? items.updatedAt! : items.createdAt!)).toString()}',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(fontSize: 11),
                               ),
@@ -187,7 +184,8 @@ class _ViewContentState extends State<ViewContent> {
                                         title: 'Copiar link',
                                         hasBorder: false,
                                         onTap: () {
-                                          Clipboard.setData(ClipboardData(text: items.url!));
+                                          Clipboard.setData(
+                                              ClipboardData(text: items.url!));
                                           Fluttertoast.showToast(
                                               msg: "Link copiado",
                                               toastLength: Toast.LENGTH_LONG,
@@ -206,7 +204,7 @@ class _ViewContentState extends State<ViewContent> {
                                         title: 'Acessar',
                                         hasBorder: false,
                                         onTap: () {
-                                          _launchURL(items.url!);
+                                          _launchUrl(items.url!);
                                         }),
                                   ),
                                 )
@@ -274,7 +272,6 @@ class _ViewContentState extends State<ViewContent> {
                                     ),
                             ),
                           )
-                   
                         ]))));
           } else {
             return Container();
@@ -299,11 +296,8 @@ class _ViewContentState extends State<ViewContent> {
     }
   }
 
-  _launchURL(link) async {
-    final Uri url = Uri.parse(link);
-    if (!await launchUrl(url)) {
-      throw Exception('Não foi possível carregar a $url');
-    }
+  _launchUrl(String url) {
+    html.window.open(url, 'new-tab');
   }
 
   void showAlertConfirm(BuildContext context, title, content, id) {
@@ -383,9 +377,9 @@ class _ViewContentState extends State<ViewContent> {
       AlertDialogService().showAlertDefault(
           context,
           'Parabéns!',
-          items.favorite!=null && items.favorite!=false
-              ? 
-            'Conteúdo retirado dos favoritos!':'Conteúdo favoritado!');
+          items.favorite != null && items.favorite != false
+              ? 'Conteúdo retirado dos favoritos!'
+              : 'Conteúdo favoritado!');
       setState(() {
         _content = _getContentById();
       });
