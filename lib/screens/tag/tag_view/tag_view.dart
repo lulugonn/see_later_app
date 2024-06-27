@@ -3,6 +3,7 @@ import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/models/list_tag_model.dart';
 import 'package:see_later_app/models/tag_model.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
+import 'package:see_later_app/screens/tag/list_content_view/list_content_view.dart';
 import 'package:see_later_app/screens/widgets/user_header_widget.dart';
 import 'package:see_later_app/services/alert_dialog_service.dart';
 
@@ -58,6 +59,12 @@ class _TagViewState extends State<TagView> {
                     Column(
                       children: tags!
                           .map((tag) => ListTile(
+                            onTap: () => {
+                              Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return ListContentView(tag: tag);
+                                  }))
+                            },
                               contentPadding: EdgeInsets.all(0),
                               title: Text(
                                 tag.name!,
@@ -76,7 +83,7 @@ class _TagViewState extends State<TagView> {
                                     child: Text("Excluir"),
                                     onTap: () {
                                       Future.delayed(Duration.zero,
-                                          () => _deleteContent(tag.id!));
+                                          () => _deleteTag(tag.id!));
                                     },
                                   )
                                 ],
@@ -104,9 +111,9 @@ class _TagViewState extends State<TagView> {
     );
   }
 
-  void _deleteContent(int id) async {
+  void _deleteTag(int id) async {
     showAlertConfirm(
-        context, 'Atenção!', 'Deseja realmente excluir o conteúdo?', id);
+        context, 'Atenção!', 'Deseja realmente excluir a tag?', id);
   }
 
   void showAlertConfirm(BuildContext context, title, content, id) {

@@ -52,7 +52,7 @@ class _ContentFormState extends State<ContentForm> {
                   obscureText: false,
                   prefixIconData: Icons.title,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: _validateInput,
+                  validator: _validateInputTitle,
                   onSaved: (input) => order.title = input!,
                 ),
               ),
@@ -226,6 +226,15 @@ class _ContentFormState extends State<ContentForm> {
   String? _validateInput(String? value) {
     if (value == null || value.isEmpty) {
       return "Por favor, preencha os dados";
+    }
+    return null;
+  }
+
+  String? _validateInputTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Por favor, preencha os dados";
+    } else if(value.length > 50){
+      return "O título só pode possuir até 50 caracteres";
     }
     return null;
   }

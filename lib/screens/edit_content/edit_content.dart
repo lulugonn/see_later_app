@@ -76,7 +76,7 @@ class _EditContentState extends State<EditContent> {
                                 obscureText: false,
                                 prefixIconData: Icons.title,
                                 hintText: 'Título',
-                                validator: _validateInput,
+                                validator: _validateInputTitle,
                                 onSaved: (input) => order.title = input!,
                               ),
                               Padding(
@@ -304,6 +304,15 @@ class _EditContentState extends State<EditContent> {
   String? _validateInput(String? value) {
     if (value == null || value.isEmpty) {
       return "Por favor, preencha os dados";
+    }
+    return null;
+  }
+
+  String? _validateInputTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Por favor, preencha os dados";
+    } else if(value.length > 50){
+      return "O título só pode possuir até 50 caracteres";
     }
     return null;
   }

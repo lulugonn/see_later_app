@@ -108,7 +108,7 @@ class _RegisterState extends State<Register> {
                       prefixIconData: Icons.mail_outline,
                       onChanged: (value) {},
                       onSaved: (input) => _requestModel.confirm_email = input,
-                      validator:_validateEmail,),
+                      validator: (value)=> _validateEmailConfirm(_registerEmailKey.text,value,),),
                     const SizedBox(
                       height: 10.0,
                     ),
@@ -175,6 +175,7 @@ class _RegisterState extends State<Register> {
     );
   
 }
+
 bool validateAndSave() {
     final form = _registerFormKey.currentState;
     if (form!.validate()) {
@@ -183,6 +184,7 @@ bool validateAndSave() {
     }
     return false;
   }
+
   String? _validateNome(String? value) {
     String patttern = r'(^[a-zA-Z ]*$)';
     RegExp regExp = new RegExp(patttern);
@@ -201,7 +203,21 @@ bool validateAndSave() {
     
     if (value!.length == 0) {
       return "Informe o e-mail";
-    } else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value.trim())) {
+      return "E-mail inválido";
+    }
+    return null;
+  }
+
+   String? _validateEmailConfirm(String? email, String? emailConfirm ) {
+    String patttern = r'^\S+@\S+$';
+    RegExp regExp = new RegExp(patttern);
+
+    if (emailConfirm!.length == 0) {
+      return "Informe o e-mail";
+    } else if (emailConfirm.toLowerCase().trim().compareTo(email!.toLowerCase().trim())!=0) {
+      return "Os valores dos campos e-mail e confirmação de e-mail precisam ser iguais";
+    }else if (!regExp.hasMatch(emailConfirm.trim())) {
       return "E-mail inválido";
     }
     return null;

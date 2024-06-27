@@ -385,7 +385,7 @@ class _ViewContentState extends State<ViewContent> {
           'Parabéns!',
           items.favorite!=null && items.favorite!=false
               ? 
-              'Conteúdo favoritado!':'Conteúdo retirado dos favoritos!');
+            'Conteúdo retirado dos favoritos!':'Conteúdo favoritado!');
       setState(() {
         _content = _getContentById();
       });
