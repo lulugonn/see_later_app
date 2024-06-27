@@ -108,7 +108,7 @@ class _ContentFormState extends State<ContentForm> {
                   minLines: 6,
                   keyboardType: TextInputType.multiline,
                   maxLines: 9,
-                  hintText: 'Descrição',
+                  hintText: 'Descrição (Opcional)',
                   obscureText: false,
                   prefixIconData: Icons.info,
                   controller: _contentNotesKey,

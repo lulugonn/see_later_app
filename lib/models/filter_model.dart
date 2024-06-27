@@ -49,7 +49,7 @@ class FilterModel {
       params.add('text=$text');
     }
    if (categories != null) {
-      params.add('categories=$categories');
+      params.add('categories[]=$categories');
     }
     return params.join('&');
   }

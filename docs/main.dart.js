@@ -99842,7 +99842,7 @@ if(e!=null)d.push("type="+e)
 e=a.d
 if(e!=null)d.push("text="+e)
 e=a.e
-if(e!=null)d.push("categories="+A.f(e))
+if(e!=null)d.push("categories[]="+A.f(e))
 s=8
 return A.L(f.mL(0,"https://see-later-api-deploy.onrender.com/content?"+B.b.bY(d,"&"),t.z),$async$tQ)
 case 8:l=a1
@@ -100774,7 +100774,7 @@ this.z=A.b([],t.Qj)},
 H(a){var s=this,r=null,q=A.kl(B.bk,r,"T\xedtulo do conte\xfado",r,r,r,r,!1,r,new A.aqT(s),B.pO,r,s.ganE()),p=t.N,o=A.ahj(new A.aqU(),!0,p),n=A.b(["Site","Artigo","V\xeddeo","Imagem"],t.s),m=A.bi(r,r,r,r,r,r,r,r,r,r,r,13,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),l=A.bi(r,r,r,r,r,r,r,r,r,r,r,13,r,r,r,r,r,!0,r,r,r,r,r,r,r,r)
 p=A.a9a(B.bk,new A.qw(A.oi(r,new A.f7(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,B.t,-1)),r,r,r,r,r,r,!0,r,r,r,r,r,r,B.i,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,l,"Tipo",r,A.cT(B.hL,r,r,r),r,r,r,r,r,r,r,r,r,r,r),m),n,r,new A.aqV(s),o,r,s.ganC(),p)
 o=A.kl(B.bk,s.w,"Link",r,r,r,r,!1,r,new A.aqW(s),B.hK,r,s.ganG())
-n=A.kl(B.bk,s.y,"Descri\xe7\xe3o",r,B.fJ,9,6,!1,r,new A.aqX(s),B.pK,r,r)
+n=A.kl(B.bk,s.y,"Descri\xe7\xe3o (Opcional)",r,B.fJ,9,6,!1,r,new A.aqX(s),B.pK,r,r)
 m=s.gIh()
 l=A.bi(r,r,r,r,r,r,r,r,r,r,r,13,r,r,r,r,r,!0,r,r,r,r,r,r,r,r)
 return A.je(A.abP(new A.aN(B.cp,A.cK(A.b([new A.aN(B.kx,q,r),new A.aN(B.dQ,p,r),new A.aN(B.dQ,o,r),new A.aN(B.dQ,n,r),A.aKj(new A.aqY(),new A.aqZ(),new A.ar_(),s.gadC(),m,new A.ar0(s),new A.ar1(s),A.aGa(!0,r,!1,r,r,r,2,A.oi(r,new A.f7(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,B.t,-1)),r,r,r,r,r,r,!0,r,r,r,r,r,r,B.i,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,l,"Tags",r,r,r,r,r,r,r,r,r,r,r,r,r),!0,!0,!0,r,r,r,B.iY,r,r,1,r,!1,r,r,r,r,B.c2,r,B.aD,r,B.ej,r,r),t.tI),new A.aN(B.K1,new A.jL("Salvar",!1,new A.ar2(s),r,r,r),r)],t.p),B.B,B.I,B.C),r),s.f),B.F,r,r,r,r,B.V)},
