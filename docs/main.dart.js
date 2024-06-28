@@ -100385,7 +100385,7 @@ k.toString
 A.b4(k,!1).bB()
 k=n.c
 k.toString
-new A.cp().ee(k,"Parab\xe9ns!","Tag criada com sucesso!")
+new A.cp().ee(k,"Parab\xe9ns!","Categoria criada com sucesso!")
 q=m
 s=1
 break
@@ -100443,7 +100443,7 @@ n=s.y
 n.toString
 m=A.bi(k,k,k,k,k,k,k,k,k,k,k,13,k,k,k,k,k,!0,k,k,k,k,k,k,k,k)
 l=t.p
-m=A.bz(k,A.abP(A.cK(A.b([q,new A.aN(B.hr,p,k),new A.aN(B.eU,o,k),A.aKk(new A.arR(),new A.arS(),new A.arT(),r.gac4(),n,new A.arU(r),new A.arV(r,s),A.aGc(!0,k,!1,k,k,k,2,A.oi(k,new A.f8(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,B.t,-1)),k,k,k,k,k,k,!0,k,k,k,k,k,k,B.i,!0,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,m,"Tags",k,k,k,k,k,k,k,k,k,k,k,k,k),!0,!0,!0,k,k,k,B.iZ,k,k,1,k,!1,k,k,k,k,B.c2,k,B.aD,k,B.ei,k,k),t.tI),new A.aN(B.JZ,A.kl(k,k,"Descricao (Opcional)",s.e,B.fJ,5,k,!1,k,new A.arW(r),B.pL,k,k),k)],l),B.z,B.fl,B.C),r.w),B.k,k,k,k,k,k,new A.ac(0,20,0,30),k)
+m=A.bz(k,A.abP(A.cK(A.b([q,new A.aN(B.hr,p,k),new A.aN(B.eU,o,k),A.aKk(new A.arR(),new A.arS(),new A.arT(),r.gac4(),n,new A.arU(r),new A.arV(r,s),A.aGc(!0,k,!1,k,k,k,2,A.oi(k,new A.f8(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,B.t,-1)),k,k,k,k,k,k,!0,k,k,k,k,k,k,B.i,!0,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,m,"Categorias",k,k,k,k,k,k,k,k,k,k,k,k,k),!0,!0,!0,k,k,k,B.iZ,k,k,1,k,!1,k,k,k,k,B.c2,k,B.aD,k,B.ei,k,k),t.tI),new A.aN(B.JZ,A.kl(k,k,"Descricao (Opcional)",s.e,B.fJ,5,k,!1,k,new A.arW(r),B.pL,k,k),k)],l),B.z,B.fl,B.C),r.w),B.k,k,k,k,k,k,new A.ac(0,20,0,30),k)
 n=A.ea(10)
 o=A.LZ(B.ie,1)
 return A.hf(new A.fC("Editar conte\xfado",!0,!1,k),B.i,A.je(new A.aN(B.cp,A.cK(A.b([m,A.bz(k,A.dc(A.b([A.o8(A.bz(k,A.BR(A.f4(!1,A.ea(10),!0,A.dm(A.dc(A.b([A.aO("Excluir conte\xfado",k,k,k,A.bi(k,k,B.ie,k,k,k,k,k,k,k,k,12,k,k,B.aw,k,k,!0,k,k,k,k,k,k,k,k),B.c8,k)],l),B.z,B.bp,B.C,k),45,k),k,!0,k,k,k,k,k,k,k,k,k,new A.arX(r),k,k,k,k,k,k,k),new A.cX(B.i,k,o,n,k,k,B.aj)),B.k,k,k,k,k,k,k,k),1),A.o8(A.bz(k,new A.jL("Salvar mudan\xe7as",!1,new A.arP(r),12,k,k),B.k,k,k,k,k,k,new A.ac(8,0,0,0),k),1)],l),B.z,B.I,B.C,k),B.k,k,k,k,100,k,new A.ac(0,20,0,0),k)],l),B.z,B.I,B.C),k),B.F,k,k,k,k,B.V),k)}else return A.bz(k,k,B.k,k,k,k,k,k,k,k)},
@@ -100493,7 +100493,7 @@ $1(a){var s,r=null,q=a.b
 q.toString
 q=A.aO(q,r,r,r,A.bi(r,r,r,r,r,r,r,r,r,r,r,13,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r)
 s=A.ea(20)
-return A.aMD(A.a6J(A.cL(B.kP,B.i,r,r),B.aB,B.k,r,r,r,r,A.aO("Criar tag",r,r,r,r,r,r),r,A.bi(r,r,B.i,r,r,r,r,r,r,r,r,13,r,r,B.hH,r,r,!0,r,r,r,r,r,r,r,r),r,r,r,r,new A.c3(s,new A.aW(B.aB,1,B.t,-1))),q)},
+return A.aMD(A.a6J(A.cL(B.kP,B.i,r,r),B.aB,B.k,r,r,r,r,A.aO("Criar categoria",r,r,r,r,r,r),r,A.bi(r,r,B.i,r,r,r,r,r,r,r,r,13,r,r,B.hH,r,r,!0,r,r,r,r,r,r,r,r),r,r,r,r,new A.c3(s,new A.aW(B.aB,1,B.t,-1))),q)},
 $S:132}
 A.arS.prototype={
 $1(a){var s=null,r=A.ea(20),q=a.b
@@ -100768,7 +100768,7 @@ p=A.a9a(B.bk,new A.qx(A.oi(r,new A.f8(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,
 o=A.kl(B.bk,s.w,"Link",r,r,r,r,!1,r,new A.aqQ(s),B.hL,r,s.ganH())
 n=s.gIf()
 m=A.bi(r,r,r,r,r,r,r,r,r,r,r,13,r,r,r,r,r,!0,r,r,r,r,r,r,r,r)
-return A.je(A.abP(new A.aN(B.cp,A.cK(A.b([new A.aN(B.hr,q,r),new A.aN(B.eU,p,r),new A.aN(B.eU,o,r),A.aKk(new A.aqR(),new A.aqS(),new A.aqT(),s.gadD(),n,new A.aqU(s),new A.aqV(s),A.aGc(!0,r,!1,r,r,r,2,A.oi(r,new A.f8(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,B.t,-1)),r,r,r,r,r,r,!0,r,r,r,r,r,r,B.i,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,m,"Tags",r,r,r,r,r,r,r,r,r,r,r,r,r),!0,!0,!0,r,r,r,B.iZ,r,r,1,r,!1,r,r,r,r,B.c2,r,B.aD,r,B.ei,r,r),t.tI),new A.aN(B.hr,A.kl(B.bk,s.y,"Descri\xe7\xe3o (Opcional)",r,B.fJ,9,6,!1,r,new A.aqW(s),B.pL,r,r),r),new A.aN(B.JY,new A.jL("Salvar",!1,new A.aqX(s),r,r,r),r)],t.p),B.z,B.I,B.C),r),s.f),B.F,r,r,r,r,B.V)},
+return A.je(A.abP(new A.aN(B.cp,A.cK(A.b([new A.aN(B.hr,q,r),new A.aN(B.eU,p,r),new A.aN(B.eU,o,r),A.aKk(new A.aqR(),new A.aqS(),new A.aqT(),s.gadD(),n,new A.aqU(s),new A.aqV(s),A.aGc(!0,r,!1,r,r,r,2,A.oi(r,new A.f8(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,B.t,-1)),r,r,r,r,r,r,!0,r,r,r,r,r,r,B.i,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,m,"Categorias",r,r,r,r,r,r,r,r,r,r,r,r,r),!0,!0,!0,r,r,r,B.iZ,r,r,1,r,!1,r,r,r,r,B.c2,r,B.aD,r,B.ei,r,r),t.tI),new A.aN(B.hr,A.kl(B.bk,s.y,"Descri\xe7\xe3o (Opcional)",r,B.fJ,9,6,!1,r,new A.aqW(s),B.pL,r,r),r),new A.aN(B.JY,new A.jL("Salvar",!1,new A.aqX(s),r,r,r),r)],t.p),B.z,B.I,B.C),r),s.f),B.F,r,r,r,r,B.V)},
 qb(){var s=this.f.gO()
 if(s.tK()){s.cb(0)
 return!0}return!1},
@@ -100834,7 +100834,7 @@ k.toString
 A.b4(k,!1).bB()
 k=n.c
 k.toString
-new A.cp().ee(k,"Parab\xe9ns!","Tag criada com sucesso!")
+new A.cp().ee(k,"Parab\xe9ns!","Categoria criada com sucesso!")
 q=m
 s=1
 break
@@ -100912,7 +100912,7 @@ $1(a){var s,r=null,q=a.b
 q.toString
 q=A.aO(q,r,r,r,A.bi(r,r,r,r,r,r,r,r,r,r,r,13,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r)
 s=A.ea(20)
-return A.aMD(A.a6J(A.cL(B.kP,B.i,r,r),B.aB,B.k,r,r,r,r,A.aO("Criar tag",r,r,r,r,r,r),r,A.bi(r,r,B.i,r,r,r,r,r,r,r,r,13,r,r,B.hH,r,r,!0,r,r,r,r,r,r,r,r),r,r,r,r,new A.c3(s,new A.aW(B.aB,1,B.t,-1))),q)},
+return A.aMD(A.a6J(A.cL(B.kP,B.i,r,r),B.aB,B.k,r,r,r,r,A.aO("Criar categoria",r,r,r,r,r,r),r,A.bi(r,r,B.i,r,r,r,r,r,r,r,r,13,r,r,B.hH,r,r,!0,r,r,r,r,r,r,r,r),r,r,r,r,new A.c3(s,new A.aW(B.aB,1,B.t,-1))),q)},
 $S:132}
 A.aqS.prototype={
 $1(a){var s=null,r=A.ea(20),q=a.b
@@ -101110,7 +101110,7 @@ A.ry.prototype={
 ac(){return new A.YC(B.j)}}
 A.YC.prototype={
 H(a){var s=null,r="EM BREVE"
-return A.hf(new A.fC("Menu",!0,!1,s),s,new A.aN(B.cp,A.cK(A.b([A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.KZ,s,s,25),new A.av2(a),!1,s,A.aO("Tags",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),s),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.pO,s,s,25),new A.av3(a),!1,s,A.aO("Favoritos",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),s),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.Lb,s,s,25),s,!1,s,A.aO("Alterar senha",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),A.aO(r,s,s,s,A.bi(s,s,B.k7,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s)),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.L2,s,s,25),s,!1,s,A.aO("Notifica\xe7\xf5es",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),A.aO(r,s,s,s,A.bi(s,s,B.k7,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s)),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.KY,B.ie,s,25),new A.av4(a),!1,s,A.aO("Sair",s,s,s,A.bi(s,s,B.ie,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),s)],t.p),B.z,B.I,B.C),s),s)}}
+return A.hf(new A.fC("Menu",!0,!1,s),s,new A.aN(B.cp,A.cK(A.b([A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.KZ,s,s,25),new A.av2(a),!1,s,A.aO("Categorias",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),s),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.pO,s,s,25),new A.av3(a),!1,s,A.aO("Favoritos",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),s),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.Lb,s,s,25),s,!1,s,A.aO("Alterar senha",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),A.aO(r,s,s,s,A.bi(s,s,B.k7,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s)),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.L2,s,s,25),s,!1,s,A.aO("Notifica\xe7\xf5es",s,s,s,A.bi(s,s,s,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),A.aO(r,s,s,s,A.bi(s,s,B.k7,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s)),A.hM(new A.ac(0,0,0,0),!0,s,A.cL(B.KY,B.ie,s,25),new A.av4(a),!1,s,A.aO("Sair",s,s,s,A.bi(s,s,B.ie,s,s,s,s,s,s,s,s,13,s,s,B.aw,s,s,!0,s,s,s,s,s,s,s,s),s,s),s)],t.p),B.z,B.I,B.C),s),s)}}
 A.av2.prototype={
 $0(){A.b4(this.a,!1).dl(A.f7(new A.av1(),null,t.z))},
 $S:0}
@@ -101433,7 +101433,7 @@ o=A.bi(k,k,k,k,k,k,k,k,k,k,k,13,k,k,k,k,k,!0,k,k,k,k,k,k,k,k)
 n=A.bi(k,k,k,k,k,k,k,k,k,k,k,13,k,k,k,k,k,!0,k,k,k,k,k,k,k,k)
 s=A.a9a(B.bk,new A.qx(A.oi(k,new A.f8(4,A.hx(new A.aC(10,10)),new A.aW(B.aB,0.5,B.t,-1)),k,k,k,k,k,k,!0,k,k,k,k,k,k,B.i,!0,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,n,"Tipo",k,A.cL(B.hM,k,k,k),k,k,k,k,k,k,k,k,k,k,k),o),p,new A.axY(j,b),k,q,r,k,s)
 r=t.p
-q=A.dc(A.b([A.aO("Tags",k,k,k,A.bi(k,k,k,k,k,k,k,k,k,k,k,14,k,k,B.aw,k,k,!0,k,k,k,k,k,k,k,k),k,k)],r),B.z,B.I,B.C,k)
+q=A.dc(A.b([A.aO("Categorias",k,k,k,A.bi(k,k,k,k,k,k,k,k,k,k,k,14,k,k,B.aw,k,k,!0,k,k,k,k,k,k,k,k),k,k)],r),B.z,B.I,B.C,k)
 p=j.z.e
 p=p!=null?p:k
 o=A.aEV(k,k,k,k,k,k,B.i,k,k,B.aB,k,A.hx(new A.aC(20,20)),B.t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k)
