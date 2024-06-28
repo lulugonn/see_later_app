@@ -102,25 +102,11 @@ class _ContentFormState extends State<ContentForm> {
                   onSaved: (input) => order.url = input!,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: TextFieldWidget(
-                  minLines: 6,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 9,
-                  hintText: 'Descrição (Opcional)',
-                  obscureText: false,
-                  prefixIconData: Icons.info,
-                  controller: _contentNotesKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  onSaved: (input) => order.notes = input!,
-                ),
-              ),
-              FlutterTagging<TagModel>(
+               FlutterTagging<TagModel>(
                 initialItems: _selectedTags,
                 textFieldConfiguration: TextFieldConfiguration(
                   decoration: InputDecoration(
-                    labelText: 'Tags',
+                    labelText: 'Categorias',
                     labelStyle: TextStyle(fontSize: 13),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -158,7 +144,7 @@ class _ContentFormState extends State<ContentForm> {
                         Icons.add_circle,
                         color: Colors.white,
                       ),
-                      label: Text('Criar tag'),
+                      label: Text('Criar categoria'),
                       labelStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 13.0,
@@ -194,6 +180,21 @@ class _ContentFormState extends State<ContentForm> {
                     order.categories = tagsId.cast<int>();
                   });
                 },
+              ),
+             
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0,bottom: 20.0),
+                child: TextFieldWidget(
+                  minLines: 6,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 9,
+                  hintText: 'Descrição (Opcional)',
+                  obscureText: false,
+                  prefixIconData: Icons.info,
+                  controller: _contentNotesKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onSaved: (input) => order.notes = input!,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0, bottom: 100),
@@ -241,7 +242,7 @@ class _ContentFormState extends State<ContentForm> {
 
   String? _validateInputUrl(String? value) {
     if (!Uri.parse(value!).isAbsolute) {
-      return "Por favor, insira um link válido. Exemplo: https://www.google.com";
+      return "Por favor, insira um link válido.";
     }
     return null;
   }
@@ -269,7 +270,7 @@ class _ContentFormState extends State<ContentForm> {
       AlertDialogService().closeLoader(context);
 
       AlertDialogService()
-          .showAlertDefault(context, 'Parabéns!', 'Tag criada com sucesso!');
+          .showAlertDefault(context, 'Parabéns!', 'Categoria criada com sucesso!');
       return id;
     } catch (e) {
       AlertDialogService().closeLoader(context);

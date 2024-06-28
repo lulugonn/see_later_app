@@ -31,7 +31,7 @@ class _MenuState extends State<Menu> {
               ListTile(
                 contentPadding: EdgeInsets.all(0),
                 leading: Icon(Icons.loyalty, size: 25),
-                title: Text('Tags',
+                title: Text('Categorias',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                 onTap: () {

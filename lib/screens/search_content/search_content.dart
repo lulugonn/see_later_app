@@ -311,7 +311,7 @@ class _SearchContentState extends State<SearchContent> {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      'Tags',
+                                                      'Categorias',
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,

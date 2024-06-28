@@ -37,7 +37,7 @@ class _ListContentViewState extends State<ListContentView> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             appBar: UserHeader(
-              appBarTitle: 'Menu > Tags > ${widget.tag.name}',
+              appBarTitle: 'Menu > Categorias > ${widget.tag.name}',
               comeback: true,
               showUser: false,
             ),
@@ -49,7 +49,7 @@ class _ListContentViewState extends State<ListContentView> {
           List<ContentResponseModel>? content = snapshot.data!.items;
           return Scaffold(
             appBar: UserHeader(
-              appBarTitle: 'Menu > Tags > ${widget.tag.name}',
+              appBarTitle: 'Menu > Categorias > ${widget.tag.name}',
               comeback: true,
               showUser: false,
             ),
@@ -74,12 +74,12 @@ class _ListContentViewState extends State<ListContentView> {
         } else {
           return Scaffold(
             appBar: UserHeader(
-              appBarTitle: 'Menu > Tags > ${widget.tag.name}',
+              appBarTitle: 'Menu > Categorias > ${widget.tag.name}',
               comeback: true,
               showUser: false,
             ),
             body: Center(
-              child: Text('Não há conteúdo relacionados a essa tag'),
+              child: Text('Não há conteúdo relacionados a essa categoria'),
             ),
           );
         }
@@ -119,7 +119,7 @@ class _ListContentViewState extends State<ListContentView> {
                     //_listContent = _getTags();
                   });
                   AlertDialogService()
-                      .showAlertDefault(context, 'Sucesso!', 'Tag deletada!');
+                      .showAlertDefault(context, 'Sucesso!', 'Categoria deletada!');
                 } catch (e) {
                   AlertDialogService().closeLoader(context);
                   AlertDialogService()

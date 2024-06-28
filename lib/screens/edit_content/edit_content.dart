@@ -131,24 +131,11 @@ class _EditContentState extends State<EditContent> {
                                   onSaved: (input) => order.url = input!,
                                 ),
                               ),
-                              TextFieldWidget(
-                                obscureText: false,
-                                initialValue: items.notes,
-                                prefixIconData: Icons.info,
-                                hintText: 'Descricao',
-                                maxLines: 5,
-                                keyboardType: TextInputType.multiline,
-                                onSaved: (input) => order.notes = input!,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      FlutterTagging<TagModel>(
+                                      FlutterTagging<TagModel>(
                         initialItems: items.categories!,
                         textFieldConfiguration: TextFieldConfiguration(
                           decoration: InputDecoration(
-                            labelText: 'Tags',
+                            labelText: 'Categorias',
                             labelStyle: TextStyle(fontSize: 13),
                             border: OutlineInputBorder(
                               borderRadius:
@@ -188,7 +175,7 @@ class _EditContentState extends State<EditContent> {
                                 Icons.add_circle,
                                 color: Colors.white,
                               ),
-                              label: Text('Criar tag'),
+                              label: Text('Criar categoria'),
                               labelStyle: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13.0,
@@ -225,7 +212,24 @@ class _EditContentState extends State<EditContent> {
                           });
                         },
                       ),
-                      Container(
+               
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: TextFieldWidget(
+                                  obscureText: false,
+                                  initialValue: items.notes,
+                                  prefixIconData: Icons.info,
+                                  hintText: 'Descricao (Opcional)',
+                                  maxLines: 5,
+                                  keyboardType: TextInputType.multiline,
+                                  onSaved: (input) => order.notes = input!,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                     Container(
                         padding: EdgeInsets.only(top: 20.0),
                         height: 100,
                         child: Row(
@@ -319,7 +323,7 @@ class _EditContentState extends State<EditContent> {
 
   String? _validateInputUrl(String? value) {
     if (!Uri.parse(value!).isAbsolute) {
-      return "Por favor, insira um link válido. Exemplo: https://www.google.com";
+      return "Por favor, insira um link válido.";
     }
     return null;
   }
@@ -347,7 +351,7 @@ class _EditContentState extends State<EditContent> {
       AlertDialogService().closeLoader(context);
 
       AlertDialogService()
-          .showAlertDefault(context, 'Parabéns!', 'Tag criada com sucesso!');
+          .showAlertDefault(context, 'Parabéns!', 'Categoria criada com sucesso!');
       return id;
     } catch (e) {
       AlertDialogService().closeLoader(context);

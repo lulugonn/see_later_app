@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:see_later_app/api/api_service.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/content_response_model.dart';
+import 'package:see_later_app/screens/edit_content/edit_content.dart';
 import 'package:see_later_app/screens/home/home.dart';
 import 'package:see_later_app/screens/nav_bar/nav_bar.dart';
 import 'package:see_later_app/screens/widgets/button_widget.dart';
@@ -97,18 +98,51 @@ class _ViewContentState extends State<ViewContent> {
                                         ),
                                       ),
                                     ),
-                                    trailing: Tooltip(
-                                      message: items.favorite != null &&
-                                              items.favorite != false
-                                          ? 'Desmarcar como favorito'
-                                          : 'Marcar como favorito',
-                                      child: IconButton(
-                                          onPressed: () =>
-                                              {checkFavorite(items)},
-                                          icon: items.favorite != null &&
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Tooltip(
+                                          message: items.favorite != null &&
                                                   items.favorite != false
-                                              ? Icon(Icons.star)
-                                              : Icon(Icons.star_border)),
+                                              ? 'Desmarcar como favorito'
+                                              : 'Marcar como favorito',
+                                          child: IconButton(
+                                              onPressed: () =>
+                                                  {checkFavorite(items)},
+                                              icon: items.favorite != null &&
+                                                      items.favorite != false
+                                                  ? Icon(Icons.star)
+                                                  : Icon(Icons.star_border)),
+                                        ),
+                                        Tooltip(
+                                          message: 'Editar',
+                                          child: IconButton(
+                                              onPressed: () => {
+                                                    Future.delayed(
+                                                        Duration.zero,
+                                                        () => Navigator.of(
+                                                                    context)
+                                                                .push(MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                              return EditContent(
+                                                                content: widget
+                                                                    .content,
+                                                              );
+                                                            })))
+                                                  },
+                                              icon: Icon(Icons.edit)),
+                                        ),
+                                        Tooltip(
+                                          message: 'Excluir',
+                                          child: IconButton(
+                                              onPressed: () => {
+                                                    _deleteContent(
+                                                        widget.content.id!)
+                                                  },
+                                              icon: Icon(Icons.delete)),
+                                        ),
+                                      ],
                                     )),
                               )),
                           Padding(

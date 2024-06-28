@@ -35,7 +35,7 @@ class _TagViewState extends State<TagView> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             appBar: UserHeader(
-              appBarTitle: 'Menu > Tags',
+              appBarTitle: 'Menu > Categorias',
               comeback: true,
               showUser: false,
             ),
@@ -47,7 +47,7 @@ class _TagViewState extends State<TagView> {
           List<TagModel>? tags = snapshot.data!.items;
           return Scaffold(
             appBar: UserHeader(
-              appBarTitle: 'Menu > Tags',
+              appBarTitle: 'Menu > Categorias',
               comeback: true,
               showUser: false,
             ),
@@ -98,12 +98,12 @@ class _TagViewState extends State<TagView> {
         } else {
           return Scaffold(
             appBar: UserHeader(
-              appBarTitle: 'Menu > Tags',
+              appBarTitle: 'Menu > Categorias',
               comeback: true,
               showUser: false,
             ),
             body: Center(
-              child: Text('Não há tags cadastradas'),
+              child: Text('Não há categorias cadastradas'),
             ),
           );
         }
@@ -113,7 +113,7 @@ class _TagViewState extends State<TagView> {
 
   void _deleteTag(int id) async {
     showAlertConfirm(
-        context, 'Atenção!', 'Deseja realmente excluir a tag?', id);
+        context, 'Atenção!', 'Deseja realmente excluir a categoria?', id);
   }
 
   void showAlertConfirm(BuildContext context, title, content, id) {
@@ -143,7 +143,7 @@ class _TagViewState extends State<TagView> {
                     _listTagFuture = _getTags();
                   });
                   AlertDialogService().showAlertDefault(
-                      context, 'Sucesso!', 'Tag deletada!');
+                      context, 'Sucesso!', 'Categoria deletada!');
                 } catch (e) {
                   AlertDialogService().closeLoader(context);
                   AlertDialogService()
