@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:see_later_app/api/api_service.dart';
+import 'package:see_later_app/controllers/auth_controller.dart';
 import 'package:see_later_app/global.dart';
 import 'package:see_later_app/models/dropdown_item_model.dart';
 import 'package:see_later_app/models/filter_model.dart';
@@ -43,14 +44,16 @@ class _SearchContentState extends State<SearchContent> {
     _loadTags();
     filter = FilterModel();
     value = 1;
-    _getContent(); // Correção: Inicialização correta de _listContent
+    _getContent(); 
   }
 
   Future<ListContentResponseModel?> _getContent() async {
     setState(() {
-      _listContent = APIService().getContent(filter!);
+     _listContent = APIService().getContent(filter!);
+      
     });
-    return _listContent;
+     return _listContent;
+
   }
 
   Future<void> _loadTags() async {
@@ -143,18 +146,27 @@ class _SearchContentState extends State<SearchContent> {
                   SearchAnchor(builder:
                       (BuildContext context, SearchController controller) {
                     return SearchBar(
+                      
                       controller: controller,
                       padding: const WidgetStatePropertyAll<EdgeInsets>(
                           EdgeInsets.symmetric(horizontal: 16.0)),
-                      onTap: () {
-                        controller.openView();
+                      onTap: () async{
+                       controller.openView();
                       },
                       onChanged: (input) {
                         setState(() {
                           filter!.text = input;
                         });
                       },
-                      leading: const Icon(Icons.search),
+                      leading: InkWell(child: const Icon(Icons.search),    
+                      onTap: () async{
+                        setState(() {
+                          if(controller!= null && controller.text!= null){
+                            filter!.text =controller.text;
+                          }
+                        });
+                       await _getContent();
+                      },),
                       trailing: <Widget>[
                         Tooltip(
                           message: 'Filtros avançados',
@@ -473,19 +485,43 @@ class _SearchContentState extends State<SearchContent> {
                         )
                       ],
                     );
-                  }, suggestionsBuilder:
-                      (BuildContext context, SearchController controller) {
-                    return List<ListTile>.generate(5, (int index) {
-                      final String item = 'item $index';
+                  }, suggestionsBuilder: (BuildContext context,
+
+                      SearchController controller) async {
+                        //  return List<ListTile>.generate(1,(int index){
+                    //   return ListTile(
+                    //       title: Text('jj'),
+                    //       onTap: () {
+                    //         setState(() {
+                    //           controller.closeView(index.toString());
+                    //         });
+                    //       },
+                    //     );
+                    // });
+                    List<String> aux =
+                        await AuthController.getLastFilters();
+                     return List<ListTile>.generate(aux.length, (int index) {
+                        final String item = aux[index];
+                        return ListTile(
+                          title: Text(item),
+                          onTap: () {
+                            setState(() {
+                              controller.closeView(item);
+                            });
+                          },
+                        );
+                      });
+                       return List<ListTile>.generate(1,(int index){
                       return ListTile(
-                        title: Text(item),
-                        onTap: () {
-                          setState(() {
-                            controller.closeView(item);
-                          });
-                        },
-                      );
+                          title: Text('jj'),
+                          onTap: () {
+                            setState(() {
+                              controller.closeView(index.toString());
+                            });
+                          },
+                        );
                     });
+                   
                   }),
                   const SizedBox(
                     height: 8,

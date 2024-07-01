@@ -75,10 +75,10 @@ class _TagViewState extends State<TagView> {
                                 tooltip: "Opções",
                                 offset: Offset(0.0, 60.0),
                                 itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                    child: Text("Editar"),
-                                    onTap: () {},
-                                  ),
+                                  // PopupMenuItem(
+                                  //   child: Text("Editar"),
+                                  //   onTap: () {},
+                                  // ),
                                   PopupMenuItem(
                                     child: Text("Excluir"),
                                     onTap: () {

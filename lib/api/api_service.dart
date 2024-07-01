@@ -242,7 +242,13 @@ class APIService {
 
   Future<ListContentResponseModel?> getContent(FilterModel filter) async {
     try {
+
       String? token = await AuthController.getToken();
+      if(filter != null && filter.text != null && filter.text!= ''){
+       await AuthController.setLastFilters([filter.text!]);
+
+      }
+
       dio.options.headers["Authorization"] = "Bearer $token";
       final response = await dio.get('$url/content?${filter.toQueryString()}');
       if (response.statusCode == 204) {
